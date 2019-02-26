@@ -19,6 +19,7 @@ typedef struct point {
 float alpha = 0.7f, beta = 0.3f, radius = 10.0f, step = 0.08f;
 
 void drawPrimitives();
+void readPointsFile(string filename);
 void specialKey (int key, int a, int b);
 void renderScene(void);
 void changeSize(int w, int h);
