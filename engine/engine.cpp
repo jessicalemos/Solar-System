@@ -18,6 +18,43 @@ void drawPrimitives(vector<Point> points) {
     glEnd();
 }
 
+void readPointsFile(string filename)
+{
+	Point p;
+	string l, t;
+	ifstream file(filename);
+	int i;
+
+	if (!file.is_open())
+		cout << "Unable to open file: " << filename << "." << endl;
+	else
+	{
+		while (!file.eof())
+		{
+			getline(file, l);
+			stringstream ss(l.c_str());
+
+			if (l.c_str() != NULL)
+			{
+				i = 0;
+				while (getline(ss, t, ','))
+				{
+					if (i == 0)
+						p.x = stof(t);
+					else if (i == 1)
+						p.y = stof(t);
+					else
+						p.z = stof(t);
+					i++;
+				}
+				//Points.push_back(pt); (Depende do sitio onde for a funcao)
+			}
+		}
+		//Points.pop_back(); // last line is blank
+		file.close();
+	}
+}
+
 void specialKey (int key, int a, int b)
 {
     (void)a;(void)b;
