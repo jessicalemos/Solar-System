@@ -7,7 +7,6 @@
 #define _USE_MATH_DEFINES
 
 #include "engine.h"
-#include "../generator/figures.h"
 
 using namespace std;
 
