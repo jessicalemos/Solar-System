@@ -21,6 +21,5 @@ float quadrants[8][3] = {
 	{-1, -1, -1},
 	{-1, -1,  1},
 };
-int parseInput();
 
 #endif
