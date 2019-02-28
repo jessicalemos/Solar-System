@@ -4,11 +4,11 @@
 #include <iostream>
 #include <fstream>
 #include <math.h>
-#include <string.h>
+#include <string>
 
 using namespace std;
 
-void writePointsFile(string filename) {
+void writePointsFile(string filename, vector<Point> points) {
 	ofstream file;
 
 	file.open(filename, ios_base::trunc);

@@ -1,5 +1,9 @@
+#define _USE_MATH_DEFINES
 #include "figures.h"
 #include <math.h>
+
+using namespace std;
+
 
 //coordenadas dos pontos do cone
 Point pointsCone(float radius, float angle, float height) {
@@ -64,12 +68,13 @@ void cone(float radius, float height, int slices, int layers){
 				points.push_back(p3);
 		}
 	}
-	return points;
 }
 
 void divide(float length, float width, float height, int divisions, vector<Point> pointsTriangle) {
 	Point p1 = pointsTriangle[0], p2 = pointsTriangle[1], p3 = pointsTriangle[2],
 				newP1, newP2, newP3;
+
+    vector<Point> points;
 
 	float l, h, newl, newh;
 	newl = length / divisions;
@@ -216,7 +221,6 @@ void box(float length, float width, float height, int divisions) {
 		else
 			points.push_back(p);
 	}
-	return points;
 }
 
 //draw Esfera
@@ -229,8 +233,8 @@ void sphere(float radius, int slices, int layers)
 
 	for (int i = 0; i < layers; i++)
 	{
-		beta = i * (M_PI / layers) - M_PI / 2.0f;
-		nextBeta = (i + 1) * (M_PI / layers) - M_PI / 2.0f;
+		beta = i * (M_PI / layers) - M_PI_2;
+		nextBeta = (i + 1) * (M_PI / layers) - M_PI_2;
 
 		for (int j = 0; j < slices; j++)
 		{

@@ -9,6 +9,17 @@ typedef struct point {
 	float z;
 } Point;
 
+float quadrants[8][3] = {
+    { 1,  1,  1},
+    { 1,  1, -1},
+    {-1,  1, -1},
+    {-1,  1,  1},
+    { 1, -1,  1},
+    { 1, -1, -1},
+    {-1, -1, -1},
+    {-1, -1,  1},
+};
+
 void box(float length, float width, float height, int nDivisions);
 void changeSize(int w, int h);
 void drawPrimitives();
