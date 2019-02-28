@@ -1,0 +1,2 @@
+﻿figures.obj : error LNK2005: "float (* quadrants)[3]" (?quadrants@@3PAY02MA) already defined in generator.obj
+C:\Users\Operador\Desktop\Solar-System\generator\build\Release\class2.exe : fatal error LNK1169: one or more multiply defined symbols found

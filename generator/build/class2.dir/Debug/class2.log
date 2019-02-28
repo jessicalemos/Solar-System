@@ -1,0 +1,8 @@
+﻿  generator.cpp
+C:\Users\Operador\Desktop\Solar-System\generator\generator.cpp(43): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Operador\Desktop\Solar-System\generator\generator.cpp(44): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Operador\Desktop\Solar-System\generator\generator.cpp(57): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Operador\Desktop\Solar-System\generator\generator.cpp(69): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Operador\Desktop\Solar-System\generator\generator.cpp(82): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+figures.obj : error LNK2005: "float (* quadrants)[3]" (?quadrants@@3PAY02MA) already defined in generator.obj
+C:\Users\Operador\Desktop\Solar-System\generator\build\Debug\class2.exe : fatal error LNK1169: one or more multiply defined symbols found

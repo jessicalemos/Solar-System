@@ -1,0 +1,3 @@
+C:/Users/Operador/Desktop/Solar-System/engine/build/CMakeFiles/class2.dir
+C:/Users/Operador/Desktop/Solar-System/engine/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Operador/Desktop/Solar-System/engine/build/CMakeFiles/ZERO_CHECK.dir

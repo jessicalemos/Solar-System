@@ -6,9 +6,11 @@
 #endif
 #define _USE_MATH_DEFINES
 
+#include "tinyxml2.h"
 #include "engine.h"
 
 using namespace std;
+using namespace tinyxml2;
 
 void drawPrimitives(vector<Point> points) {
     glBegin(GL_TRIANGLES);
@@ -18,15 +20,16 @@ void drawPrimitives(vector<Point> points) {
     glEnd();
 }
 
-void readPointsFile(string filename)
+int readPointsFile(const char* filename)
 {
 	Point p;
 	string l, t;
 	ifstream file(filename);
 	int i;
 
-	if (!file.is_open())
-		cout << "Unable to open file: " << filename << "." << endl;
+	if (!file.is_open()) {
+		cout << "Unable to open file: " << filename << "." << endl; return -1;
+	}
 	else
 	{
 		while (!file.eof())
@@ -53,11 +56,12 @@ void readPointsFile(string filename)
 		//Points.pop_back(); // last line is blank
 		file.close();
 	}
+	return 0;
 }
-/*
-int loadXMLfile(const char *filename)
+
+int loadXMLfile(const char* filename)
 {
-    XMLDocument xmlDoc;
+	XMLDocument xmlDoc = new XMLDocument();
     XMLNode *pRoot;
     XMLElement *pElement, *pListElement;
     XMLError eResult = xmlDoc.LoadFile(filename);
@@ -75,10 +79,10 @@ int loadXMLfile(const char *filename)
                 
                 while (pListElement != nullptr)
                 {
-                    const char *file;
+                    const char* file;
                     file = pListElement->Attribute("file");
                     
-                    if (file != nullptr && readBinaryFile(file) == -1)
+                    if (file != nullptr && readPointsFile(file) == -1)
                         return -1;
                     
                     pListElement = pListElement->NextSiblingElement("model");
@@ -93,7 +97,7 @@ int loadXMLfile(const char *filename)
     }
     return 0;
 }
- */
+
 
 void specialKey (int key, int a, int b)
 {
