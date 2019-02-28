@@ -55,6 +55,45 @@ void readPointsFile(string filename)
 	}
 }
 
+int loadXMLfile(const char *filename)
+{
+    XMLDocument xmlDoc;
+    XMLNode *pRoot;
+    XMLElement *pElement, *pListElement;
+    XMLError eResult = xmlDoc.LoadFile(filename);
+    
+    if (eResult == XML_SUCCESS)
+    {
+        pRoot = xmlDoc.FirstChild();
+        if (pRoot != nullptr)
+        {
+            pElement = pRoot->FirstChildElement("models");
+            
+            if (pElement != nullptr)
+            {
+                pListElement = pElement->FirstChildElement("model");
+                
+                while (pListElement != nullptr)
+                {
+                    const char *file;
+                    file = pListElement->Attribute("file");
+                    
+                    if (file != nullptr && readBinaryFile(file) == -1)
+                        return -1;
+                    
+                    pListElement = pListElement->NextSiblingElement("model");
+                }
+            }
+        }
+    }
+    else
+    {
+        cout << "Unable to open file: " << filename << "." << endl;
+        return -1;
+    }
+    return 0;
+}
+
 void specialKey (int key, int a, int b)
 {
     (void)a;(void)b;

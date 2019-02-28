@@ -220,7 +220,7 @@ void box(float length, float width, float height, int divisions) {
 }
 
 //draw Esfera
-void drawSphere(float radius, int slices, int layers)
+void sphere(float radius, int slices, int layers)
 {
 	Point p1, p2, p3, p4;
 	vector<Point> points;
@@ -257,7 +257,7 @@ void drawSphere(float radius, int slices, int layers)
 }
 
 //Desenhar plano
-void draw_plane(float size)
+void plane(float size)
 {
 	Point pt;
 	vector<Point> points;
