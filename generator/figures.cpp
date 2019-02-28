@@ -219,3 +219,60 @@ void box(float length, float width, float height, int divisions) {
 	return points;
 }
 
+//draw Esfera
+void drawSphere(float radius, int slices, int layers)
+{
+	Point p1, p2, p3, p4;
+	vector<Point> points;
+	float alpha, nextAlpha,
+		beta, nextBeta;
+
+	for (int i = 0; i < layers; i++)
+	{
+		beta = i * (M_PI / layers) - M_PI / 2.0f;
+		nextBeta = (i + 1) * (M_PI / layers) - M_PI / 2.0f;
+
+		for (int j = 0; j < slices; j++)
+		{
+			alpha = j * 2 * M_PI / slices;
+			nextAlpha = (j + 1) * 2 * M_PI / slices;
+
+			p1 = pointsSphere(radius, nextBeta, alpha);
+			p2 = pointsSphere(radius, beta, alpha);
+			p3 = pointsSphere(radius, nextBeta, nextAlpha);
+			p4 = pointsSphere(radius, beta, nextAlpha);
+
+			// First triangle
+			points.push_back(p1);
+			points.push_back(p2);
+			points.push_back(p3);
+
+			// Second triangle
+			points.push_back(p3);
+			points.push_back(p2);
+			points.push_back(p4);
+		}
+	}
+	//escrever para ficheiro
+}
+
+//Desenhar plano
+void draw_plane(float size)
+{
+	Point pt;
+	vector<Point> points;
+
+	int sequence[6] = { 0, 1, 3, 3, 1, 2 };
+
+	for (int i = 0, j; i < 6; i++)
+	{
+		j = sequence[i];
+		pt.x = size * quadrants[j][0];
+		pt.y = 0;
+		pt.z = size * quadrants[j][2];
+
+		points.push_back(pt);
+	}
+	//função que escreve para um ficheiro
+}
+
