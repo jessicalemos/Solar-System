@@ -21,8 +21,6 @@ float quadrants[8][3] = {
 };
 
 void box(float length, float width, float height, int nDivisions);
-void changeSize(int w, int h);
-void drawPrimitives();
 Point pointsCone(float radius, float angle, float height);
 void cone(float radius, float height, int slices, int layers);
 Point pointsSphere(float radius, float beta, float alfa);

@@ -7,8 +7,9 @@
 #include <string>
 
 using namespace std;
+vector<Point> points;
 
-void writePointsFile(string filename, vector<Point> points) {
+void writePointsFile(string filename) {
 	ofstream file;
 
 	file.open(filename, ios_base::trunc);

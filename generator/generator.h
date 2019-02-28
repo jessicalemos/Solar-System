@@ -5,5 +5,6 @@
 
 using namespace std;
 
+void writePointsFile(string filename);
 
 #endif

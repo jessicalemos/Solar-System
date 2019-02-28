@@ -223,6 +223,18 @@ void box(float length, float width, float height, int divisions) {
 	}
 }
 
+
+Point pointsSphere (float radius, float beta, float alpha)
+{
+    Point result;
+    
+    result.x = radius * sin(alpha) * cos(beta);
+    result.y = radius * sin(beta);
+    result.z = radius * cos(beta) * cos(alpha);
+    
+    return result;
+}
+
 //draw Esfera
 void sphere(float radius, int slices, int layers)
 {
