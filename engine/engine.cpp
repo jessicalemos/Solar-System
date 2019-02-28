@@ -54,7 +54,7 @@ void readPointsFile(string filename)
 		file.close();
 	}
 }
-
+/*
 int loadXMLfile(const char *filename)
 {
     XMLDocument xmlDoc;
@@ -93,6 +93,7 @@ int loadXMLfile(const char *filename)
     }
     return 0;
 }
+ */
 
 void specialKey (int key, int a, int b)
 {
@@ -144,7 +145,7 @@ void renderScene(void)
     gluLookAt(radius*cos(beta)*sin(alpha), radius*sin(beta), radius*cos(beta)*cos(alpha),
               0.0, 0.0, 0.0,
               0.0f, 1.0f, 0.0f);
-    drawPrimitives(points);
+    //drawPrimitives(points);
 
     // End of frame
     glutSwapBuffers();

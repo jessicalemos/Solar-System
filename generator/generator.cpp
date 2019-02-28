@@ -4,7 +4,8 @@
 #include <iostream>
 #include <fstream>
 #include <math.h>
-#include <string> 
+#include <string.h>
+
 using namespace std;
 
 void writePointsFile(string filename) {
@@ -29,9 +30,10 @@ void writePointsFile(string filename) {
 		cout << filename << " file was created!" << endl;
 	}
 }
+ 
 int parser(char **argv, int argc)
 {
-    int resultado = -1;
+    int result = -1;
     
     if (strcmp("cone",argv[1]) == 0)
     {
@@ -41,9 +43,9 @@ int parser(char **argv, int argc)
             float height = atoi(argv[3]);
             int slices = atoi(argv[4]);
             int layers = atoi(argv[5]);
-            char *file = argv[6];
+            string file = argv[6];
             
-            cone(radius,height,slices,layers,file);
+            cone(radius,height,slices,layers);
             result = 0;
         }
     }
@@ -53,9 +55,9 @@ int parser(char **argv, int argc)
         {
             float length = atof(argv[2]), width = atof(argv[3]), height = atof(argv[4]);
             int divisions = atoi(argv[5]);
-            char *file = argv[6];
+            string file = argv[6];
             
-            box(length,width,height,divisions,file);
+            box(length,width,height,divisions);
             result = 0;
         }
     }
@@ -66,20 +68,20 @@ int parser(char **argv, int argc)
             float radius = atof(argv[2]);
             int slices = atoi(argv[3]);
             int layers = atoi(argv[4]);
-            char *file = argv[5];
+            string file = argv[5];
             
-            sphere(radius, slices, layers, filename);
+            sphere(radius, slices, layers);
             result = 0;
         }
     }
-    else if ("plane", strcmp(argv[1]) == 0)
+    else if (strcmp("plane", argv[1]) == 0)
     {
         if (argc == 4)
         {
             float size = atof(argv[2]);
-            char *file = argv[3];
+            string file = argv[3];
             
-            plane(size / 2,file);
+            plane(size / 2);
             result = 0;
         }
     }
@@ -87,7 +89,7 @@ int parser(char **argv, int argc)
 }
 
 
-int main (char **argv, int argc)
+int main (int argc, char **argv)
 {
     if (parser(argv,argc) != 0)
         printf("Input inválido!\n");
