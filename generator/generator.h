@@ -5,6 +5,6 @@
 
 using namespace std;
 
-void writePointsFile(const char* filename);
+void writePointsFile(string filename);
 
 #endif

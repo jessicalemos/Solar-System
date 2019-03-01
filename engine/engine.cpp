@@ -20,7 +20,7 @@ void drawPrimitives(vector<Point> points) {
     glEnd();
 }
 
-int readPointsFile(const char* filename)
+int readPointsFile(string filename)
 {
 	Point p;
 	string l, t;
@@ -59,12 +59,14 @@ int readPointsFile(const char* filename)
 	return 0;
 }
 
-int loadXMLfile(const char* filename)
+int loadXMLfile(string filename)
 {
+	
+
 	XMLDocument xmlDoc = new XMLDocument();
     XMLNode *pRoot;
     XMLElement *pElement, *pListElement;
-    XMLError eResult = xmlDoc.LoadFile(filename);
+    XMLError eResult = xmlDoc.LoadFile(filename.c_str());
     
     if (eResult == XML_SUCCESS)
     {
@@ -79,10 +81,10 @@ int loadXMLfile(const char* filename)
                 
                 while (pListElement != nullptr)
                 {
-                    const char* file;
+                    string file;
                     file = pListElement->Attribute("file");
                     
-                    if (file != nullptr && readPointsFile(file) == -1)
+                    if (!file.empty() && readPointsFile(file) == -1)
                         return -1;
                     
                     pListElement = pListElement->NextSiblingElement("model");
