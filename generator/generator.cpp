@@ -5,6 +5,7 @@
 #include <fstream>
 #include <math.h>
 #include <string>
+#include <string.h>
 
 using namespace std;
 vector<Point> points;

@@ -221,13 +221,13 @@ vector<Point> box(float length, float width, float height, int divisions) {
 		{
 			if (j == 3)
 			{
-				divide(length, width, height, divisions, pointsTriangle);
+				divide(length, width, height, divisions, pointsTriangle,&points);
 				j = 0;
 			}
 			pointsTriangle[j++] = p;
 
 			if (i + 1 == tam)
-				divide(length, width, height, divisions, pointsTriangle);
+				divide(length, width, height, divisions, pointsTriangle,&points);
 		}
 		else
 			points.push_back(p);
