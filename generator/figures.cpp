@@ -4,6 +4,16 @@
 
 using namespace std;
 
+float quadrants[8][3] = {
+		{ 1,  1,  1},
+		{ 1,  1, -1},
+		{-1,  1, -1},
+		{-1,  1,  1},
+		{ 1, -1,  1},
+		{ 1, -1, -1},
+		{-1, -1, -1},
+		{-1, -1,  1},
+};
 
 //coordenadas dos pontos do cone
 Point pointsCone(float radius, float angle, float height) {
@@ -16,7 +26,7 @@ Point pointsCone(float radius, float angle, float height) {
 }
 
 // draw cone
-void cone(float radius, float height, int slices, int layers){
+vector<Point> cone(float radius, float height, int slices, int layers){
 	vector<Point> points;
 	Point p0, p1, p2, p3;
 	float teta, alpha, scaleHeigth, heigthNow, 
@@ -68,13 +78,14 @@ void cone(float radius, float height, int slices, int layers){
 				points.push_back(p3);
 		}
 	}
+	return points;
 }
 
-void divide(float length, float width, float height, int divisions, vector<Point> pointsTriangle) {
+void divide(float length, float width, float height, int divisions, vector<Point> pointsTriangle,vector<Point> *points) {
 	Point p1 = pointsTriangle[0], p2 = pointsTriangle[1], p3 = pointsTriangle[2],
-				newP1, newP2, newP3;
+			newP1, newP2, newP3;
 
-    vector<Point> points;
+
 
 	float l, h, newl, newh;
 	newl = length / divisions;
@@ -100,9 +111,9 @@ void divide(float length, float width, float height, int divisions, vector<Point
 			newP1 = p1, newP2 = p2, newP3 = p3;
 
 			for (int j = 0; j < divisions; j++) {
-				(points).push_back(newP1);
-				(points).push_back(newP2);
-				(points).push_back(newP3);
+				(*points).push_back(newP1);
+				(*points).push_back(newP2);
+				(*points).push_back(newP3);
 
 				newP1.z += h;
 				newP2.z += h;
@@ -133,9 +144,9 @@ void divide(float length, float width, float height, int divisions, vector<Point
 			newP1 = p1, newP2 = p2, newP3 = p3;
 
 			for (int j = 0; j < divisions; j++) {
-				(points).push_back(newP1);
-				(points).push_back(newP2);
-				(points).push_back(newP3);
+				(*points).push_back(newP1);
+				(*points).push_back(newP2);
+				(*points).push_back(newP3);
 
 				newP1.y += h;
 				newP2.y += h;
@@ -166,9 +177,9 @@ void divide(float length, float width, float height, int divisions, vector<Point
 			newP1 = p1, newP2 = p2, newP3 = p3;
 
 			for (int j = 0; j < divisions; j++){
-				(points).push_back(newP1);
-				(points).push_back(newP2);
-				(points).push_back(newP3);
+				(*points).push_back(newP1);
+				(*points).push_back(newP2);
+				(*points).push_back(newP3);
 
 				newP1.y += h;
 				newP2.y += h;
@@ -182,7 +193,7 @@ void divide(float length, float width, float height, int divisions, vector<Point
 }
 
 //draw box
-void box(float length, float width, float height, int divisions) {
+vector<Point> box(float length, float width, float height, int divisions) {
 	vector<Point> points;
 	int tam = 36;
 	vector<Point> pointsTriangle(3);
@@ -221,6 +232,7 @@ void box(float length, float width, float height, int divisions) {
 		else
 			points.push_back(p);
 	}
+	return points;
 }
 
 
@@ -236,7 +248,7 @@ Point pointsSphere (float radius, float beta, float alpha)
 }
 
 //draw Esfera
-void sphere(float radius, int slices, int layers)
+vector<Point> sphere(float radius, int slices, int layers)
 {
 	Point p1, p2, p3, p4;
 	vector<Point> points;
@@ -269,11 +281,11 @@ void sphere(float radius, int slices, int layers)
 			points.push_back(p4);
 		}
 	}
-	//escrever para ficheiro
+	return points;
 }
 
 //Desenhar plano
-void plane(float size)
+vector<Point> plane(float size)
 {
 	Point pt;
 	vector<Point> points;
@@ -289,6 +301,6 @@ void plane(float size)
 
 		points.push_back(pt);
 	}
-	//função que escreve para um ficheiro
+	return points;
 }
 

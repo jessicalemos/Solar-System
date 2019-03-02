@@ -9,10 +9,11 @@
 using namespace std;
 vector<Point> points;
 
-void writePointsFile(string filename) {
+void writePointsFile(string filename, vector<Point> points) {
 	ofstream file;
 
-	file.open(filename, ios_base::trunc);
+    	string fileDir = "../../files/" + filename;
+	file.open(fileDir, ios_base::trunc);
 
 	if (!file.is_open()) {
 		cout << "Error while opening the file " << filename << endl;
@@ -25,81 +26,62 @@ void writePointsFile(string filename) {
 			y = to_string(point.y).append(",");
 			z = to_string(point.z).append("\n");
 
-			file << x << y << z << endl;
+			file << x << y << z;
 		}
 		file.close();
 		cout << filename << " file was created!" << endl;
 	}
 }
- 
-int parser(char **argv, int argc)
-{
-    int result = -1;
-    
-    if (strcmp("cone",argv[1]) == 0)
-    {
-        if (argc == 7)
-        {
-            float radius = atof(argv[2]);
-            float height = atoi(argv[3]);
-            int slices = atoi(argv[4]);
-            int layers = atoi(argv[5]);
-            string file = argv[6];
-            
-            cone(radius,height,slices,layers);
-            result = 0;
-        }
-    }
-    else if (strcmp("box", argv[1]) == 0)
-    {
-        if (argc == 7)
-        {
-            float length = atof(argv[2]), width = atof(argv[3]), height = atof(argv[4]);
-            int divisions = atoi(argv[5]);
-            string file = argv[6];
-            
-            box(length,width,height,divisions);
-            result = 0;
-        }
-    }
-    else if (strcmp("sphere",argv[1]) == 0)
-    {
-        if (argc == 6)
-        {
-            float radius = atof(argv[2]);
-            int slices = atoi(argv[3]);
-            int layers = atoi(argv[4]);
-            string file = argv[5];
-            
-            sphere(radius, slices, layers);
-            result = 0;
-        }
-    }
-    else if (strcmp("plane", argv[1]) == 0)
-    {
-        if (argc == 4)
-        {
-            float size = atof(argv[2]);
-            string file = argv[3];
-            
-            plane(size / 2);
-            result = 0;
-        }
-    }
-    return result;
-}
 
 
 int main (int argc, char **argv)
 {
-    if (parser(argv,argc) != 0)
-        printf("Input inválido!\n");
-    
-    if (argc < 2)
+        if (argc < 2)
     {
-        printf("Argumentos em falta!\n");
+        printf("Not enough arguments!\n");
         return -1;
     }
+
+    vector<Point> points;
+    string file;
+
+    if (strcmp("cone",argv[1]) == 0 && argc == 7)
+    {
+        float radius = atof(argv[2]);
+        float height = atoi(argv[3]);
+        int slices = atoi(argv[4]);
+        int layers = atoi(argv[5]);
+        file = argv[6];
+        points = cone(radius,height,slices,layers);
+    }
+    else if (strcmp("box", argv[1]) == 0 && argc == 7)
+    {
+        float length = atof(argv[2]), width = atof(argv[3]), height = atof(argv[4]);
+        int divisions = atoi(argv[5]);
+        file = argv[6];
+        points = box(length,width,height,divisions);
+    }
+    else if (strcmp("sphere",argv[1]) == 0 && argc == 6)
+    {
+            float radius = atof(argv[2]);
+            int slices = atoi(argv[3]);
+            int layers = atoi(argv[4]);
+            file = argv[5];
+            points = sphere(radius, slices, layers);
+    }
+    else if (strcmp("plane", argv[1]) == 0 && argc == 4)
+    {
+            float size = atof(argv[2]);
+            file = argv[3];
+            points = plane(size / 2);
+    }
+    else{
+        printf("Invalid input!\n");
+        return -1;
+    }
+
+    if(points.size())
+        writePointsFile(file,points);
     
     return 0;
 }

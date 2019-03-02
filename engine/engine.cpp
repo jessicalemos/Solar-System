@@ -12,7 +12,7 @@
 using namespace std;
 using namespace tinyxml2;
 
-void drawPrimitives(vector<Point> points) {
+void drawPrimitives(void) {
     glBegin(GL_TRIANGLES);
     for (const Point pt : points)  {
         glVertex3f(pt.x, pt.y, pt.z);
@@ -50,10 +50,10 @@ int readPointsFile(string filename)
 						p.z = stof(t);
 					i++;
 				}
-				//Points.push_back(pt); (Depende do sitio onde for a funcao)
+				points.push_back(p);
 			}
 		}
-		//Points.pop_back(); // last line is blank
+		points.pop_back(); 
 		file.close();
 	}
 	return 0;
@@ -66,7 +66,8 @@ int loadXMLfile(string filename)
 	XMLDocument xmlDoc;
     XMLNode *pRoot;
     XMLElement *pElement, *pListElement;
-    XMLError eResult = xmlDoc.LoadFile(filename.c_str());
+    string fileDir = "../../files/" + filename;
+    XMLError eResult = xmlDoc.LoadFile(fileDir.c_str());
     
     if (eResult == XML_SUCCESS)
     {
@@ -176,8 +177,6 @@ void specialKey (int key, int a, int b)
 
 void renderScene(void)
 {
-    // bg color
-    glClearColor(1.0, 1.0, 1.0, 1.0);
 
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -187,7 +186,9 @@ void renderScene(void)
     gluLookAt(radius*cos(beta)*sin(alpha), radius*sin(beta), radius*cos(beta)*cos(alpha),
               0.0, 0.0, 0.0,
               0.0f, 1.0f, 0.0f);
-    //drawPrimitives(points);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    drawPrimitives();
+
 
     // End of frame
     glutSwapBuffers();
@@ -226,7 +227,7 @@ int main(int argc, char **argv)
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(100,100);
     glutInitWindowSize(800,800);
-
+    glutCreateWindow("SOLAR_SYSTEM");
 	if (argc < 2) {
 		cout << "Invalid input. Use -h if you need some help." << endl;
 		return 0;

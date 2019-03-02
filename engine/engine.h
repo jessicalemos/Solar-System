@@ -16,9 +16,10 @@ typedef struct point {
 	float z;
 }Point;
 
+vector<Point> points;
 float alpha = 0.7f, beta = 0.3f, radius = 10.0f, step = 0.08f;
 
-void drawPrimitives();
+void drawPrimitives(void);
 int readPointsFile(string filename);
 void specialKey (int key, int a, int b);
 void renderScene(void);
