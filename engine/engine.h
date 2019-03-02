@@ -23,6 +23,7 @@ int readPointsFile(string filename);
 void specialKey (int key, int a, int b);
 void renderScene(void);
 void changeSize(int w, int h);
+void MenuAjuda();
 
 
 #endif //ENGINE_ENGINE_H

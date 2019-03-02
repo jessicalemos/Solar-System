@@ -1,4 +1,4 @@
-#include <stdlib.h>
+﻿#include <stdlib.h>
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
@@ -63,7 +63,7 @@ int loadXMLfile(string filename)
 {
 	
 
-	XMLDocument xmlDoc = new XMLDocument();
+	XMLDocument xmlDoc;
     XMLNode *pRoot;
     XMLElement *pElement, *pListElement;
     XMLError eResult = xmlDoc.LoadFile(filename.c_str());
@@ -100,6 +100,42 @@ int loadXMLfile(string filename)
     return 0;
 }
 
+void MenuAjuda() {
+	cout << "#_____________________________ HELP _____________________________#" << endl;
+	cout << "|                                                                |" << endl;
+	cout << "| Usage: ./engine {XML FILE}                                     |" << endl;
+	cout << "|                 [-h]                                           |" << endl;
+	cout << "|                                                                |" << endl;
+	cout << "|   FILE:                                                        |" << endl;
+	cout << "| Specify a path to an XML file in which the information about   |" << endl;
+	cout << "| the models you wish to create are specified                    |" << endl;
+	cout << "|                                                                |" << endl;
+	cout << "|   MOVE:                                                        |" << endl;
+	cout << "|   w: Move your position forward                                |" << endl;
+	cout << "|                                                                |" << endl;
+	cout << "|   s: Move your position back                                   |" << endl;
+	cout << "|                                                                |" << endl;
+	cout << "|   a: Move your position to the left                            |" << endl;
+	cout << "|                                                                |" << endl;
+	cout << "|   d: Move your position to the right                           |" << endl;
+	cout << "|                                                                |" << endl;
+	cout << "|   ↑ (mouse) : Rotate your view up                              |" << endl;
+	cout << "|                                                                |" << endl;
+	cout << "|   ↓ (mouse) : Rotate your view down                            |" << endl;
+	cout << "|                                                                |" << endl;
+	cout << "|   ← (mouse) : Rotate your view to the left                     |" << endl;
+	cout << "|                                                                |" << endl;
+	cout << "|   → (mouse) : Rotate your view to the right                    |" << endl;
+	cout << "|                                                                |" << endl;
+	cout << "|                                                                |" << endl;
+	cout << "|   FORMAT:                                                      |" << endl;
+	cout << "|   v: Change the figure format into points                      |" << endl;
+	cout << "|                                                                |" << endl;
+	cout << "|   l: Change the figure format into lines                       |" << endl;
+	cout << "|                                                                |" << endl;
+	cout << "|   p: Fill up the figure                                        |" << endl;
+	cout << "#________________________________________________________________#" << endl;
+}
 
 void specialKey (int key, int a, int b)
 {
@@ -184,18 +220,32 @@ void changeSize(int w, int h)
 
 int main(int argc, char **argv)
 {
-
+	int read;
     // put GLUT init here
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(100,100);
     glutInitWindowSize(800,800);
 
-    // put callback registration here
-    glutDisplayFunc(renderScene);
-    glutReshapeFunc(changeSize);
-    glutIdleFunc(renderScene);
-    glutSpecialFunc(specialKey);
+	if (argc < 2) {
+		cout << "Invalid input. Use -h if you need some help." << endl;
+		return 0;
+	}
+	else if (!strcmp(argv[1], "-h") || !strcmp(argv[1], "-help")) {
+		MenuAjuda();
+		return 0;
+	}
+	else
+		 read = loadXMLfile(argv[1]);
+
+	
+	if (read) {
+		// put callback registration here
+		glutDisplayFunc(renderScene);
+		glutReshapeFunc(changeSize);
+		glutIdleFunc(renderScene);
+		glutSpecialFunc(specialKey);
+	}
 
     // OpenGL settings
     glEnable(GL_DEPTH_TEST);
