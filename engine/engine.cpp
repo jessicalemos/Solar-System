@@ -235,7 +235,7 @@ int main(int argc, char **argv)
 		MenuAjuda();
 		return 0;
 	}
-	else if (loadXMLfile(argv[1]) == 0)) {
+	else if (loadXMLfile(argv[1]) == 0) {
 		// put callback registration here
 		glutDisplayFunc(renderScene);
 		glutReshapeFunc(changeSize);
