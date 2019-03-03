@@ -16,6 +16,7 @@ typedef struct point {
 	float z;
 }Point;
 
+int line = GL_LINE;
 vector<Point> points;
 float alpha = 0.7f, beta = 0.3f, radius = 10.0f, step = 0.08f;
 

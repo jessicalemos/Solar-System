@@ -130,9 +130,9 @@ void MenuAjuda() {
 	cout << "|                                                                |" << endl;
 	cout << "|                                                                |" << endl;
 	cout << "|   FORMAT:                                                      |" << endl;
-	cout << "|   v: Change the figure format into points                      |" << endl;
+	cout << "|   F3: Change the figure format into points                      |" << endl;
 	cout << "|                                                                |" << endl;
-	cout << "|   l: Change the figure format into lines                       |" << endl;
+	cout << "|   F4: Change the figure format into lines                       |" << endl;
 	cout << "|                                                                |" << endl;
 	cout << "|   p: Fill up the figure                                        |" << endl;
 	cout << "#________________________________________________________________#" << endl;
@@ -168,6 +168,12 @@ void specialKey (int key, int a, int b)
         case GLUT_KEY_F2:
             radius += step;
             break;
+	case GLUT_KEY_F3:
+            line = GL_POINT;
+            break;
+        case GLUT_KEY_F4:
+            line = GL_LINE;
+            break;
 
         default:
             return;
@@ -186,7 +192,7 @@ void renderScene(void)
     gluLookAt(radius*cos(beta)*sin(alpha), radius*sin(beta), radius*cos(beta)*cos(alpha),
               0.0, 0.0, 0.0,
               0.0f, 1.0f, 0.0f);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, line);
     drawPrimitives();
 
 
