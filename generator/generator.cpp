@@ -10,6 +10,8 @@
 using namespace std;
 vector<Point> points;
 
+
+
 void writePointsFile(string filename, vector<Point> points) {
 	ofstream file;
 
