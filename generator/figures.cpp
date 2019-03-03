@@ -87,9 +87,10 @@ void divide(float length, float width, float height, int divisions, vector<Point
 
 
 
-	float l, h, newl, newh;
+	float l, h, newl, newh,neww;
 	newl = length / divisions;
-	newh = width / divisions;
+	neww = width / divisions;
+	newh = height / divisions;
 
 	if (p1.y == p2.y && p2.y == p3.y) {
 		if (p1.x >= p2.x)
@@ -98,9 +99,9 @@ void divide(float length, float width, float height, int divisions, vector<Point
 			l = newl;
 
 		if (p1.z >= p3.z)
-			h = -newh;
+			h = -neww;
 		else
-			h = newh;
+			h = neww;
 
 		p2.y = p3.y = p1.y;
 		p2.x = p3.x = p1.x + l;
@@ -126,9 +127,9 @@ void divide(float length, float width, float height, int divisions, vector<Point
 	}
 	else if (p1.x == p2.x && p2.x == p3.x) {
 		if (p1.z <= p2.z)
-			l = newl;
+			l = neww;
 		else
-			l = -newl;
+			l = -neww;
 
 		if (p1.y >= p3.y)
 			h = -newh;
