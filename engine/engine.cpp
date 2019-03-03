@@ -221,7 +221,6 @@ void changeSize(int w, int h)
 
 int main(int argc, char **argv)
 {
-	int read;
     // put GLUT init here
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
@@ -236,11 +235,7 @@ int main(int argc, char **argv)
 		MenuAjuda();
 		return 0;
 	}
-	else
-		 read = loadXMLfile(argv[1]);
-
-	
-	if (read) {
+	else if (loadXMLfile(argv[1]) == 0)) {
 		// put callback registration here
 		glutDisplayFunc(renderScene);
 		glutReshapeFunc(changeSize);
