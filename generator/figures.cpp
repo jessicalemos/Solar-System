@@ -16,7 +16,7 @@ float quadrants[8][3] = {
 };
 
 //coordenadas dos pontos do cone
-Point pointsCone(float radius, float angle, float height) {
+Point drawPoints(float radius, float angle, float height) {
 	Point p;
 	p.x = radius * sin(angle);
 	p.y = height;
@@ -44,8 +44,8 @@ vector<Point> cone(float radius, float height, int slices, int layers){
 		p0.x = 0;
 		p0.y = 0;
 		p0.z = 0;
-		p1 = pointsCone(radius, tetaNext, 0);
-		p2 = pointsCone(radius, teta, 0);	
+		p1 = drawPoints(radius, tetaNext, 0);
+		p2 = drawPoints(radius, teta, 0);	
 
 		points.push_back(p0);
 		points.push_back(p1);
@@ -62,10 +62,10 @@ vector<Point> cone(float radius, float height, int slices, int layers){
 				teta = j * alpha;
 				tetaNext = (j + 1) * alpha;
 
-				p0 = pointsCone(radiusNow, teta, heigthNow);
-				p1 = pointsCone(radiusNow, tetaNext, heigthNow);
-				p2 = pointsCone(radiusNext, tetaNext, heigthNow + scaleHeigth);
-				p3 = pointsCone(radiusNext, teta, heigthNow + scaleHeigth);
+				p0 = drawPoints(radiusNow, teta, heigthNow);
+				p1 = drawPoints(radiusNow, tetaNext, heigthNow);
+				p2 = drawPoints(radiusNext, tetaNext, heigthNow + scaleHeigth);
+				p3 = drawPoints(radiusNext, teta, heigthNow + scaleHeigth);
 
 				//draw first triangle 
 				points.push_back(p0);
@@ -302,6 +302,75 @@ vector<Point> plane(float size)
 
 		points.push_back(pt);
 	}
+	return points;
+}
+
+vector<Point> cylinder(float radius, float height, int slices, int layers){
+	vector<Point> points;
+	Point p0, p1, p2, p3;
+	float teta, alpha, scaleHeigth, heigthNow,
+			scaleRadius, radiusNow, radiusNext, tetaNext;
+
+	alpha = (2 * M_PI) / slices;
+	scaleHeigth = height / layers;
+	scaleRadius = radius / layers;
+
+	//draw base
+	for (int i = 0; i < slices; i++) {
+		teta = i * alpha;
+		tetaNext = (i + 1) * alpha;
+
+		p0.x = 0;
+		p0.y = 0;
+		p0.z = 0;
+		p1 = drawPoints(radius, tetaNext, 0);
+		p2 = drawPoints(radius, teta, 0);
+
+		points.push_back(p0);
+		points.push_back(p1);
+		points.push_back(p2);
+	}
+
+	for (int i = 0; i < layers; i++) {
+
+		heigthNow = i * scaleHeigth;
+		//radiusNow = radius - i * scaleRadius;
+		//radiusNext = radius - (1 + i) * scaleRadius;
+
+		for (int j = 0; j < slices; j++) {
+			teta = j * alpha;
+			tetaNext = (j + 1) * alpha;
+
+			p0 = drawPoints(radius, teta, heigthNow);
+			p1 = drawPoints(radius, tetaNext, heigthNow);
+			p2 = drawPoints(radius, tetaNext, heigthNow + scaleHeigth);
+			p3 = drawPoints(radius, teta, heigthNow + scaleHeigth);
+
+			//draw first triangle
+			points.push_back(p0);
+			points.push_back(p1);
+			points.push_back(p2);
+
+			//draw second triangle
+			points.push_back(p0);
+			points.push_back(p2);
+			points.push_back(p3);
+		}
+	}
+    for (int i = 0; i < slices; i++) {
+        teta = i * alpha;
+        tetaNext = (i + 1) * alpha;
+
+        p0.x = 0;
+        p0.y = height;
+        p0.z = 0;
+        p1 = drawPoints(radius, tetaNext, height);
+        p2 = drawPoints(radius, teta, height);
+
+        points.push_back(p0);
+        points.push_back(p2);
+        points.push_back(p1);
+    }
 	return points;
 }
 

@@ -78,6 +78,15 @@ int main (int argc, char **argv)
             file = argv[3];
             points = plane(size / 2);
     }
+   else if (strcmp("cylinder",argv[1]) == 0 && argc == 7)
+    {
+        float radius = atof(argv[2]);
+        float height = atoi(argv[3]);
+        int slices = atoi(argv[4]);
+        int layers = atoi(argv[5]);
+        file = argv[6];
+        points = cylinder(radius,height,slices,layers);
+    }
     else{
         printf("Invalid input!\n");
         return -1;
