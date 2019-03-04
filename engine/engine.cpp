@@ -128,13 +128,18 @@ void MenuAjuda() {
 	cout << "|                                                                |" << endl;
 	cout << "|   → (mouse) : Rotate your view to the right                    |" << endl;
 	cout << "|                                                                |" << endl;
+	cout << "|   F1 : Increase image                                          |" << endl;
+	cout << "|                                                                |" << endl;
+	cout << "|   F2 : Decrease image                                          |" << endl;
+	cout << "|                                                                |" << endl;
+	cout << "|                                                                |" << endl;
 	cout << "|                                                                |" << endl;
 	cout << "|   FORMAT:                                                      |" << endl;
-	cout << "|   F3: Change the figure format into points                      |" << endl;
+	cout << "|   F3: Change the figure format into points                     |" << endl;
 	cout << "|                                                                |" << endl;
-	cout << "|   F4: Change the figure format into lines                       |" << endl;
+	cout << "|   F4: Change the figure format into lines                      |" << endl;
 	cout << "|                                                                |" << endl;
-	cout << "|   p: Fill up the figure                                        |" << endl;
+	cout << "|   F5: Fill up the figure                                       |" << endl;
 	cout << "#________________________________________________________________#" << endl;
 }
 
