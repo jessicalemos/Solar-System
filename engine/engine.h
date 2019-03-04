@@ -1,7 +1,11 @@
 #ifndef ENGINE_ENGINE_H
 #define ENGINE_ENGINE_H
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
 
-#define _USE_MATH_DEFINES
 #include <math.h>
 #include <iostream>
 #include <vector>
@@ -22,7 +26,7 @@ float alpha = 0.7f, beta = 0.3f, radius = 10.0f, step = 0.08f;
 
 void drawPrimitives(void);
 int readPointsFile(string filename);
-void specialKey (int key, int a, int b);
+void specialKey(int key, int a, int b);
 void renderScene(void);
 void changeSize(int w, int h);
 void MenuAjuda();
