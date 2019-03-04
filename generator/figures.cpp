@@ -42,7 +42,7 @@ vector<Point> cone(float radius, float height, int slices, int layers){
 		tetaNext = (i + 1) * alpha; 
 
 		p0.x = 0;
-		p0.x = 0;
+		p0.y = 0;
 		p0.z = 0;
 		p1 = pointsCone(radius, tetaNext, 0);
 		p2 = pointsCone(radius, teta, 0);	

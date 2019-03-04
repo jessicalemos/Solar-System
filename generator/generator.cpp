@@ -52,8 +52,8 @@ int main (int argc, char **argv)
     {
         float radius = atof(argv[2]);
         float height = atof(argv[3]);
-        int slices = atof(argv[4]);
-        int layers = atof(argv[5]);
+        int slices = atoi(argv[4]);
+        int layers = atoi(argv[5]);
         file = argv[6];
         points = cone(radius,height,slices,layers);
     }
