@@ -291,7 +291,7 @@ vector<Point> plane(float size)
 	Point pt;
 	vector<Point> points;
 
-	int sequence[6] = { 0, 1, 3, 3, 1, 2 };
+	int face[6] = { 0, 1, 3, 3, 1, 2 };
 
 	for (int i = 0, j; i < 6; i++)
 	{
