@@ -295,7 +295,7 @@ vector<Point> plane(float size)
 
 	for (int i = 0, j; i < 6; i++)
 	{
-		j = sequence[i];
+		j = face[i];
 		pt.x = size * quadrants[j][0];
 		pt.y = 0;
 		pt.z = size * quadrants[j][2];
