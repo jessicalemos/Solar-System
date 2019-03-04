@@ -15,7 +15,6 @@ float quadrants[8][3] = {
 		{-1, -1,  1},
 };
 
-//coordenadas dos pontos do cone
 Point drawPoints(float radius, float angle, float height) {
 	Point p;
 	p.x = radius * sin(angle);
@@ -248,7 +247,7 @@ Point pointsSphere (float radius, float beta, float alpha)
     return result;
 }
 
-//draw Esfera
+//draw sphere
 vector<Point> sphere(float radius, int slices, int layers)
 {
 	Point p1, p2, p3, p4;
@@ -285,7 +284,7 @@ vector<Point> sphere(float radius, int slices, int layers)
 	return points;
 }
 
-//Desenhar plano
+//draw plane
 vector<Point> plane(float size)
 {
 	Point pt;
@@ -305,15 +304,14 @@ vector<Point> plane(float size)
 	return points;
 }
 
+//draw cylinder
 vector<Point> cylinder(float radius, float height, int slices, int layers){
 	vector<Point> points;
 	Point p0, p1, p2, p3;
-	float teta, alpha, scaleHeigth, heigthNow,
-			scaleRadius, radiusNow, radiusNext, tetaNext;
+	float teta, alpha, scaleHeigth, heigthNow, tetaNext;
 
 	alpha = (2 * M_PI) / slices;
 	scaleHeigth = height / layers;
-	scaleRadius = radius / layers;
 
 	//draw base
 	for (int i = 0; i < slices; i++) {
@@ -334,8 +332,6 @@ vector<Point> cylinder(float radius, float height, int slices, int layers){
 	for (int i = 0; i < layers; i++) {
 
 		heigthNow = i * scaleHeigth;
-		//radiusNow = radius - i * scaleRadius;
-		//radiusNext = radius - (1 + i) * scaleRadius;
 
 		for (int j = 0; j < slices; j++) {
 			teta = j * alpha;
@@ -357,6 +353,8 @@ vector<Point> cylinder(float radius, float height, int slices, int layers){
 			points.push_back(p3);
 		}
 	}
+	
+	//draw topo
     for (int i = 0; i < slices; i++) {
         teta = i * alpha;
         tetaNext = (i + 1) * alpha;
