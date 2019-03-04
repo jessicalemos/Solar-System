@@ -1,4 +1,4 @@
-﻿#include <stdlib.h>
+#include <stdlib.h>
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
@@ -14,12 +14,26 @@ using namespace tinyxml2;
 
 void drawPrimitives(void) {
     glBegin(GL_TRIANGLES);
+    int i=0;
+    bool cor = true;
+    
     for (const Point pt : points)  {
-        glVertex3f(pt.x, pt.y, pt.z);
+        if( i==3 ) {
+            cor = !cor;
+            i=0;
+        }
+        
+        if(cor) {
+            glColor3f(0.2, 02, 1);
+            glVertex3f(pt.x, pt.y, pt.z);
+        } else {
+            glColor3f(0.7, 0.7, 1);
+            glVertex3f(pt.x, pt.y, pt.z);
+        }
+        i++;
     }
     glEnd();
 }
-
 int readPointsFile(string filename)
 {
 	Point p;
@@ -132,13 +146,12 @@ void MenuAjuda() {
 	cout << "|                                                                |" << endl;
 	cout << "|   F2 : Decrease image                                          |" << endl;
 	cout << "|                                                                |" << endl;
-	cout << "|                                                                |" << endl;
-	cout << "|                                                                |" << endl;
 	cout << "|   FORMAT:                                                      |" << endl;
 	cout << "|   F3: Change the figure format into points                     |" << endl;
 	cout << "|                                                                |" << endl;
 	cout << "|   F4: Change the figure format into lines                      |" << endl;
 	cout << "|                                                                |" << endl;
+	cout << "|   F5: Fill up the figure                                       |" << endl;
 	cout << "|   F5: Fill up the figure                                       |" << endl;
 	cout << "#________________________________________________________________#" << endl;
 }
@@ -178,6 +191,9 @@ void specialKey (int key, int a, int b)
             break;
         case GLUT_KEY_F4:
             line = GL_LINE;
+            break;
+        case GLUT_KEY_F5:
+            line = GL_FILL;
             break;
 
         default:
