@@ -117,22 +117,11 @@ int loadXMLfile(string filename)
 
 void MenuAjuda() {
 	cout << "#_____________________________ HELP _____________________________#" << endl;
-	cout << "|                                                                |" << endl;
 	cout << "| Usage: ./engine {XML FILE}                                     |" << endl;
 	cout << "|                 [-h]                                           |" << endl;
-	cout << "|                                                                |" << endl;
 	cout << "|   FILE:                                                        |" << endl;
 	cout << "| Specify a path to an XML file in which the information about   |" << endl;
 	cout << "| the models you wish to create are specified                    |" << endl;
-	cout << "|                                                                |" << endl;
-	cout << "|   MOVE:                                                        |" << endl;
-	cout << "|   w: Move your position forward                                |" << endl;
-	cout << "|                                                                |" << endl;
-	cout << "|   s: Move your position back                                   |" << endl;
-	cout << "|                                                                |" << endl;
-	cout << "|   a: Move your position to the left                            |" << endl;
-	cout << "|                                                                |" << endl;
-	cout << "|   d: Move your position to the right                           |" << endl;
 	cout << "|                                                                |" << endl;
 	cout << "|   ↑ (mouse) : Rotate your view up                              |" << endl;
 	cout << "|                                                                |" << endl;
@@ -151,7 +140,6 @@ void MenuAjuda() {
 	cout << "|                                                                |" << endl;
 	cout << "|   F4: Change the figure format into lines                      |" << endl;
 	cout << "|                                                                |" << endl;
-	cout << "|   F5: Fill up the figure                                       |" << endl;
 	cout << "|   F5: Fill up the figure                                       |" << endl;
 	cout << "#________________________________________________________________#" << endl;
 }
