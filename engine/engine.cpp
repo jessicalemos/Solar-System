@@ -123,13 +123,13 @@ void MenuAjuda() {
 	cout << "| Specify a path to an XML file in which the information about   |" << endl;
 	cout << "| the models you wish to create are specified                    |" << endl;
 	cout << "|                                                                |" << endl;
-	cout << "|   ↑ (mouse) : Rotate your view up                              |" << endl;
+	cout << "|   ↑ : Rotate your view up                                      |" << endl;
 	cout << "|                                                                |" << endl;
-	cout << "|   ↓ (mouse) : Rotate your view down                            |" << endl;
+	cout << "|   ↓ : Rotate your view down                                    |" << endl;
 	cout << "|                                                                |" << endl;
-	cout << "|   ← (mouse) : Rotate your view to the left                     |" << endl;
+	cout << "|   ← : Rotate your view to the left                             |" << endl;
 	cout << "|                                                                |" << endl;
-	cout << "|   → (mouse) : Rotate your view to the right                    |" << endl;
+	cout << "|   → : Rotate your view to the right                            |" << endl;
 	cout << "|                                                                |" << endl;
 	cout << "|   F1 : Increase image                                          |" << endl;
 	cout << "|                                                                |" << endl;
