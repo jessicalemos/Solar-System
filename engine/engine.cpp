@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include "tinyxml2.h"
-#include "engine.h"
+#include "headers/engine.h"
+#include "headers/Point.h"
+#include "headers/parser.h"
 
 using namespace std;
 using namespace tinyxml2;
@@ -10,7 +12,7 @@ void drawPrimitives(void) {
     int i=0;
     bool cor = true;
     
-    for (const Point pt : points)  {
+    for (auto const& pt : points)  {
         if( i==3 ) {
             cor = !cor;
             i=0;
@@ -18,94 +20,14 @@ void drawPrimitives(void) {
         
         if(cor) {
             glColor3f(0.2, 02, 1);
-            glVertex3f(pt.x, pt.y, pt.z);
+            glVertex3f(pt->getX(), pt->getY(), pt->getZ());
         } else {
             glColor3f(0.7, 0.7, 1);
-            glVertex3f(pt.x, pt.y, pt.z);
+            glVertex3f(pt->getX(), pt->getY(), pt->getZ());
         }
         i++;
     }
     glEnd();
-}
-int readPointsFile(string filename)
-{
-	Point p;
-	string l, t;
-	ifstream file(filename);
-	int i;
-
-	if (!file.is_open()) {
-		cout << "Unable to open file: " << filename << "." << endl; return -1;
-	}
-	else
-	{
-		while (!file.eof())
-		{
-			getline(file, l);
-			stringstream ss(l.c_str());
-
-			if (l.c_str() != NULL)
-			{
-				i = 0;
-				while (getline(ss, t, ','))
-				{
-					if (i == 0)
-						p.x = stof(t);
-					else if (i == 1)
-						p.y = stof(t);
-					else
-						p.z = stof(t);
-					i++;
-				}
-				points.push_back(p);
-			}
-		}
-		points.pop_back(); 
-		file.close();
-	}
-	return 0;
-}
-
-int loadXMLfile(string filename)
-{
-	
-
-	XMLDocument xmlDoc;
-    XMLNode *pRoot;
-    XMLElement *pElement, *pListElement;
-    string fileDir = "../../files/" + filename;
-    XMLError eResult = xmlDoc.LoadFile(fileDir.c_str());
-    
-    if (eResult == XML_SUCCESS)
-    {
-        pRoot = xmlDoc.FirstChild();
-        if (pRoot != nullptr)
-        {
-            pElement = pRoot->FirstChildElement("models");
-            
-            if (pElement != nullptr)
-            {
-                pListElement = pElement->FirstChildElement("model");
-                
-                while (pListElement != nullptr)
-                {
-                    string file;
-                    file = pListElement->Attribute("file");
-                    
-                    if (!file.empty() && readPointsFile(file) == -1)
-                        return -1;
-                    
-                    pListElement = pListElement->NextSiblingElement("model");
-                }
-            }
-        }
-    }
-    else
-    {
-        cout << "Unable to open file: " << filename << "." << endl;
-        return -1;
-    }
-    return 0;
 }
 
 void MenuAjuda() {
@@ -243,7 +165,7 @@ int main(int argc, char **argv)
 		MenuAjuda();
 		return 0;
 	}
-	else if (loadXMLfile(argv[1]) == 0) {
+	else if (loadXMLfile(argv[1], &points) == 0) {
 		// put callback registration here
 		glutDisplayFunc(renderScene);
 		glutReshapeFunc(changeSize);

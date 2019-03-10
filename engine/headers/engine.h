@@ -11,21 +11,15 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include "Point.h"
 
 using namespace std;
 
-typedef struct point {
-	float x;
-	float y;
-	float z;
-}Point;
-
 int line = GL_LINE;
-vector<Point> points;
+vector<Point*> points;
 float alpha = 0.7f, beta = 0.3f, radius = 10.0f, step = 0.08f;
 
 void drawPrimitives(void);
-int readPointsFile(string filename);
 void specialKey(int key, int a, int b);
 void renderScene(void);
 void changeSize(int w, int h);
