@@ -1,5 +1,5 @@
-#ifndef __POINT_H__
-#define __POINT_H__
+#ifndef POINT_POINT_H
+#define POINT_POINT_H
 
 #include <math.h>
 #include <string> 

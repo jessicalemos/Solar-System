@@ -9,6 +9,7 @@
 
 #include "../tinyxml2.h"
 #include "Point.h"
+#include "Group.h"
 #include <vector>
 
 using namespace std;
