@@ -87,6 +87,17 @@ int main (int argc, char **argv)
         file = argv[6];
         points = cylinder(radius,height,slices,layers);
     }
+     
+    else if (strcmp("torus",argv[1]) == 0 && argc == 7){
+    
+            float radiusIn = atof(argv[2]);
+	    float radiusOut = atof(argv[3]);
+            int slices = atoi(argv[4]);
+            int layers = atoi(argv[5]);
+            file = argv[6];
+            points = torus(radiusIn,radiusOut, slices, layers);
+    }
+
     else{
         printf("Invalid input!\n");
         return -1;

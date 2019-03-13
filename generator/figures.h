@@ -18,5 +18,5 @@ Point pointsSphere(float radius, float beta, float alfa);
 vector<Point> sphere(float radius, int slices, int layers);
 vector<Point> plane(float size);
 vector<Point> cylinder(float radius, float height, int slices, int layers);
-
+vector<Point> torus(float radiusIn, float radiusOut, int slices, int layers);
 #endif

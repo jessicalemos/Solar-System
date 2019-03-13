@@ -372,3 +372,51 @@ vector<Point> cylinder(float radius, float height, int slices, int layers){
 	return points;
 }
 
+//draw torus
+Point pointsTorus(float radiusIn,float radiusOut,float beta,float alpha){
+
+    Point result;
+
+    result.x = cos(alpha) * (radiusIn*cos(beta) + radiusOut);
+    result.y = sin(alpha) * (radiusIn*cos(beta) + radiusOut);
+    result.z = radiusIn  * sin(beta);
+
+    return result;
+}
+
+vector<Point> torus(float radiusIn,float radiusOut , int slices, int layers)
+{
+        Point p1, p2, p3, p4;
+        vector<Point> points;
+        float alpha, nextAlpha,
+                beta, nextBeta;
+
+        for (int i = 0; i < layers; i++)
+        {
+                beta = i *( 2*M_PI / layers);
+                nextBeta = (i + 1) * 2*M_PI / layers;
+
+                for (int j = 0; j < slices; j++)
+                {
+                        alpha = j * 2 * M_PI / slices;
+                        nextAlpha = (j + 1) * 2 * M_PI / slices;
+
+                        p1 = pointsTorus(radiusIn, radiusOut, nextBeta, alpha);
+                        p2 = pointsTorus(radiusIn, radiusOut, beta, alpha);
+                        p3 = pointsTorus(radiusIn, radiusOut, nextBeta, nextAlpha);
+                        p4 = pointsTorus(radiusIn, radiusOut, beta, nextAlpha);
+
+                        // First triangle
+                        points.push_back(p1);
+                        points.push_back(p2);
+                        points.push_back(p3);
+
+                        // Second triangle
+                        points.push_back(p3);
+                        points.push_back(p2);
+                        points.push_back(p4);
+                }
+        }
+        return points;
+
+}
