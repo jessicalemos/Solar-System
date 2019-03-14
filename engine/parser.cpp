@@ -1,6 +1,6 @@
 #include "headers/parser.h"
 #include "headers/Point.h"
-#include "headers/Point.h"
+
 
 int readPointsFile(string filename, vector<Point*> *points) {
 	string l, t, token;
@@ -95,4 +95,35 @@ void parseRotate (Group* group, XMLElement* element) {
 
     t = new Transformation(type,angle,x,y,z);
     group->addTransformation(t);
+}
+
+void parseModels (Group *group, XMLElement *element) {
+    string file;
+    vector<Shape*> shapes;
+
+    element = element->FirstChildElement("model");
+
+    if (element == nullptr) {
+        cout << "XML error: Models are not available!" << endl;
+        return;
+    }
+
+    while (element != nullptr) {
+
+        file = element->Attribute("file");
+
+        if(!file.empty()) {
+            vector<Point*> points;
+            readPointsFile(file, &points);
+
+            if (points.size()) {
+                Shape *shape = new Shape(points);
+                shapes.push_back(shape);
+            }
+        }
+        element = element->NextSiblingElement("model");
+    }
+
+    if (shapes.size())
+        group->setShapes(shapes);
 }

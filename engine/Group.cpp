@@ -9,3 +9,7 @@ void Group::addTransformation(Transformation* t){
 void Group::addGroup(Group* g){
     groups.push_back(g);
 }
+
+void Group::setShapes(vector<Shape*> pt){
+    shapes = pt;
+}
