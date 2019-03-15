@@ -39,7 +39,8 @@ int readPointsFile(string filename, vector<Point*> *points) {
 }
 
 int loadXMLfile(string filename, vector<Point*> *points) {
-	XMLDocument xmlDoc;
+    Group* group = nullptr;
+    XMLDocument xmlDoc;
     XMLNode *pRoot;
     XMLElement *pElement, *pListElement;
     string fileDir = "../../files/" + filename;
@@ -50,22 +51,9 @@ int loadXMLfile(string filename, vector<Point*> *points) {
         pRoot = xmlDoc.FirstChild();
         if (pRoot != nullptr)
         {
-            pElement = pRoot->FirstChildElement("models");
-            
-            if (pElement != nullptr)
-            {
-                pListElement = pElement->FirstChildElement("model");
-                
-                while (pListElement != nullptr)
-                {
-                    string file;
-                    file = pListElement->Attribute("file");
-                    if (!file.empty() && readPointsFile(file,points) == -1)
-                        return -1;
-
-                    pListElement = pListElement->NextSiblingElement("model");
-                }
-            }
+            group = new Group();
+            element = pRoot->FirstChildElement("group");
+            parseGroup(group,element,points,0);
         }
     }
     else
