@@ -141,7 +141,7 @@ void parseGroup (Group *group, XMLElement *gElement, vector<Point*> *orbits, int
     while (element)
     {
         if (strcmp(element->Name(),"translate") == 0)
-            parseTranslate(group,element,c,d);
+            parseTranslate(group,element,orbits,d);
 
         else if (strcmp(element->Name(),"scale") == 0)
             parseScale(group,element);
@@ -155,7 +155,7 @@ void parseGroup (Group *group, XMLElement *gElement, vector<Point*> *orbits, int
         else if (strcmp(element->Name(),"group") == 0)
         {
             Group *child = new Group();
-            group->addGroup(cchild);
+            group->addGroup(child);
             parseGroup(child,element,orbits,d+1);
         }
 
