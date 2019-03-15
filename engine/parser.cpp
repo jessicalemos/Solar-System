@@ -97,6 +97,24 @@ void parseRotate (Group* group, XMLElement* element) {
     group->addTransformation(t);
 }
 
+void parseScale (Group *group, XMLElement *element){
+    float x=1, y=1, z=1;
+    string type = "scale";
+    Transformation *t;
+
+    if(element->Attribute("X"))
+        x = stof(element->Attribute("X"));
+
+    if(element->Attribute("Y"))
+        y = stof(element->Attribute("Y"));
+
+    if(element->Attribute("Z"))
+        z = stof(element->Attribute("Z"));
+
+    t = new Transformation(type,0,x,y,z);
+    group->addTransformation(t);
+}
+
 void parseModels (Group *group, XMLElement *element) {
     string file;
     vector<Shape*> shapes;
@@ -126,4 +144,33 @@ void parseModels (Group *group, XMLElement *element) {
 
     if (shapes.size())
         group->setShapes(shapes);
+}
+
+void parseGroup (Group *group, XMLElement *gElement, vector<Point*> *orbits, int d)
+{
+    XMLElement *element = gElement->FirstChildElement();
+
+    while (element)
+    {
+        if (strcmp(element->Name(),"translate") == 0)
+            parseTranslate(group,element,c,d);
+
+        else if (strcmp(element->Name(),"scale") == 0)
+            parseScale(group,element);
+
+        else if (strcmp(element->Name(),"rotate") == 0)
+            parseRotate(group,element);
+
+        else if (strcmp(element->Name(),"models") == 0)
+            parseModels(group, element);
+
+        else if (strcmp(element->Name(),"group") == 0)
+        {
+            Group *child = new Group();
+            group->addGroup(cchild);
+            parseGroup(child,element,orbits,d+1);
+        }
+
+        element = element->NextSiblingElement();
+    }
 }
