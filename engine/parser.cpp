@@ -42,7 +42,7 @@ int loadXMLfile(string filename, vector<Point*> *points) {
     Group* group = nullptr;
     XMLDocument xmlDoc;
     XMLNode *pRoot;
-    XMLElement *pElement, *pListElement;
+    XMLElement *pElement;
     string fileDir = "../../files/" + filename;
     XMLError eResult = xmlDoc.LoadFile(fileDir.c_str());
     
@@ -52,8 +52,8 @@ int loadXMLfile(string filename, vector<Point*> *points) {
         if (pRoot != nullptr)
         {
             group = new Group();
-            element = pRoot->FirstChildElement("group");
-            parseGroup(group,element,points,0);
+            pElement = pRoot->FirstChildElement("group");
+            parseGroup(group,pElement,points,0);
         }
     }
     else
