@@ -13,3 +13,15 @@ void Group::addGroup(Group* g){
 void Group::setShapes(vector<Shape*> pt){
     shapes = pt;
 }
+
+vector<Shape*> Group::getShapes() {
+    return shapes;
+}
+
+vector<Group*>  Group:: getGroups() {
+    return groups;
+}
+
+vector<Transformation*> Group::getTransformations() {
+    return transformations;
+}

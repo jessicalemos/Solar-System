@@ -12,14 +12,16 @@
 #include <fstream>
 #include <sstream>
 #include "Point.h"
+#include "Group.h"
+#include "Camera.h"
 
 using namespace std;
 
 int line = GL_LINE;
-vector<Point*> points;
-float alpha = 0.7f, beta = 0.3f, radius = 10.0f, step = 0.08f;
+Group *scene;
+Camera *camera;
+vector<Point*> orbits;
 
-void drawPrimitives(void);
 void specialKey(int key, int a, int b);
 void renderScene(void);
 void changeSize(int w, int h);

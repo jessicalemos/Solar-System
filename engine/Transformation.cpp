@@ -19,13 +19,13 @@ float Transformation::getAngle(){
 }
 
 float Transformation::getX(){
-    return angle;
+    return x;
 }
 
 float Transformation::getY(){
-    return angle;
+    return y;
 }
 
 float Transformation::getZ(){
-    return angle;
+    return z;
 }

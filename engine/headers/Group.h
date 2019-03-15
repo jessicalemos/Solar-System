@@ -18,6 +18,9 @@ class Group {
         void addTransformation(Transformation* t);
         void addGroup(Group* g);
         void setShapes(vector<Shape*> pt);
+        vector<Shape*> getShapes();
+        vector<Group*> getGroups();
+        vector<Transformation*> getTransformations();
 
 };
 

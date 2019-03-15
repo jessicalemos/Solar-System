@@ -3,9 +3,9 @@
 Shape::Shape(){}
 
 Shape::Shape(vector<Point*> p){
-	points = p;
+    points = p;
 }
 
 vector<Point*> Shape::getPoints() {
-	return points; 
+    return points;
 }

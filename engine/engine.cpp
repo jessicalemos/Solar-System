@@ -7,27 +7,63 @@
 using namespace std;
 using namespace tinyxml2;
 
-void drawPrimitives(void) {
+void drawSystem(Group *system)
+{
+    glPushMatrix();
+    const char* type;
+
+    for (Transformation *t: system->getTransformations()){
+        type = t->getType().c_str();
+        if(!strcmp(type,"translation")) {
+            glTranslatef(t->getX(), t->getY(), t->getZ());
+        }
+
+
+        else if(!strcmp(type, "rotation")) {
+            glRotatef(t->getAngle(),
+                      t->getX(),
+                      t->getY(),
+                      t->getZ());
+        }
+
+        else if(!strcmp(type,"scale")) {
+            glScalef(t->getX(), t->getY(), t->getZ());
+        }
+
+    }
+
     glBegin(GL_TRIANGLES);
-    int i=0;
-    bool cor = true;
-    
-    for (auto const& pt : points)  {
-        if( i==3 ) {
-            cor = !cor;
-            i=0;
-        }
-        
-        if(cor) {
-            glColor3f(0.2, 02, 1);
-            glVertex3f(pt->getX(), pt->getY(), pt->getZ());
-        } else {
-            glColor3f(0.7, 0.7, 1);
-            glVertex3f(pt->getX(), pt->getY(), pt->getZ());
-        }
-        i++;
+    for (Shape *shape : system->getShapes()){
+        glColor3f(0.5f, 0.5f, 1.0f);
+
+        for (Point *p : shape->getPoints())
+            glVertex3f(p->getX(), p->getY(), p->getZ());
     }
     glEnd();
+
+    for (Group *g : system->getGroups())
+        drawSystem(g);
+
+    glPopMatrix();
+}
+
+void drawOrbits()
+{
+    glColor3f(1.0f, 1.0f, 0.94f);
+
+    for(auto const& p : orbits){
+        glBegin(GL_POINTS);
+        for (int j = 0 ; j < 200 ; j++)
+        {
+            float x = p->getX() * p->getX();
+            float y = p->getY() * p->getY();
+            float z = p->getZ() * p->getZ();
+            float radius = sqrtf(x + y + z);
+            float alpha = j * 2 * M_PI / 200;
+            glVertex3f(radius * cos(alpha), 0, radius * sin(alpha));
+        }
+        glEnd();
+    }
 }
 
 void MenuAjuda() {
@@ -61,35 +97,9 @@ void MenuAjuda() {
 
 void specialKey (int key, int a, int b)
 {
-    (void)a;(void)b;
-    switch (key)
-    {
-        case GLUT_KEY_UP:
-            if (beta < (M_PI / 2 - step))
-                beta += step;
-            break;
-
-        case GLUT_KEY_DOWN:
-            if (beta > -(M_PI / 2 - step))
-                beta -= step;
-            break;
-
-        case GLUT_KEY_LEFT:
-            alpha -= step;
-            break;
-
-        case GLUT_KEY_RIGHT:
-            alpha += step;
-            break;
-
-        case GLUT_KEY_F1:
-            radius -= step;
-            break;
-
-        case GLUT_KEY_F2:
-            radius += step;
-            break;
-	case GLUT_KEY_F3:
+    (void) a, (void) b;
+    switch(key){
+        case GLUT_KEY_F3:
             line = GL_POINT;
             break;
         case GLUT_KEY_F4:
@@ -98,11 +108,20 @@ void specialKey (int key, int a, int b)
         case GLUT_KEY_F5:
             line = GL_FILL;
             break;
-
         default:
-            return;
+            camera->specialKeyCamera(key);
     }
     glutPostRedisplay();
+}
+
+void mousePress(int button, int state, int x, int y)
+{
+    camera->mousePress(button,state,x,y);
+}
+
+void mouseMotion(int x, int y)
+{
+    camera->mouseMotion(x,y);
 }
 
 void renderScene(void)
@@ -113,11 +132,13 @@ void renderScene(void)
 
     // set the camera
     glLoadIdentity();
-    gluLookAt(radius*cos(beta)*sin(alpha), radius*sin(beta), radius*cos(beta)*cos(alpha),
-              0.0, 0.0, 0.0,
-              0.0f, 1.0f, 0.0f);
+    gluLookAt (
+            camera->getXPosition(), camera->getYPosition(), camera->getZPosition(),
+            camera->getXLook(), camera->getYLook(), camera->getZLook(),
+            0.0f, 1.0f, 0.0f);
     glPolygonMode(GL_FRONT_AND_BACK, line);
-    drawPrimitives();
+    drawSystem(scene);
+    drawOrbits();
 
 
     // End of frame
@@ -151,28 +172,36 @@ void changeSize(int w, int h)
 
 int main(int argc, char **argv)
 {
-    // put GLUT init here
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(100,100);
     glutInitWindowSize(800,800);
     glutCreateWindow("SOLAR_SYSTEM");
-	if (argc < 2) {
-		cout << "Invalid input. Use -h if you need some help." << endl;
-		return 0;
-	}
-	else if (!strcmp(argv[1], "-h") || !strcmp(argv[1], "-help")) {
-		MenuAjuda();
-		return 0;
-	}
-	else if (loadXMLfile(argv[1], &points) == 0) {
-		// put callback registration here
-		glutDisplayFunc(renderScene);
-		glutReshapeFunc(changeSize);
-		glutIdleFunc(renderScene);
-		glutSpecialFunc(specialKey);
-	}
 
+    if (argc < 2) {
+        cout << "Invalid input. Use -h if you need some help." << endl;
+        return 0;
+    }
+    else if (!strcmp(argv[1], "-h") || !strcmp(argv[1], "-help")) {
+        MenuAjuda();
+        return 0;
+    }
+    scene = loadXMLfile(argv[1], &orbits);
+    camera = new Camera();
+    if(scene == nullptr) return 0;
+    // put GLUT init here
+
+    // put callback registration here
+    glutDisplayFunc(renderScene);
+    glutReshapeFunc(changeSize);
+    glutIdleFunc(renderScene);
+    glutSpecialFunc(specialKey);
+
+    // Mouse
+    glutMouseFunc(mousePress);
+    glutMotionFunc(mouseMotion);
+
+    showMenu();
     // OpenGL settings
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);

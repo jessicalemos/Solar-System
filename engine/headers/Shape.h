@@ -1,5 +1,5 @@
-#ifndef SHAPE_SHAPE_H
-#define SHAPE_SHAPE_H
+#ifndef ENGINE_SHAPE_H
+#define ENGINE_SHAPE_H
 
 #include "Point.h"
 #include <vector>
@@ -14,7 +14,7 @@ class Shape {
         Shape();
         Shape(vector<Point*> p);
         vector<Point*> getPoints();
-
 };
 
-#endif
+
+#endif //ENGINE_SHAPE_H

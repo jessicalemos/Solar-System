@@ -38,7 +38,7 @@ int readPointsFile(string filename, vector<Point*> *points) {
 	return 0;
 }
 
-int loadXMLfile(string filename, vector<Point*> *points) {
+Group* loadXMLfile(string filename, vector<Point*> *points) {
     Group* group = nullptr;
     XMLDocument xmlDoc;
     XMLNode *pRoot;
@@ -59,9 +59,8 @@ int loadXMLfile(string filename, vector<Point*> *points) {
     else
     {
         cout << "Unable to open file: " << filename << "." << endl;
-        return -1;
     }
-    return 0;
+    return group;
 }
 
 void parseRotate (Group* group, XMLElement* element) {
@@ -83,6 +82,31 @@ void parseRotate (Group* group, XMLElement* element) {
 
     t = new Transformation(type,angle,x,y,z);
     group->addTransformation(t);
+}
+
+void parseTranslate (Group *group, XMLElement *element, vector<Point*> *orbits, int d)
+{
+    float x=0, y=0, z=0;
+    string type = "translation";
+    Transformation *t;
+
+    if(element->Attribute("X"))
+        x = stof(element->Attribute("X"));
+
+    if(element->Attribute("Y"))
+        y = stof(element->Attribute("Y"));
+
+    if(element->Attribute("Z"))
+        z = stof(element->Attribute("Z"));
+
+    t = new Transformation(type,0,x,y,z);
+    group->addTransformation(t);
+
+    if (d == 0 || d == 1)
+    {
+        Point *p = new Point(x,y,z);
+        orbits->push_back(p);
+    }
 }
 
 void parseScale (Group *group, XMLElement *element){
@@ -117,10 +141,10 @@ void parseModels (Group *group, XMLElement *element) {
     while (element != nullptr) {
 
         file = element->Attribute("file");
-
+        string fileDir = "../../files/" + file;
         if(!file.empty()) {
             vector<Point*> points;
-            readPointsFile(file, &points);
+            readPointsFile(fileDir, &points);
 
             if (points.size()) {
                 Shape *shape = new Shape(points);
