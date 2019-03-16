@@ -95,6 +95,42 @@ void MenuAjuda() {
 	cout << "#________________________________________________________________#" << endl;
 }
 
+void processMenu(int option)
+{
+    switch (option)
+    {
+        case 0:
+            exit(0);
+        case 1:
+            camera->posInitialCamera();
+            break;
+        default:
+        {
+            Point *p = orbits.at(option - 2);
+            camera->changePositionLook(p->getX(),p->getY(),p->getZ());
+            break;
+        }
+    }
+    glutPostRedisplay();
+}
+
+void showMenu()
+{
+    int planet = glutCreateMenu(processMenu);
+    glutAddMenuEntry("Sun",1);
+    for (int op = 0; op < (int)orbits.size(); op++)
+    {
+        char str[10];
+        sprintf(str, "Planet %d", op+1);
+        glutAddMenuEntry(str, op+2);
+    }
+
+    glutCreateMenu(processMenu);
+    glutAddSubMenu("Planet ",planet);
+    glutAddMenuEntry("Quit", 0);
+    glutAttachMenu(GLUT_RIGHT_BUTTON);
+}
+
 void specialKey (int key, int a, int b)
 {
     (void) a, (void) b;
