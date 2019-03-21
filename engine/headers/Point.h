@@ -8,9 +8,10 @@ using namespace std;
 
 class Point{
 
-	float x;
-	float y;
-	float z;
+	private:
+		float x;
+		float y;
+		float z;
 
 	public:
 		Point();
