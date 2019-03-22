@@ -86,6 +86,8 @@ void MenuAjuda() {
 	cout << "|                                                                |" << endl;
 	cout << "|   F2 : Decrease image                                          |" << endl;
 	cout << "|                                                                |" << endl;
+    cout << "|   F6 : Reset zoom                                              |" << endl;
+    cout << "|                                                                |" << endl;
 	cout << "|   FORMAT:                                                      |" << endl;
 	cout << "|   F3: Change the figure format into points                     |" << endl;
 	cout << "|                                                                |" << endl;

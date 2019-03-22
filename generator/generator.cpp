@@ -1,5 +1,5 @@
-#include "generator.h"
-#include "figures.h"
+#include "headers/generator.h"
+#include "headers/figures.h"
 
 #include <iostream>
 #include <fstream>

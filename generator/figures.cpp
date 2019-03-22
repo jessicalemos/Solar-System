@@ -1,5 +1,5 @@
 #define _USE_MATH_DEFINES
-#include "figures.h"
+#include "headers/figures.h"
 #include <math.h>
 
 using namespace std;
