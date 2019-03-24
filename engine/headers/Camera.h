@@ -10,9 +10,8 @@ private:
     float positionX, positionY, positionZ;
     float lookX, lookY, lookZ;
 
-    float mouseX, mouseY;
-    float mouseSense;
-    bool buttonIsPressed;
+    float mousePositionX, mousePositionY;
+    bool mouseLeftIsPressed;
 
 public:
     Camera();

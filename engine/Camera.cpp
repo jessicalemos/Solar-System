@@ -21,16 +21,15 @@ float Camera::getZLook() { return lookZ; }
 
 void Camera::posInitialCamera()
 {
-    radius = 100.0f, speed = 0.4f;
-    alpha = 4.5f, teta = 0.5f;
-    mouseSense = 0.001f;
+    radius = 120.0f, speed = 0.5f;
+    alpha = 4.3f, teta = 0.3f;
 
     lookX = 0; lookY = 0; lookZ = 0;
     positionX = lookX + radius*sin(alpha)*cos(teta);
     positionY = lookY + radius*sin(teta);
     positionZ = lookZ + radius*cos(alpha)*cos(teta);
 
-    buttonIsPressed = false;
+    mouseLeftIsPressed = false;
 }
 
 void Camera::changePositionLook(float x, float y, float z)
@@ -89,35 +88,35 @@ void Camera::mousePress(int button, int state, int x, int y)
 {
     if (button == GLUT_LEFT_BUTTON)
     {
-        if (state == GLUT_DOWN)
+        if (state == GLUT_UP)
         {
-            mouseX = x;
-            mouseY = y;
-            buttonIsPressed = true;
+            alpha += (x - mousePositionX) *  0.001f;
+            teta += (y - mousePositionY) *  0.001f;
+            mouseLeftIsPressed = false;
         }
-        else if (state == GLUT_UP)
+ 	else if (state == GLUT_DOWN)
         {
-            alpha += (x - mouseX) * mouseSense;
-            teta += (y - mouseY) * mouseSense;
-            buttonIsPressed = false;
+            mousePositionX = x;
+            mousePositionY = y;
+            mouseLeftIsPressed = true;
         }
     }
 }
 
-void Camera::mouseMotion(int xx, int yy)
+void Camera::mouseMotion(int x, int y)
 {
-    if (buttonIsPressed)
+    if (mouseLeftIsPressed)
     {
-        float alphaAux, betaAux;
+        float newAlpha, newTeta;
 
-        alphaAux = alpha + (xx - mouseX) * mouseSense;
-        betaAux = teta + (yy - mouseY) * mouseSense;
+        newAlpha = alpha + (x - mousePositionX) * 0.001f;
+        newTeta = teta + (y - mousePositionY) * 0.001f;
 
-        if (betaAux + 0.05f > M_PI/2) betaAux = M_PI/2 - 0.05f;
-        else if (betaAux - 0.05f < -M_PI/2) betaAux = -M_PI/2 + 0.05f;
+        if (newTeta > M_PI/2 - 0.05f) newTeta = M_PI/2 - 0.05f;
+        else if (newTeta < -M_PI/2 + 0.05f) newTeta = -M_PI/2 + 0.05f;
 
-        positionX = lookX + radius * sin(alphaAux) * cos(betaAux);
-        positionY = lookY + radius * sin(betaAux);
-        positionZ = lookZ + radius * cos(alphaAux) * cos(betaAux);
+        positionX = lookX + radius * sin(newAlpha) * cos(newTeta);
+        positionY = lookY + radius * sin(newTeta);
+        positionZ = lookZ + radius * cos(newAlpha) * cos(newTeta);
     }
 }

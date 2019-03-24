@@ -29,12 +29,13 @@ void drawSystem(Group *system)
         else if(!strcmp(type,"scale")) {
             glScalef(t->getX(), t->getY(), t->getZ());
         }
-
+	else if(!strcmp(type,"colour")) {
+            glColor3f(t->getX(), t->getY(), t->getZ());
+        }
     }
 
     glBegin(GL_TRIANGLES);
     for (Shape *shape : system->getShapes()){
-        glColor3f(0.5f, 0.5f, 1.0f);
 
         for (Point *p : shape->getPoints())
             glVertex3f(p->getX(), p->getY(), p->getZ());

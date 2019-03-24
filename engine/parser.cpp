@@ -127,6 +127,25 @@ void parseScale (Group *group, XMLElement *element){
     group->addTransformation(t);
 }
 
+void parseColour (Group *group, XMLElement *element){
+    float x=1, y=1, z=1;
+    string type = "colour";
+    Transformation *t;
+
+    if(element->Attribute("R"))
+        x = stof(element->Attribute("R"));
+
+    if(element->Attribute("G"))
+        y = stof(element->Attribute("G"));
+
+    if(element->Attribute("B"))
+        z = stof(element->Attribute("B"));
+
+
+    t = new Transformation(type,0,x,y,z);
+    group->addTransformation(t);
+}
+
 void parseModels (Group *group, XMLElement *element) {
     string file;
     vector<Shape*> shapes;
@@ -175,6 +194,9 @@ void parseGroup (Group *group, XMLElement *gElement, vector<Point*> *orbits, int
 
         else if (strcmp(element->Name(),"models") == 0)
             parseModels(group, element);
+
+	else if (strcmp(element->Name(),"colour") == 0)
+            parseColour(group, element);
 
         else if (strcmp(element->Name(),"group") == 0)
         {
