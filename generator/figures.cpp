@@ -377,10 +377,12 @@ Point pointsTorus(float radiusIn,float radiusOut,float beta,float alpha){
 
     Point result;
 
-    result.x = cos(alpha) * (radiusIn*cos(beta) + radiusOut);
-    result.y = sin(alpha) * (radiusIn*cos(beta) + radiusOut);
-    result.z = radiusIn  * sin(beta);
-
+    result.x= sin(alpha) * (radiusIn * cos(beta) + radiusOut);
+  
+    result.y = radiusIn * sin(beta);
+  
+    result.z = cos(alpha) * (radiusIn*cos(beta) + radiusOut);
+  
     return result;
 }
 
