@@ -11,7 +11,7 @@ void drawSystem(Group *system)
 {
     glPushMatrix();
     const char* type;
-
+    glColor3f(0.5f, 0.5f, 1.0f);
     for (Transformation *t: system->getTransformations()){
         type = t->getType().c_str();
         if(!strcmp(type,"translation")) {
