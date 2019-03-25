@@ -7,7 +7,7 @@
 #include <vector>
 #include <sstream>
 
-#include "../tinyxml2.h"
+#include "tinyxml2.h"
 #include "Point.h"
 #include "Group.h"
 #include "Shape.h"
