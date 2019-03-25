@@ -376,10 +376,12 @@ vector<Point> cylinder(float radius, float height, int slices, int layers){
 Point pointsTorus(float radiusIn,float radiusOut,float beta,float alpha){
 
     Point result;
+
     result.x = cos(alpha) * (radiusIn*cos(beta) + radiusOut);
     result.y = sin(alpha) * (radiusIn*cos(beta) + radiusOut);
     result.z = radiusIn  * sin(beta);
-   
+
+    return result;
 }
 
 vector<Point> torus(float radiusIn,float radiusOut , int slices, int layers)
