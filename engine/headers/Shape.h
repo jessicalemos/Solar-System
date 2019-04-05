@@ -4,16 +4,25 @@
 #include "Point.h"
 #include <vector>
 
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glew.h>
+#include <GL/glut.h>
+#endif
+
 using namespace std;
 
 class Shape {
     private:
-        vector<Point*> points;
+        int numVertex;
+        GLuint bufferVertex;
 
     public:
         Shape();
-        Shape(vector<Point*> p);
-        vector<Point*> getPoints();
+        Shape(vector<float> vertex);
+        void prepareBuffer(vector<float> vertex);
+        void draw();
 };
 
 
