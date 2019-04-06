@@ -13,25 +13,7 @@ void drawSystem(Group *system)
     const char* type;
     glColor3f(0.5f, 0.5f, 1.0f);
     for (Transformation *t: system->getTransformations()){
-        type = t->getType().c_str();
-        if(!strcmp(type,"translation")) {
-            glTranslatef(t->getX(), t->getY(), t->getZ());
-        }
-
-
-        else if(!strcmp(type, "rotation")) {
-            glRotatef(t->getAngle(),
-                      t->getX(),
-                      t->getY(),
-                      t->getZ());
-        }
-
-        else if(!strcmp(type,"scale")) {
-            glScalef(t->getX(), t->getY(), t->getZ());
-        }
-	else if(!strcmp(type,"colour")) {
-            glColor3f(t->getX(), t->getY(), t->getZ());
-        }
+        applyTransformations(t);
     }
 
     glBegin(GL_TRIANGLES);
@@ -50,21 +32,16 @@ void drawSystem(Group *system)
 
 void drawOrbits()
 {
+    vector<Point> curvePoints = t->getCurvePoints();
     glColor3f(1.0f, 1.0f, 0.94f);
-
+    glBegin(GL_POINTS);
     for(auto const& p : orbits){
-        glBegin(GL_POINTS);
-        for (int j = 0 ; j < 200 ; j++)
-        {
-            float x = p->getX() * p->getX();
-            float y = p->getY() * p->getY();
-            float z = p->getZ() * p->getZ();
-            float radius = sqrtf(x + y + z);
-            float alpha = j * 2 * M_PI / 200;
-            glVertex3f(radius * cos(alpha), 0, radius * sin(alpha));
-        }
-        glEnd();
+        float x = p->getX();
+        float y = p->getY();
+        float z = p->getZ();
+        glVertex3f(x,y,z);
     }
+    glEnd();
 }
 
 void MenuAjuda() {

@@ -30,6 +30,30 @@ float Transformation::getZ(){
     return z;
 }
 
+//normalizar vetor
+void normalize(float *a) {
+    float n = sqrt(a[0]*a[0] + a[1] * a[1] + a[2] * a[2]);
+    a[0] = a[0]/n;
+    a[1] = a[1]/n;
+    a[2] = a[2]/n;
+}
+
+void cross(float *a, float *b, float *res)
+{
+    res[0] = a[1]*b[2] - a[2]*b[1];
+    res[1] = a[2]*b[0] - a[0]*b[2];
+    res[2] = a[0]*b[1] - a[1]*b[0];
+}
+
+void multMatrixVector(float *m, float *v, float *res) {
+    for (int j = 0; j < 4; ++j) {
+        res[j] = 0;
+        for (int k = 0; k < 4; ++k) {
+            res[j] += v[k] * m[j * 4 + k];
+        }
+    }
+}
+
 void Transformation::getCatmullRomPoint(float t, int *indexes, float *p, float *deriv) {
     float m[4][4] = { 
     { -0.5f, 1.5f, -1.5f, 0.5f },

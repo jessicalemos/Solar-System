@@ -14,6 +14,7 @@ class Patch{
 public:
 	Patch();
 	Patch(vector<Point*> p);
+	vector<Point*> getControlPoints();
 	void multMatrixVector(float *m, float *v, float *res);
 };
 
