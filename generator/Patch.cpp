@@ -7,10 +7,6 @@ Patch::Patch(vector<Point*> p){
 	controlPoints = p;
 }
 
-vector<Point*> Patch::getControlPoints(){
-  return controlPoints;
-}
-
 void Patch::multMatrixVector(float *m, float *v, float *res){
     for (int j = 0; j < 4; ++j){
         res[j] = 0;
