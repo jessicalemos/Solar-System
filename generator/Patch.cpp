@@ -15,6 +15,43 @@ void Patch::multMatrixVector(float *m, float *v, float *res){
     }
 }
 
+
+Point* getPoint(float ta, float tb, float coordenadasX[4][4], float coordenadasY[4][4], float coordenadasZ[4][4]){
+	    float x = 0.0f, y = 0.0f, z = 0.0f;
+            float m[4][4] = {{-1.0f,  3.0f, -3.0f,  1.0f},
+                             { 3.0f, -6.0f,  3.0f,  0.0f},
+                             {-3.0f,  3.0f,  0.0f,  0.0f},
+                             { 1.0f,  0.0f,  0.0f,  0.0f}};
+
+            float a[4] = { pow(ta,3), pow(ta,2), ta, 1.0f};
+            float b[4] = { pow(tb,3), pow(tb,2), tb, 1.0f};
+
+	    //multiplicar matriz m por vetor a e b
+            float am[4];
+            multMatrixVector(*m,a,am);
+
+            float bm[4];
+            multMatrixVector(*m,b,bm);
+
+	    //multiplicar resultado obtido anteriormente por cada componente X,Y,Z de cada ponto controlo
+            float amCoordenadaX[4], amCoordenadaY[4], amCoordenadaZ[4];
+            multMatrixVector(*coordenadasX,am,amCoordenadaX);
+            multMatrixVector(*coordenadasY,am,amCoordenadaY);
+            multMatrixVector(*coordenadasZ,am,amCoordenadaZ);
+
+            //
+            for (int i = 0; i < 4; i++)
+            {
+                x += amCoordenadaX[i] * bm[i];
+                y += amCoordenadaY[i] * bm[i];
+                z += amCoordenadaZ[i] * bm[i];
+            }
+
+            Point *p = new Point(x,y,z);
+            return p;
+        }
+
+
 vector<Point> getPatchPoints(int patch){
     vector<Point> points;
     vector<int> indexesControlPoints = patchs.at(patch);

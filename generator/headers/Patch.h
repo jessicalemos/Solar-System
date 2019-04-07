@@ -17,6 +17,7 @@ public:
 	Patch(vector<Point*> p);
 	void multMatrixVector(float *m, float *v, float *res);
 	vector<Point> getPatchPoints(int patch);
+        Point* getPoint(float tu, float tv, float coordenadasX[4][4], float coordenadasY[4][4], float coordenadasZ[4][4]);
 };
 
 #endif

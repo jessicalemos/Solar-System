@@ -1,4 +1,6 @@
 #include "headers/Transformation.h"
+//Numero de pontos para se definir a curva
+#define SIZE 500
 
 Transformation::Transformation(){}
 
@@ -28,6 +30,10 @@ float Transformation::getY(){
 
 float Transformation::getZ(){
     return z;
+}
+
+float** Transformation::getPontosCurva(){
+       	return PontosCurva;
 }
 
 //normalizar vetor
@@ -99,3 +105,25 @@ void Transformation::getGlobalCatmullRomPoint(float gt, float *p, float *deriv) 
 
     getCatmullRomPoint(t, indexes, p, deriv);
 }
+
+void Transformation::setCatmullPoints(){
+            float ponto[4];
+            float deriv[4];
+	    float aux = i/(SIZE * 1.0f);
+
+            PontosCurva = (float **) malloc(SIZE * sizeof(float *));
+            for(int i = 0; i < SIZE; i++)
+                PontosCurva[i] = (float *) malloc (3 * sizeof(float));
+
+            for(int i = 0; i<SIZE; i++)
+            {
+                getGlobalCatmullRomPoint(aux, ponto, deriv);
+
+		//pontos para definir a órbita
+                PontosCurva[i][0] = ponto[0];
+                PontosCurva[i][1] = ponto[1];
+                PontosCurva[i][2] = ponto[2];
+            }
+        }
+};
+

@@ -12,6 +12,7 @@ class Transformation
         vector<Point> controlPoints;
         string type;
         float angle;
+        float **PontosCurva;
         float x;
         float y;
         float z;
@@ -26,6 +27,7 @@ class Transformation
         float getZ();
         void getCatmullRomPoint(float t, int *indexes, float *p, float *deriv);
         void getGlobalCatmullRomPoint(float gt, float *p, float *deriv);
+        void Transformation::setCatmullPoints();
 };
 
 #endif
