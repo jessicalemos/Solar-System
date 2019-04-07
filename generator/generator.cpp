@@ -1,5 +1,7 @@
 #include "headers/generator.h"
 #include "headers/figures.h"
+#include "headers/Patch.h"
+#include "headers/Point.h"
 
 #include <iostream>
 #include <fstream>
@@ -97,6 +99,20 @@ int main (int argc, char **argv)
             file = argv[6];
             points = torus(radiusIn,radiusOut, slices, layers);
     }
+
+     else if (strcmp("-patch",argv[1]) == 0 && argc==5){
+            // generator -patch teapot.patch tess teapot.3d
+            string filename = argv[2];
+            int tess = atoi(argv[3]);
+            string outputFile = argv[4];
+
+            Patch *p = new Patch(tess,filename);
+
+            vector<Point> points = p->geradorModeloBezier();
+            writePointsFile(outputFile,points);
+
+
+        }
 
     else{
         printf("Invalid input!\n");

@@ -14,7 +14,82 @@ void Patch::multMatrixVector(float *m, float *v, float *res){
         res[j] += v[k] * m[j * 4 + k];
     }
 }
+Patch::Patch(int tess, String filename){
+            tessellation = tess;
+            parserPatchFile(filename);
+        }
+vector<Point> geradorModeloBezier(){
+            vector<Point> result;
 
+            for(int i=0; i < nPatchs; i++)
+            {
+                vector<Point> aux = getPatchPoints(i);
+                result.insert(result.end(),aux.begin(),aux.end());
+            }
+            return result;
+       }
+
+};
+
+void Patch::parserPatchFile(string filename){
+            string line, x,y,z;
+            ifstream file(filename);
+
+            if (file.is_open())
+            {
+                getline(file,line);
+                nPatchs = stoi(line);
+                //parsing dos indexes
+                for(int i = 0; i < nPatchs; i++)
+                {
+                    vector<int> patchIndex;
+
+                    if(getline(file,line))
+                    {
+                        string str = strdup(line.c_str());
+                        string token = strtok(str, " ,");
+
+                        while (token != NULL)
+                        {
+                            indexes.push_back(atoi(token));
+                            token = strtok(NULL, " ,");
+                        }
+
+                        patchs[i] = patchIndex;
+                        free(str);
+                    }
+                    else
+                        cout << "Cannot get all patchIndex!" << endl;
+                }
+
+                getline(file,line);
+                nPoints = stoi(line);
+                //parsing das coordenadas dos pontos
+                for(int i = 0; i < nPoints; i++)
+                {
+                    if(getline(file,line))
+                    {
+                        string str = strdup(line.c_str());
+                        string token = strtok(str, " ,");
+
+                        float x = atof(token);
+                        token = strtok(NULL, " ,");
+                        float y = atof(token);
+                        token = strtok(NULL, " ,");
+                        float z = atof(token);
+                        Point *p = new Point(x,y,z);
+                        controlPoints.push_back(*p);
+
+                        free(str);
+                    }
+                    else
+                        cout << "Cannot get all patchIndex!" << endl;
+                }
+                file.close();
+            }
+            else
+                cout << "Unable to open file: " << inputFile << "." << endl;
+}
 
 Point* getPoint(float ta, float tb, float coordenadasX[4][4], float coordenadasY[4][4], float coordenadasZ[4][4]){
 	    float x = 0.0f, y = 0.0f, z = 0.0f;
