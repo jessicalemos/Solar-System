@@ -11,7 +11,13 @@ Transformation::Transformation(string typeT, float a, float xx, float yy, float 
     y = yy;
     z = zz;
 }
-
+Transformation(float ti, vector<Point> cP, bool de, string t){
+	time = ti;
+	controlPoints = cP;
+	setCatmullPoints();
+	Deriv = de;
+	t=type;
+}
 string Transformation::getType(){
     return type;
 }

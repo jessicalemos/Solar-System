@@ -11,7 +11,9 @@ class Transformation
     private:
         vector<Point> controlPoints;
         string type;
+	bool Deriv;
         float angle;
+	float time;
         float **PontosCurva;
         float x;
         float y;
@@ -20,6 +22,7 @@ class Transformation
     public:
         Transformation();
         Transformation(string typeT, float a, float xx, float yy, float zz);
+        Transformation(float ti, vector<Point> cP, bool de, string t);
         string getType();
         float getAngle();
         float getX();

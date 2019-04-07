@@ -68,7 +68,14 @@ void parseRotate (Group* group, XMLElement* element) {
     string type = "rotation";
     Transformation *t;
 
-    if(element->Attribute("angle"))
+     if(element->Attribute("time"))
+    {
+        float time = stof(element->Attribute("time"));
+        angle = 360 / (time * 1000);
+        type = "rotation";
+    }
+
+    else if(element->Attribute("angle"))
         angle = stof(element->Attribute("angle"));
 
     if(element->Attribute("X"))
@@ -84,11 +91,37 @@ void parseRotate (Group* group, XMLElement* element) {
     group->addTransformation(t);
 }
 
-void parseTranslate (Group *group, XMLElement *element, vector<Point*> *orbits, int d)
-{
-    float x=0, y=0, z=0;
-    string type = "translation";
+void parseTranslate (Group *group, XMLElement *element) {
+
+    float x=0, y=0, z=0, time = 0;
+    vector<Point> cPoints;
     Transformation *t;
+
+    if (pElement->Attribute("time"))
+    {
+        bool deriv = false;
+        if (element->Attribute("deriv"))
+            deriv = (stoi(element->Attribute("deriv"))== 1) ? true : false;
+        time = stof(element->Attribute("time"));
+        time = 1 / (time * 1000);
+        element = element->FirstChildElement("point");
+
+        while (element != nullptr)
+        {
+            x = stof(element->Attribute("X"));
+            y = stof(element->Attribute("Y"));
+            z = stof(element->Attribute("Z"));
+
+            Point *p = new Point(x,y,z);
+            cPoints.push_back(*p);
+
+            element = element->NextSiblingElement("point");
+        }
+
+        t = new Transformation(time,cPoints,deriv,"translate");
+        group->addTransformation(t);
+    }
+    else{   
 
     if(element->Attribute("X"))
         x = stof(element->Attribute("X"));
@@ -102,11 +135,7 @@ void parseTranslate (Group *group, XMLElement *element, vector<Point*> *orbits, 
     t = new Transformation(type,0,x,y,z);
     group->addTransformation(t);
 
-    if (d == 0 || d == 1)
-    {
-        Point *p = new Point(x,y,z);
-        orbits->push_back(p);
-    }
+  }
 }
 
 void parseScale (Group *group, XMLElement *element){
