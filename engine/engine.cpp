@@ -35,7 +35,7 @@ void drawOrbits()
     vector<Point> curvePoints = t->getCurvePoints();
     glColor3f(1.0f, 1.0f, 0.94f);
     glBegin(GL_POINTS);
-    for(auto const& p : orbits){
+    for(Point *p : curvePoints){
         float x = p->getX();
         float y = p->getY();
         float z = p->getZ();
