@@ -3,7 +3,7 @@
 Patch::Patch(){
 }
 
-Patch::Patch(vector<Point*> p){
+Patch::Patch(vector<Point> p){
 	controlPoints = p;
 }
 
@@ -44,8 +44,8 @@ void Patch::parserPatchFile(string filename){
 
                     if(getline(file,line))
                     {
-                        string str = strdup(line.c_str());
-                        string token = strtok(str, " ,");
+                        char* str = strdup(line.c_str());
+                        char* token = strtok(str, " ,");
 
                         while (token != NULL)
                         {
@@ -67,8 +67,8 @@ void Patch::parserPatchFile(string filename){
                 {
                     if(getline(file,line))
                     {
-                        string str = strdup(line.c_str());
-                        string token = strtok(str, " ,");
+                        char* str = strdup(line.c_str());
+                        char* token = strtok(str, " ,");
 
                         float x = atof(token);
                         token = strtok(NULL, " ,");
@@ -138,7 +138,7 @@ vector<Point> Patch::getPatchPoints(int patch){
     {
         for (int j = 0; j < 4; j++)
         {
-            Point *controlPoint = controlPoints[indexesControlPoints[pos]];
+            Point controlPoint = controlPoints[indexesControlPoints[pos]];
             coordenadasX[i][j] = controlPoint.getX();
             coordenadasY[i][j] = controlPoint.getY();
             coordenadasZ[i][j] = controlPoint.getZ();

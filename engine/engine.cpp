@@ -18,10 +18,10 @@ void applyTransformation(Transformation *t){
             glScaled(x,y,z);
             break;
         case ROTATE:
-            glRotate(angle,x,y,z);
+            glRotatef(angle,x,y,z);
             break;
         case TRANSLATE:
-            glTranslate(x,y,z);
+            glTranslatef(x,y,z);
             break;
 
         default:
