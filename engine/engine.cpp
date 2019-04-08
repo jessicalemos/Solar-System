@@ -7,6 +7,28 @@
 using namespace std;
 using namespace tinyxml2;
 
+void applyTransformation(Transformation *t){
+    string type = t->getType();
+    float x = t->getX();
+    float y = t->getY();
+    float z = t->getZ();
+    float angle = t->getAngle();
+    switch(type) {
+        case SCALE:
+            glScaled(x,y,z);
+            break;
+        case ROTATE:
+            glRotate(angle,x,y,z);
+            break;
+        case TRANSLATE:
+            glTranslate(x,y,z);
+            break;
+
+        default:
+            break;
+    }
+}
+
 void drawSystem(Group *system)
 {
     glPushMatrix();

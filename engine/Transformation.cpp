@@ -42,6 +42,13 @@ float** Transformation::getPontosCurva(){
        	return PontosCurva;
 }
 
+void rotMatrix(float *r, float *x, float *y, float *z){
+    r[0] = x[0]; r[1] = x[1]; r[2] = x[2]; r[3] = 0;
+    r[4] = y[0]; r[5] = y[1]; r[6] = y[2]; r[7] = 0;
+    r[8] = z[0]; r[9] = z[1]; r[10] = z[2]; r[11] = 0;
+    r[12] = 0; r[13] = 0; r[14] = 0; r[15] = 1;
+}
+
 //normalizar vetor
 void normalize(float *a) {
     float n = sqrt(a[0]*a[0] + a[1] * a[1] + a[2] * a[2]);
