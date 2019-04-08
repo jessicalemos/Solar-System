@@ -14,22 +14,20 @@ void Patch::multMatrixVector(float *m, float *v, float *res){
         res[j] += v[k] * m[j * 4 + k];
     }
 }
-Patch::Patch(int tess, String filename){
+Patch::Patch(int tess, string filename){
             tessellation = tess;
             parserPatchFile(filename);
-        }
-vector<Point> geradorModeloBezier(){
+}
+
+vector<Point> Patch::geradorModeloBezier(){
             vector<Point> result;
 
-            for(int i=0; i < nPatchs; i++)
-            {
+            for(int i=0; i < nPatchs; i++){
                 vector<Point> aux = getPatchPoints(i);
                 result.insert(result.end(),aux.begin(),aux.end());
             }
             return result;
        }
-
-};
 
 void Patch::parserPatchFile(string filename){
             string line, x,y,z;
@@ -51,7 +49,7 @@ void Patch::parserPatchFile(string filename){
 
                         while (token != NULL)
                         {
-                            indexes.push_back(atoi(token));
+                            patchIndex.push_back(atoi(token));
                             token = strtok(NULL, " ,");
                         }
 
@@ -88,18 +86,18 @@ void Patch::parserPatchFile(string filename){
                 file.close();
             }
             else
-                cout << "Unable to open file: " << inputFile << "." << endl;
+                cout << "Unable to open file: " << filename << "." << endl;
 }
 
-Point* getPoint(float ta, float tb, float coordenadasX[4][4], float coordenadasY[4][4], float coordenadasZ[4][4]){
+Point* Patch::getPoint(float ta, float tb, float coordenadasX[4][4], float coordenadasY[4][4], float coordenadasZ[4][4]){
 	    float x = 0.0f, y = 0.0f, z = 0.0f;
             float m[4][4] = {{-1.0f,  3.0f, -3.0f,  1.0f},
                              { 3.0f, -6.0f,  3.0f,  0.0f},
                              {-3.0f,  3.0f,  0.0f,  0.0f},
                              { 1.0f,  0.0f,  0.0f,  0.0f}};
 
-            float a[4] = { pow(ta,3), pow(ta,2), ta, 1.0f};
-            float b[4] = { pow(tb,3), pow(tb,2), tb, 1.0f};
+            float a[4] = { ta*ta*ta, ta*ta, ta, 1.0f};
+            float b[4] = { tb*tb*tb, tb*tb, tb, 1.0f};
 
 	    //multiplicar matriz m por vetor a e b
             float am[4];
@@ -127,7 +125,7 @@ Point* getPoint(float ta, float tb, float coordenadasX[4][4], float coordenadasY
         }
 
 
-vector<Point> getPatchPoints(int patch){
+vector<Point> Patch::getPatchPoints(int patch){
     vector<Point> points;
     vector<int> indexesControlPoints = patchs.at(patch);
 
@@ -140,7 +138,7 @@ vector<Point> getPatchPoints(int patch){
     {
         for (int j = 0; j < 4; j++)
         {
-            Point controlPoint = controlPoints[indexesControlPoints[pos]];
+            Point *controlPoint = controlPoints[indexesControlPoints[pos]];
             coordenadasX[i][j] = controlPoint.getX();
             coordenadasY[i][j] = controlPoint.getY();
             coordenadasZ[i][j] = controlPoint.getZ();

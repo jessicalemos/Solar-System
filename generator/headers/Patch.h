@@ -4,8 +4,12 @@
 #include <vector>
 #include <map>
 #include "Point.h"
+#include <cstring>
+#include <iostream>
+#include <fstream>
 
 using namespace std;
+
  class Patch{
                 int nPatchs;
                 int nPoints;
