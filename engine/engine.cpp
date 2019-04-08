@@ -13,19 +13,17 @@ void applyTransformation(Transformation *t){
     float y = t->getY();
     float z = t->getZ();
     float angle = t->getAngle();
-    switch(type) {
-        case SCALE:
-            glScaled(x,y,z);
-            break;
-        case ROTATE:
-            glRotatef(angle,x,y,z);
-            break;
-        case TRANSLATE:
-            glTranslatef(x,y,z);
-            break;
-
-        default:
-            break;
+    if(!strcmp(type,"translation")){
+        glTranslatef(x,y,z);
+    }
+    else if(!strcmp(type,"rotation")){
+        glRotatef(angle,x,y,z);
+    }
+    else if(!strcmp(type,"scale")){
+        glScalef(x,y,z);
+    }
+    else if(!strcmp(type,"colour")){
+        glColor3f(x,y,z);
     }
 }
 

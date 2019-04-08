@@ -11,9 +11,9 @@ class Transformation
     private:
         vector<Point> controlPoints;
         string type;
-	bool Deriv;
+	    bool Deriv;
         float angle;
-	float time;
+	    float time;
         float **PontosCurva;
         float x;
         float y;
@@ -28,6 +28,7 @@ class Transformation
         float getX();
         float getY();
         float getZ();
+        float getTime();
         void getCatmullRomPoint(float t, int *indexes, float *p, float *deriv);
         void getGlobalCatmullRomPoint(float gt, float *p, float *deriv);
         void Transformation::setCatmullPoints();

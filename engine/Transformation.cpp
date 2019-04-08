@@ -11,7 +11,7 @@ Transformation::Transformation(string typeT, float a, float xx, float yy, float 
     y = yy;
     z = zz;
 }
-Transformation(float ti, vector<Point> cP, bool de, string t){
+Transformation::Transformation(float ti, vector<Point> cP, bool de, string t){
 	time = ti;
 	controlPoints = cP;
 	setCatmullPoints();
@@ -36,6 +36,10 @@ float Transformation::getY(){
 
 float Transformation::getZ(){
     return z;
+}
+
+float Transformation::getTime(){
+    return time;
 }
 
 float** Transformation::getPontosCurva(){
