@@ -92,12 +92,12 @@ void parseRotate (Group* group, XMLElement* element) {
 }
 
 void parseTranslate (Group *group, XMLElement *element) {
-
+    string type = "translation";
     float x=0, y=0, z=0, time = 0;
-    vector<Point> cPoints;
+    vector<Point*> cPoints;
     Transformation *t;
 
-    if (pElement->Attribute("time"))
+    if (element->Attribute("time"))
     {
         bool deriv = false;
         if (element->Attribute("deriv"))
@@ -113,12 +113,12 @@ void parseTranslate (Group *group, XMLElement *element) {
             z = stof(element->Attribute("Z"));
 
             Point *p = new Point(x,y,z);
-            cPoints.push_back(*p);
+            cPoints.push_back(p);
 
             element = element->NextSiblingElement("point");
         }
 
-        t = new Transformation(time,cPoints,deriv,"translate");
+        t = new Transformation(time,cPoints,deriv,type);
         group->addTransformation(t);
     }
     else{   
@@ -213,7 +213,7 @@ void parseGroup (Group *group, XMLElement *gElement, vector<Point*> *orbits, int
     while (element)
     {
         if (strcmp(element->Name(),"translate") == 0)
-            parseTranslate(group,element,orbits,d);
+            parseTranslate(group,element);
 
         else if (strcmp(element->Name(),"scale") == 0)
             parseScale(group,element);

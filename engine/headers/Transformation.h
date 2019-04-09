@@ -4,6 +4,7 @@
 #include "Point.h"
 #include <vector>
 
+
 using namespace std;
 
 class Transformation
@@ -11,10 +12,10 @@ class Transformation
     private:
         vector<Point*> controlPoints;
         string type;
-	    bool Deriv;
+	    bool deriv;
         float angle;
 	    float time;
-        vector<Point*> PointsCurve;
+        vector<Point*> pointsCurve;
         float x;
         float y;
         float z;
@@ -22,7 +23,7 @@ class Transformation
     public:
         Transformation();
         Transformation(string typeT, float a, float xx, float yy, float zz);
-        Transformation(float ti, vector<Point> cP, bool de, string t);
+        Transformation(float ti, vector<Point*> cP, bool de, string t);
         string getType();
         float getAngle();
         float getX();
@@ -31,7 +32,7 @@ class Transformation
         float getTime();
         void getCatmullRomPoint(float t, int *indexes, float *p, float *deriv);
         void getGlobalCatmullRomPoint(float gt, float *p, float *deriv);
-        vector<Point*> PointsCurve();
+        vector<Point*> getPointsCurve();
         void renderCatmullRomCurve();
 };
 

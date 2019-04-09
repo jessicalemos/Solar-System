@@ -37,11 +37,9 @@ void drawSystem(Group *system)
     }
 
     glBegin(GL_TRIANGLES);
-    for (Shape *shape : system->getShapes()){
-
-        for (Point *p : shape->getPoints())
-            glVertex3f(p->getX(), p->getY(), p->getZ());
-    }
+    vector<Shape*> shapeList = system->getShapes();
+    for(vector<Shape*>::iterator shape_it = shapeList.begin(); shape_it != shapeList.end(); ++shape_it)
+        (*shape_it)->draw();
     glEnd();
 
     for (Group *g : system->getGroups())
@@ -50,9 +48,9 @@ void drawSystem(Group *system)
     glPopMatrix();
 }
 
-void drawOrbits()
+void drawOrbits(Transformation *t)
 {
-    vector<Point> curvePoints = t->getCurvePoints();
+    vector<Point*> curvePoints = t->getPointsCurve();
     glColor3f(1.0f, 1.0f, 0.94f);
     glBegin(GL_POINTS);
     for(Point *p : curvePoints){
@@ -174,8 +172,6 @@ void renderScene(void)
             0.0f, 1.0f, 0.0f);
     glPolygonMode(GL_FRONT_AND_BACK, line);
     drawSystem(scene);
-    drawOrbits();
-
 
     // End of frame
     glutSwapBuffers();

@@ -1,10 +1,6 @@
 #ifndef ENGINE_ENGINE_H
 #define ENGINE_ENGINE_H
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
-#include <GL/glut.h>
-#endif
+
 
 #include <math.h>
 #include <iostream>

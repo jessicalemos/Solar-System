@@ -1,6 +1,5 @@
 #include "headers/Transformation.h"
-//Numero de pontos para se definir a curva
-#define SIZE 500
+#include <GL/glut.h>
 
 Transformation::Transformation(){}
 
@@ -11,12 +10,12 @@ Transformation::Transformation(string typeT, float a, float xx, float yy, float 
     y = yy;
     z = zz;
 }
-Transformation::Transformation(float ti, vector<Point> cP, bool de, string t){
+
+Transformation::Transformation(float ti, vector<Point*> cP, bool de, string t){
 	time = ti;
 	controlPoints = cP;
-//	setCatmullPoints();
-	Deriv = de;
-	t=type;
+	deriv = de;
+	type = t;
 }
 string Transformation::getType(){
     return type;
@@ -42,9 +41,6 @@ float Transformation::getTime(){
     return time;
 }
 
-float** Transformation::getPontosCurva(){
-       	return PontosCurva;
-}
 
 void rotMatrix(float *r, float *x, float *y, float *z){
     r[0] = x[0]; r[1] = x[1]; r[2] = x[2]; r[3] = 0;
@@ -87,13 +83,13 @@ void Transformation::getCatmullRomPoint(float t, int *indexes, float *p, float *
 
     float px[4],py[4],pz[4];
     for(int i = 0; i < 4 ; i++){
-        px[i] = controlPoints[indexes[i]].getX();
-        py[i] = controlPoints[indexes[i]].getY();
-        pz[i] = controlPoints[indexes[i]].getZ();
+        px[i] = controlPoints[indexes[i]]->getX();
+        py[i] = controlPoints[indexes[i]]->getY();
+        pz[i] = controlPoints[indexes[i]]->getZ();
     }
 
     // Compute A = M * P
-    float a[4];
+    float a[4][4];
     multMatrixVector(*m, px, a[0]);
     multMatrixVector(*m, py, a[1]);
     multMatrixVector(*m, pz, a[2]);
@@ -144,7 +140,7 @@ void Transformation::setCatmullPoints(){
         }
 
 */
-vector<Point*> Transformation::PointsCurve(){
+vector<Point*> Transformation::getPointsCurve(){
 	float ponto[3];
 	float deriv[3];
 
@@ -153,9 +149,9 @@ vector<Point*> Transformation::PointsCurve(){
 		getGlobalCatmullRomPoint(t, ponto, deriv);
 
 		Point* v = new Point(ponto[0],ponto[1], ponto[2]);
-		PointsCurve.push_back(v);
+		pointsCurve.push_back(v);
 	}
-	return PointsCurve;
+	return pointsCurve;
 }
 
 void Transformation::renderCatmullRomCurve() {
@@ -164,12 +160,12 @@ void Transformation::renderCatmullRomCurve() {
 
 	glBegin(GL_LINE_LOOP);
 	for (int i = 0; i < tam; i++) {
-		p[0] = cotrolPoints[i]->getX(); 
+		p[0] = controlPoints[i]->getX();
 		p[1] = controlPoints[i]->getY(); 
 		p[2] = controlPoints[i]->getZ();
 		glVertex3fv(p);
 	}
 	glEnd();
 }
-};
+
 

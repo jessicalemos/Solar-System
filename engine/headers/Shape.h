@@ -20,8 +20,8 @@ class Shape {
 
     public:
         Shape();
-        Shape(vector<float> vertex);
-        void prepareBuffer(vector<float> vertex);
+        Shape(vector<Point*> vertex);
+        void prepareBuffer(vector<Point*>vertex);
         void draw();
 };
 
