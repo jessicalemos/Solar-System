@@ -41,7 +41,9 @@ float Transformation::getTime(){
     return time;
 }
 
-
+vector<Point*> Transformation::getPointsCurve(){
+	return pointsCurve;
+}
 void rotMatrix(float *r, float *x, float *y, float *z){
     r[0] = x[0]; r[1] = x[1]; r[2] = x[2]; r[3] = 0;
     r[4] = y[0]; r[5] = y[1]; r[6] = y[2]; r[7] = 0;
@@ -118,54 +120,38 @@ void Transformation::getGlobalCatmullRomPoint(float gt, float *p, float *deriv) 
 
     getCatmullRomPoint(t, indexes, p, deriv);
 }
-/*
-void Transformation::setCatmullPoints(){
-            float ponto[4];
-            float deriv[4];
-	    float aux = i/(SIZE * 1.0f);
 
-            PontosCurva = (float **) malloc(SIZE * sizeof(float *));
-            for(int i = 0; i < SIZE; i++)
-                PontosCurva[i] = (float *) malloc (3 * sizeof(float));
-
-            for(int i = 0; i<SIZE; i++)
-            {
-                getGlobalCatmullRomPoint(aux, ponto, deriv);
-
-		//pontos para definir a órbita
-                PontosCurva[i][0] = ponto[0];
-                PontosCurva[i][1] = ponto[1];
-                PontosCurva[i][2] = ponto[2];
-            }
-        }
-
-*/
-vector<Point*> Transformation::getPointsCurve(){
-	float ponto[3];
-	float deriv[3];
-
-
-	for (float t = 0; t<1; t += 0.01){
-		getGlobalCatmullRomPoint(t, ponto, deriv);
-
-		Point* v = new Point(ponto[0],ponto[1], ponto[2]);
-		pointsCurve.push_back(v);
-	}
-	return pointsCurve;
-}
-
-void Transformation::renderCatmullRomCurve() {
-	int tam = controlPoints.size();
+void Transformation::renderCatmullRomCurve(vector<Point*> points) {
+	int tam = points.size();
 	float p[3];
 
 	glBegin(GL_LINE_LOOP);
 	for (int i = 0; i < tam; i++) {
-		p[0] = controlPoints[i]->getX();
-		p[1] = controlPoints[i]->getY(); 
-		p[2] = controlPoints[i]->getZ();
+		p[0] = points[i]->getX();
+		p[1] = points[i]->getY(); 
+		p[2] = points[i]->getZ();
 		glVertex3fv(p);
 	}
 	glEnd();
 }
 
+void Transformation::orbitaCatmullRom(float gt){
+    float ponto[3]; 
+    float Y[3] = { 0, 1, 0 }, Z[3], M[16], pos[3], deriv[3];
+    
+    renderCatmullRomCurve(getPointsCurve());
+
+    getGlobalCatmullRomPoint(gt, ponto, deriv);
+    glTranslatef(pos[0], pos[1], pos[2]);
+
+    cross(deriv, Y, Z);
+    cross(Z, deriv, Y);
+
+    normalize(deriv);
+    normalize(Z);
+    normalize(Y);
+
+    rotMatrix(deriv, Y, Z, M);
+    glMultMatrixf(M);
+}
 

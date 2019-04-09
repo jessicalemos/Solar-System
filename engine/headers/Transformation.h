@@ -30,10 +30,11 @@ class Transformation
         float getY();
         float getZ();
         float getTime();
+        vector<Point*> getPointsCurve();
         void getCatmullRomPoint(float t, int *indexes, float *p, float *deriv);
         void getGlobalCatmullRomPoint(float gt, float *p, float *deriv);
-        vector<Point*> getPointsCurve();
-        void renderCatmullRomCurve();
+        void renderCatmullRomCurve(vector<Point*> points);
+	void orbitaCatmullRom(float gt):
 };
 
 #endif
