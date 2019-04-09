@@ -9,12 +9,12 @@ using namespace std;
 class Transformation
 {
     private:
-        vector<Point> controlPoints;
+        vector<Point*> controlPoints;
         string type;
 	    bool Deriv;
         float angle;
 	    float time;
-        float **PontosCurva;
+        vector<Point*> PointsCurve;
         float x;
         float y;
         float z;
@@ -31,7 +31,8 @@ class Transformation
         float getTime();
         void getCatmullRomPoint(float t, int *indexes, float *p, float *deriv);
         void getGlobalCatmullRomPoint(float gt, float *p, float *deriv);
-        void Transformation::setCatmullPoints();
+        vector<Point*> PointsCurve();
+        void renderCatmullRomCurve();
 };
 
 #endif
