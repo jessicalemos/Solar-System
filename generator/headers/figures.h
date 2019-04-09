@@ -2,14 +2,9 @@
 #define FIGURES_FIGURES_H
 
 #include <vector>
+#include "Point.h"
 
 using namespace std;
-
-typedef struct point {
-	float x;
-	float y;
-	float z;
-} Point;
 
 vector<Point> box(float length, float width, float height, int nDivisions);
 Point drawPoints(float radius, float angle, float height);

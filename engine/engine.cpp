@@ -8,7 +8,7 @@ using namespace std;
 using namespace tinyxml2;
 
 void applyTransformation(Transformation *t){
-    string type = t->getType();
+    const char* type = t->getType().c_str();
     float x = t->getX();
     float y = t->getY();
     float z = t->getZ();
@@ -33,7 +33,7 @@ void drawSystem(Group *system)
     const char* type;
     glColor3f(0.5f, 0.5f, 1.0f);
     for (Transformation *t: system->getTransformations()){
-        applyTransformations(t);
+        applyTransformation(t);
     }
 
     glBegin(GL_TRIANGLES);
