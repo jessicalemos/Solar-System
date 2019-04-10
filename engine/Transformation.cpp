@@ -17,6 +17,14 @@ Transformation::Transformation(float ti, vector<Point*> cP, bool de, string t){
 	deriv = de;
 	type = t;
 }
+float* getVector(){
+    return vector;
+}
+
+bool Transformation::getDeriv(){
+    return deriv;
+}
+
 string Transformation::getType(){
     return type;
 }
@@ -120,7 +128,7 @@ void Transformation::getGlobalCatmullRomPoint(float gt, float *p, float *deriv) 
 
     getCatmullRomPoint(t, indexes, p, deriv);
 }
-
+/*
 void Transformation::renderCatmullRomCurve(vector<Point*> points) {
 	int tam = points.size();
 	float p[3];
@@ -154,4 +162,5 @@ void Transformation::orbitaCatmullRom(float gt){
     rotMatrix(deriv, Y, Z, M);
     glMultMatrixf(M);
 }
+ */
 

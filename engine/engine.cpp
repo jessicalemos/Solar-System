@@ -8,7 +8,24 @@
 using namespace std;
 using namespace tinyxml2;
 
+void drawOrbits(Transformation *t)
+{
+    vector<Point*> curvePoints = t->getPointsCurve();
+    glColor3f(1.0f, 1.0f, 0.94f);
+    glBegin(GL_POINTS);
+    for(Point *p : curvePoints){
+        float x = p->getX();
+        float y = p->getY();
+        float z = p->getZ();
+        glVertex3f(x,y,z);
+    }
+    glEnd();
+}
+
 void applyTransformation(Transformation *t){
+    float CTime = glutGet(GLUT_ELAPSED_TIME);
+    eTime += CTime - cTime;
+    cTime = CTime;
     const char* type = t->getType().c_str();
     float x = t->getX();
     float y = t->getY();
@@ -16,32 +33,40 @@ void applyTransformation(Transformation *t){
     float angle = t->getAngle();
     float time = t->getTime();
     if(!strcmp(type,"colour")){
-	glColor3f(x,y,z);
+	    glColor3f(x,y,z);
     }
-    if(!strcmp(type,"translation")){
-        if(!strcmp(type,"rotation")){
-			if(angle != 0){
-			glRotatef(angle,x,y,z);	
-			}
-			else{
-			float ti = glutGet(GLUT_ELAPSED_TIME)/100.f;
-			float g = (ti*360)/ (time*1000);
-			glRotatef(g,x,y,z);	
-			}
-		}
-    	else if(!strcmp(type,"scale")){
-        	glScalef(x,y,z);
-    	}
-    }	
-    else{
-		if(time == 0)
-			glTranslatef(x,y,z);
-		else{
-			float ti = glutGet(GLUT_ELAPSED_TIME) % (int)(time*1000);
-			float g = ti/ (time*1000);
-            t->orbitaCatmullRom(g);
-		}
-	}
+    if(!strcmp(type,"translate")){
+        glTranslatef(x,y,z);
+    }
+    if(!strcmp(type,"rotate")){
+        glRotatef(angle,x,y,z);
+    }
+    if(!strcmp(type,"scale")){
+        glScaled(x,y,z);
+    }
+    if(!strcmp(type,"rotateTime")){
+        float nA = eTime * time;
+        glRotatef(nA,x,y,z);
+    }
+    if(!strcmp(type,"translateTime")){
+        float p[4], deriv[4];
+        float dTime = eTime *time;
+        t->getGlobalCatmullRomPoint(dTime,p,deriv);
+        drawOrbits(t);
+        glTranslatef(p[0],p[1],p[2]);
+        if(t->getDeriv()){
+            float res[4];
+            t->normalize(deriv);
+            t->cross(deriv,t->getVector(),res);
+            t->normalize(res);
+            t->cross(res,deriv,t->getVector());
+            float matrix[16];
+            t->normalize(t->getVector());
+            t->rotMatrix(deriv,t->getVector(),res,mat);
+
+            glMultMatrixf(matrix);
+        }
+    }
 }
 
 void drawSystem(Group *system)
@@ -64,19 +89,6 @@ void drawSystem(Group *system)
     glPopMatrix();
 }
 
-void drawOrbits(Transformation *t)
-{
-    vector<Point*> curvePoints = t->getPointsCurve();
-    glColor3f(1.0f, 1.0f, 0.94f);
-    glBegin(GL_POINTS);
-    for(Point *p : curvePoints){
-        float x = p->getX();
-        float y = p->getY();
-        float z = p->getZ();
-        glVertex3f(x,y,z);
-    }
-    glEnd();
-}
 
 void MenuAjuda() {
 	cout << "#_____________________________ HELP _____________________________#" << endl;

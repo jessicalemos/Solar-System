@@ -72,7 +72,7 @@ void parseRotate (Group* group, XMLElement* element) {
     {
         float time = stof(element->Attribute("time"));
         angle = 360 / (time * 1000);
-        type = "rotation";
+        type = "rotationTime";
     }
 
     else if(element->Attribute("angle"))
@@ -92,7 +92,6 @@ void parseRotate (Group* group, XMLElement* element) {
 }
 
 void parseTranslate (Group *group, XMLElement *element) {
-    string type = "translation";
     float x=0, y=0, z=0, time = 0;
     vector<Point*> cPoints;
     Transformation *t;
@@ -118,7 +117,7 @@ void parseTranslate (Group *group, XMLElement *element) {
             element = element->NextSiblingElement("point");
         }
 
-        t = new Transformation(time,cPoints,deriv,type);
+        t = new Transformation(time,cPoints,deriv,"translateTime");
         group->addTransformation(t);
     }
     else{   
@@ -132,7 +131,7 @@ void parseTranslate (Group *group, XMLElement *element) {
     if(element->Attribute("Z"))
         z = stof(element->Attribute("Z"));
 
-    t = new Transformation(type,0,x,y,z);
+    t = new Transformation("translate",0,x,y,z);
     group->addTransformation(t);
 
   }

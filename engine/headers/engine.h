@@ -17,6 +17,7 @@ int line = GL_LINE;
 Group *scene;
 Camera *camera;
 vector<Point*> orbits;
+floar eTime = 0.0f; float cTime = 0.0f;
 
 void specialKey(int key, int a, int b);
 void renderScene(void);
