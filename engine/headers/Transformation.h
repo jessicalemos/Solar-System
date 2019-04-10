@@ -34,7 +34,7 @@ class Transformation
         void getCatmullRomPoint(float t, int *indexes, float *p, float *deriv);
         void getGlobalCatmullRomPoint(float gt, float *p, float *deriv);
         void renderCatmullRomCurve(vector<Point*> points);
-	void orbitaCatmullRom(float gt):
+	    void orbitaCatmullRom(float gt);
 };
 
 #endif

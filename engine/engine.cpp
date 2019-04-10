@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "headers/tinyxml2.h"
+#include "headers/Transformation.h"
 #include "headers/engine.h"
 #include "headers/Point.h"
 #include "headers/parser.h"
@@ -13,24 +14,39 @@ void applyTransformation(Transformation *t){
     float y = t->getY();
     float z = t->getZ();
     float angle = t->getAngle();
+    float time = t->getTime();
+    if(!strcmp(type,"colour")){
+	glColor3f(x,y,z);
+    }
     if(!strcmp(type,"translation")){
-        glTranslatef(x,y,z);
-    }
-    else if(!strcmp(type,"rotation")){
-        glRotatef(angle,x,y,z);
-    }
-    else if(!strcmp(type,"scale")){
-        glScalef(x,y,z);
-    }
-    else if(!strcmp(type,"colour")){
-        glColor3f(x,y,z);
-    }
+        if(!strcmp(type,"rotation")){
+			if(angle != 0){
+			glRotatef(angle,x,y,z);	
+			}
+			else{
+			float ti = glutGet(GLUT_ELAPSED_TIME)/100.f;
+			float g = (ti*360)/ (time*1000);
+			glRotatef(g,x,y,z);	
+			}
+		}
+    	else if(!strcmp(type,"scale")){
+        	glScalef(x,y,z);
+    	}
+    }	
+    else{
+		if(time == 0)
+			glTranslatef(x,y,z);
+		else{
+			float ti = glutGet(GLUT_ELAPSED_TIME) % (int)(time*1000);
+			float g = ti/ (time*1000);
+            t->orbitaCatmullRom(g);
+		}
+	}
 }
 
 void drawSystem(Group *system)
 {
     glPushMatrix();
-    const char* type;
     glColor3f(0.5f, 0.5f, 1.0f);
     for (Transformation *t: system->getTransformations()){
         applyTransformation(t);
