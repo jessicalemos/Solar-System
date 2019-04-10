@@ -17,8 +17,8 @@ Transformation::Transformation(float ti, vector<Point*> cP, bool de, string t){
 	deriv = de;
 	type = t;
 }
-float* getVector(){
-    return vector;
+float* Transformation::getVetor(){
+    return vetor;
 }
 
 bool Transformation::getDeriv(){
@@ -52,7 +52,7 @@ float Transformation::getTime(){
 vector<Point*> Transformation::getPointsCurve(){
 	return pointsCurve;
 }
-void rotMatrix(float *r, float *x, float *y, float *z){
+void Transformation::rotMatrix(float *r, float *x, float *y, float *z){
     r[0] = x[0]; r[1] = x[1]; r[2] = x[2]; r[3] = 0;
     r[4] = y[0]; r[5] = y[1]; r[6] = y[2]; r[7] = 0;
     r[8] = z[0]; r[9] = z[1]; r[10] = z[2]; r[11] = 0;
@@ -60,21 +60,21 @@ void rotMatrix(float *r, float *x, float *y, float *z){
 }
 
 //normalizar vetor
-void normalize(float *a) {
+void Transformation::normalize(float *a) {
     float n = sqrt(a[0]*a[0] + a[1] * a[1] + a[2] * a[2]);
     a[0] = a[0]/n;
     a[1] = a[1]/n;
     a[2] = a[2]/n;
 }
 
-void cross(float *a, float *b, float *res)
+void Transformation::cross(float *a, float *b, float *res)
 {
     res[0] = a[1]*b[2] - a[2]*b[1];
     res[1] = a[2]*b[0] - a[0]*b[2];
     res[2] = a[0]*b[1] - a[1]*b[0];
 }
 
-void multMatrixVector(float *m, float *v, float *res) {
+void Transformation::multMatrixVector(float *m, float *v, float *res) {
     for (int j = 0; j < 4; ++j) {
         res[j] = 0;
         for (int k = 0; k < 4; ++k) {

@@ -57,12 +57,12 @@ void applyTransformation(Transformation *t){
         if(t->getDeriv()){
             float res[4];
             t->normalize(deriv);
-            t->cross(deriv,t->getVector(),res);
+            t->cross(deriv,t->getVetor(),res);
             t->normalize(res);
-            t->cross(res,deriv,t->getVector());
+            t->cross(res,deriv,t->getVetor());
             float matrix[16];
-            t->normalize(t->getVector());
-            t->rotMatrix(deriv,t->getVector(),res,mat);
+            t->normalize(t->getVetor());
+            t->rotMatrix(deriv,t->getVetor(),res,matrix);
 
             glMultMatrixf(matrix);
         }

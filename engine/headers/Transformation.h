@@ -19,7 +19,7 @@ class Transformation
         float x;
         float y;
         float z;
-        float vector={1,0,0};
+        float vetor[4]={1,0,0};
 
     public:
         Transformation();
@@ -31,7 +31,12 @@ class Transformation
         float getY();
         float getZ();
         float getTime();
-        float* getVector();
+        float* getVetor();
+        void normalize(float *a);
+        void cross(float *a, float *b, float *res);
+        void rotMatrix(float *r, float *x, float *y, float *z);
+        void multMatrixVector(float *m, float *v, float *res);
+        bool getDeriv();
         vector<Point*> getPointsCurve();
         void getCatmullRomPoint(float t, int *indexes, float *p, float *deriv);
         void getGlobalCatmullRomPoint(float gt, float *p, float *deriv);
