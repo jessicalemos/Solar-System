@@ -145,7 +145,8 @@ void Transformation::renderCatmullRomCurve(vector<Point*> points) {
 
 void Transformation::orbitaCatmullRom(float gt){
     float ponto[3]; 
-    float Y[3] = { 0, 1, 0 }, Z[3], M[16], pos[3], deriv[3];
+    float pos[3]={1,1,1};
+    float Y[3] = { 0, 1, 0 }, Z[3], M[16], deriv[3];
     
     renderCatmullRomCurve(getPointsCurve());
 
