@@ -31,7 +31,8 @@ vector<Point> Patch::geradorModeloBezier(){
 
 void Patch::parserPatchFile(string filename){
             string line, x,y,z;
-            ifstream file(filename);
+            string fileDir = "../../files/" + filename;
+            ifstream file(fileDir);
 
             if (file.is_open())
             {
@@ -146,7 +147,6 @@ vector<Point> Patch::getPatchPoints(int patch){
         }
     }
 
-
     for(int i = 0; i < tessellation; i++)
     {
         for (int j = 0; j < tessellation; j++)
@@ -157,7 +157,7 @@ vector<Point> Patch::getPatchPoints(int patch){
             vv = (j+1)*t;
             Point *p0,*p1,*p2,*p3;
             p0 = getPoint(u, v, coordenadasX, coordenadasY, coordenadasZ);
-	    p1 = getPoint(u, vv, coordenadasX, coordenadasY, coordenadasZ);
+	        p1 = getPoint(u, vv, coordenadasX, coordenadasY, coordenadasZ);
             p2 = getPoint(uu, v, coordenadasX, coordenadasY, coordenadasZ);
             p3 = getPoint(uu, vv, coordenadasX, coordenadasY, coordenadasZ);
 

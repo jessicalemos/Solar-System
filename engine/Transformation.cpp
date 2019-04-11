@@ -14,6 +14,7 @@ Transformation::Transformation(string typeT, float a, float xx, float yy, float 
 Transformation::Transformation(float ti, vector<Point*> cP, bool de, string t){
 	time = ti;
 	controlPoints = cP;
+    setCatmullPoints();
 	deriv = de;
 	type = t;
 }
@@ -128,6 +129,19 @@ void Transformation::getGlobalCatmullRomPoint(float gt, float *p, float *deriv) 
 
     getCatmullRomPoint(t, indexes, p, deriv);
 }
+
+void Transformation::setCatmullPoints(){
+    float ponto[4];
+    float deriv[4];
+
+    for(float i = 0; i < 1; i+=0.01)
+    {
+        getGlobalCatmullRomPoint(i, ponto, deriv);
+        Point *p = new Point(ponto[0], ponto[1], ponto[2]);
+        pointsCurve.push_back(p);
+    }
+}
+
 /*
 void Transformation::renderCatmullRomCurve(vector<Point*> points) {
 	int tam = points.size();

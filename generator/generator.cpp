@@ -10,14 +10,11 @@
 #include <string.h>
 
 using namespace std;
-vector<Point> points;
-
-
 
 void writePointsFile(string filename, vector<Point> points) {
 	ofstream file;
 
-    	string fileDir = "../../files/" + filename;
+	string fileDir = "../../files/" + filename;
 	file.open(fileDir, ios_base::trunc);
 
 	if (!file.is_open()) {

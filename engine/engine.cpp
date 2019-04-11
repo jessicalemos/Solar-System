@@ -72,16 +72,13 @@ void applyTransformation(Transformation *t){
 void drawSystem(Group *system)
 {
     glPushMatrix();
-    glColor3f(0.5f, 0.5f, 1.0f);
     for (Transformation *t: system->getTransformations()){
         applyTransformation(t);
     }
 
-    glBegin(GL_TRIANGLES);
     vector<Shape*> shapeList = system->getShapes();
     for(vector<Shape*>::iterator shape_it = shapeList.begin(); shape_it != shapeList.end(); ++shape_it)
         (*shape_it)->draw();
-    glEnd();
 
     for (Group *g : system->getGroups())
         drawSystem(g);
@@ -254,7 +251,7 @@ int main(int argc, char **argv)
         MenuAjuda();
         return 0;
     }
-    scene = loadXMLfile(argv[1], &orbits);
+    scene = loadXMLfile(argv[1]);
     camera = new Camera();
     if(scene == nullptr) return 0;
     // put GLUT init here

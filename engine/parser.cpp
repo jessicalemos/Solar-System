@@ -38,7 +38,7 @@ int readPointsFile(string filename, vector<Point*> *points) {
 	return 0;
 }
 
-Group* loadXMLfile(string filename, vector<Point*> *points) {
+Group* loadXMLfile(string filename) {
     Group* group = nullptr;
     XMLDocument xmlDoc;
     XMLNode *pRoot;
@@ -53,7 +53,7 @@ Group* loadXMLfile(string filename, vector<Point*> *points) {
         {
             group = new Group();
             pElement = pRoot->FirstChildElement("group");
-            parseGroup(group,pElement,points,0);
+            parseGroup(group,pElement);
         }
     }
     else
@@ -205,7 +205,7 @@ void parseModels (Group *group, XMLElement *element) {
         group->setShapes(shapes);
 }
 
-void parseGroup (Group *group, XMLElement *gElement, vector<Point*> *orbits, int d)
+void parseGroup (Group *group, XMLElement *gElement)
 {
     XMLElement *element = gElement->FirstChildElement();
 
@@ -230,7 +230,7 @@ void parseGroup (Group *group, XMLElement *gElement, vector<Point*> *orbits, int
         {
             Group *child = new Group();
             group->addGroup(child);
-            parseGroup(child,element,orbits,d+1);
+            parseGroup(child,element);
         }
 
         element = element->NextSiblingElement();

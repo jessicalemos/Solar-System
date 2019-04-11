@@ -3,7 +3,7 @@
 Shape::Shape(){}
 
 Shape::Shape(vector<Point*> vertex){
-    numVertex = vertex.size() / 3;
+    numVertex = vertex.size();
     prepareBuffer(vertex);
 }
 
@@ -27,6 +27,6 @@ void Shape::prepareBuffer(vector<Point*> vertex){
 void Shape::draw(){
     glBindBuffer(GL_ARRAY_BUFFER, bufferVertex[0]);
     glVertexPointer(3, GL_FLOAT, 0, 0);
-    glDrawArrays(GL_TRIANGLES, 0, numVertex);
-    glDeleteBuffers(1, &bufferVertex[0]);
+    glDrawArrays(GL_TRIANGLES, 0, numVertex * 3);
+ //   glDeleteBuffers(1, bufferVertex);
 }

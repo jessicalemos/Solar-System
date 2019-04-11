@@ -16,7 +16,7 @@
 using namespace std;
 using namespace tinyxml2;
 
-Group* loadXMLfile(string filename, vector<Point*> *points);
-void parseGroup (Group *group, XMLElement *gElement, vector<Point*> *orbits, int d);
+Group* loadXMLfile(string filename);
+void parseGroup (Group *group, XMLElement *gElement);
 
 #endif
