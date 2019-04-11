@@ -238,6 +238,14 @@ int main(int argc, char **argv)
     glutInitWindowSize(800,800);
     glutCreateWindow("SOLAR_SYSTEM");
 
+    #ifndef __APPLE__
+    if (glewInit() != GLEW_OK)
+    {
+        cout << "Some problem with GLEW!" << endl;
+        return -1;
+    }
+    #endif
+
     if (argc < 2) {
         cout << "Invalid input. Use -h if you need some help." << endl;
         return 0;
@@ -265,6 +273,7 @@ int main(int argc, char **argv)
     // OpenGL settings
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
+    glEnableClientState(GL_VERTEX_ARRAY);
 
     // enter GLUT's main loop
     glutMainLoop();

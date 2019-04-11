@@ -16,7 +16,7 @@ using namespace std;
 class Shape {
     private:
         int numVertex;
-        GLuint bufferVertex;
+        GLuint bufferVertex[1];
 
     public:
         Shape();
