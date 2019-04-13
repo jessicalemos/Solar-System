@@ -140,13 +140,11 @@ void processMenu(int option)
 
 void showMenu()
 {
-    int planet = glutCreateMenu(processMenu);
     glutAddMenuEntry("Sun",1);
     int moves = glutCreateMenu(processMenu);
     glutAddMenuEntry("On",2);
     glutAddMenuEntry("Off",3);
     glutCreateMenu(processMenu);
-    glutAddSubMenu("Planet ",planet);
     glutAddSubMenu("System movements",moves);
     glutAddMenuEntry("Quit", 0);
     glutAttachMenu(GLUT_RIGHT_BUTTON);
@@ -181,6 +179,21 @@ void mouseMotion(int x, int y)
     camera->mouseMotion(x,y);
 }
 
+void fps() {
+    int time;
+    char name[30];
+
+    frame++;
+    time = glutGet(GLUT_ELAPSED_TIME);
+    if (time - timebase > 1000) {
+        float fps = frame * 1000.0/(time - timebase);
+        timebase = time;
+        frame = 0;
+        sprintf(name,"SOLAR SYSTEM  %.2f FPS",fps);
+        glutSetWindowTitle(name);
+    }
+}
+
 void renderScene(void)
 {
 
@@ -194,6 +207,7 @@ void renderScene(void)
             camera->getXLook(), camera->getYLook(), camera->getZLook(),
             0.0f, 1.0f, 0.0f);
     glPolygonMode(GL_FRONT_AND_BACK, line);
+    fps();
     drawSystem(scene);
 
     // End of frame

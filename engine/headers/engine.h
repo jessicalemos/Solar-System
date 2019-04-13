@@ -16,7 +16,8 @@ using namespace std;
 int line = GL_LINE;
 Group *scene;
 Camera *camera;
-float eTime = 0.0f; float cTime = 0.0f;
+float eTime = 0.0f, cTime = 0.0f;
+int frame = 0, timebase = 0;
 int stop;
 
 void specialKey(int key, int a, int b);
