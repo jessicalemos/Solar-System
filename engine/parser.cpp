@@ -72,9 +72,8 @@ void parseRotate (Group* group, XMLElement* element) {
     {
         float time = stof(element->Attribute("time"));
         angle = 360 / (time * 1000);
-        type = "rotationTime";
+        type = "rotateTime";
     }
-
     else if(element->Attribute("angle"))
         angle = stof(element->Attribute("angle"));
 

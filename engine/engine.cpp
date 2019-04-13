@@ -24,7 +24,8 @@ void drawOrbits(Transformation *t)
 
 void applyTransformation(Transformation *t){
     float CTime = glutGet(GLUT_ELAPSED_TIME);
-    eTime += CTime - cTime;
+    if (stop != 1)
+        eTime += CTime - cTime;
     cTime = CTime;
     const char* type = t->getType().c_str();
     float x = t->getX();
@@ -45,7 +46,7 @@ void applyTransformation(Transformation *t){
         glScaled(x,y,z);
     }
     if(!strcmp(type,"rotateTime")){
-        float nA = eTime * time;
+        float nA = eTime * angle;
         glRotatef(nA,x,y,z);
     }
     if(!strcmp(type,"translateTime")){
@@ -62,7 +63,7 @@ void applyTransformation(Transformation *t){
             t->cross(res,deriv,t->getVetor());
             float matrix[16];
             t->normalize(t->getVetor());
-            t->rotMatrix(deriv,t->getVetor(),res,matrix);
+            t->rotMatrix(matrix,deriv,t->getVetor(),res);
 
             glMultMatrixf(matrix);
         }
@@ -127,12 +128,12 @@ void processMenu(int option)
         case 1:
             camera->posInitialCamera();
             break;
-        default:
-        {
-            Point *p = orbits.at(option - 2);
-            camera->changePositionLook(p->getX(),p->getY(),p->getZ());
+        case 2:
+            stop = 0;
             break;
-        }
+        case 3:
+            stop = 1;
+            break;
     }
     glutPostRedisplay();
 }
@@ -141,15 +142,12 @@ void showMenu()
 {
     int planet = glutCreateMenu(processMenu);
     glutAddMenuEntry("Sun",1);
-    for (int op = 0; op < (int)orbits.size(); op++)
-    {
-        char str[10];
-        sprintf(str, "Planet %d", op+1);
-        glutAddMenuEntry(str, op+2);
-    }
-
+    int moves = glutCreateMenu(processMenu);
+    glutAddMenuEntry("On",2);
+    glutAddMenuEntry("Off",3);
     glutCreateMenu(processMenu);
     glutAddSubMenu("Planet ",planet);
+    glutAddSubMenu("System movements",moves);
     glutAddMenuEntry("Quit", 0);
     glutAttachMenu(GLUT_RIGHT_BUTTON);
 }

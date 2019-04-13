@@ -84,7 +84,7 @@
                         <point X="39.726818" Y="0.000000" Z="-16.455387" />
                   </translate>
                   <scale X="0.5" Y="0.5" Z="0.5" />
-                  <rotate time="10" X="0" Y="1" Z="0" />
+                  <rotate time="10" X="0" Y="1" Z="2" />
                   <colour R="0.39" G="0.58" B="0.93" />
                   <models>
                         <model file="sphere.3d" />
@@ -327,6 +327,7 @@
                         <point X="0.000000" Y="0.000000" Z="-250.000000" />
                   </translate>
                   <scale X="0.6" Y="0.6" Z="0.6" />  
+                  <colour R="0.94" G="1.0" B="1.0" />
                   <models>
                         <model file="teapot.3d" />
                   </models>
