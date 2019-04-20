@@ -98,7 +98,6 @@ int main (int argc, char **argv)
     }
 
      else if (strcmp("-patch",argv[1]) == 0 && argc==5){
-            // generator -patch teapot.patch tess teapot.3d
             string filename = argv[2];
             int tess = atoi(argv[3]);
             string outputFile = argv[4];

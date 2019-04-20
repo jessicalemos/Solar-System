@@ -100,14 +100,12 @@ Point* Patch::getPoint(float ta, float tb, float coordenadasX[4][4], float coord
             float a[4] = { ta*ta*ta, ta*ta, ta, 1.0f};
             float b[4] = { tb*tb*tb, tb*tb, tb, 1.0f};
 
-	    //multiplicar matriz m por vetor a e b
             float am[4];
             multMatrixVector(*m,a,am);
 
             float bm[4];
             multMatrixVector(*m,b,bm);
 
-	    //multiplicar resultado obtido anteriormente por cada componente X,Y,Z de cada ponto controlo
             float amCoordenadaX[4], amCoordenadaY[4], amCoordenadaZ[4];
             multMatrixVector(*coordenadasX,am,amCoordenadaX);
             multMatrixVector(*coordenadasY,am,amCoordenadaY);

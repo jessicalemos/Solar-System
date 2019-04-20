@@ -98,8 +98,8 @@ void parseTranslate (Group *group, XMLElement *element) {
     if (element->Attribute("time"))
     {
         bool deriv = false;
-        if (element->Attribute("deriv"))
-            deriv = (stoi(element->Attribute("deriv"))== 1) ? true : false;
+        if (element->Attribute("derivative"))
+            deriv = (stoi(element->Attribute("derivative"))== 1) ? true : false;
         time = stof(element->Attribute("time"));
         time = 1 / (time * 1000);
         element = element->FirstChildElement("point");
