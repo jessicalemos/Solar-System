@@ -21,6 +21,7 @@ using namespace std;
                 Patch();
                 Patch(vector<Point> p);
                 void multMatrixVector(float *m, float *v, float *res);
+                float getTangent(float tu, float tv, float m[4][4] , float p[4][4], int deriv);
                 vector<Point> getPatchPoints(int patch);
                 Point* getPoint(float ta, float tb, float coordenadasX[4][4], float coordenadasY[4][4], float coordenadasZ[4][4]);
                 void parserPatchFile(string filename);

@@ -1,5 +1,4 @@
 #include "headers/generator.h"
-#include "headers/figures.h"
 #include "headers/Patch.h"
 #include "headers/Point.h"
 
@@ -38,12 +37,14 @@ void writePointsFile(string filename, vector<Point> points) {
 
 int main (int argc, char **argv)
 {
-        if (argc < 2)
+    if (argc < 2)
     {
         printf("Not enough arguments!\n");
         return -1;
     }
 
+    vector<Point> normal;
+    vector<float> texture;
     vector<Point> points;
     string file;
 
@@ -54,7 +55,7 @@ int main (int argc, char **argv)
         int slices = atoi(argv[4]);
         int layers = atoi(argv[5]);
         file = argv[6];
-        points = cone(radius,height,slices,layers);
+        points = cone(radius,height,slices,layers,&normal,&texture);
     }
     else if (strcmp("box", argv[1]) == 0 && argc == 7)
     {
@@ -84,7 +85,7 @@ int main (int argc, char **argv)
         int slices = atoi(argv[4]);
         int layers = atoi(argv[5]);
         file = argv[6];
-        points = cylinder(radius,height,slices,layers);
+        points = cylinder(radius,height,slices,layers,&normal,&texture);
     }
      
     else if (strcmp("torus",argv[1]) == 0 && argc == 7){
@@ -116,7 +117,7 @@ int main (int argc, char **argv)
     }
 
     if(points.size())
-        writePointsFile(file,points);
+        writePointsFile(file,points,normal,texture);
     
     return 0;
 }
