@@ -24,8 +24,17 @@ Point drawPoints(float radius, float angle, float height) {
 	return p;
 }
 
+Point drawNormalPoints(float angle, float teta) {
+	Point p;
+	p.x = cos(angle) * sin(teta);
+	p.y = sin(angle);
+	p.z = cos(angle) * cos(teta);
+
+	return p;
+}
+
 // draw cone
-vector<Point> cone(float radius, float height, int slices, int layers){
+vector<Point> cone(float radius, float height, int slices, int layers, vector<Point> *normal, vector<float> *texture){
 	vector<Point> points;
 	Point p0, p1, p2, p3;
 	float teta, alpha, scaleHeigth, heigthNow, 
@@ -49,8 +58,22 @@ vector<Point> cone(float radius, float height, int slices, int layers){
 		points.push_back(p0);
 		points.push_back(p1);
 		points.push_back(p2);
+
+		//normal
+		(*normal).push_back(p3);
+		(*normal).push_back(p3);
+		(*normal).push_back(p3);
+
+		//texture
+		(*texture).push_back(0.25f);
+		(*texture).push_back(0.25f + cos(tetaNext) / 0.4f);
+		(*texture).push_back(0.25f + cos(teta) / 0.4f);
+		(*texture).push_back(0.5f);
+		(*texture).push_back(0.5f + sin(tetaNext) / 0.2f);
+		(*texture).push_back(0.5f + sin(teta) / 0.2f);
 	}
-	
+
+	float angle = atan(radius / height);
 	for (int i = 0; i < layers; i++) {
 
 		heigthNow = i * scaleHeigth;
@@ -58,23 +81,51 @@ vector<Point> cone(float radius, float height, int slices, int layers){
 		radiusNext = radius - (1 + i) * scaleRadius;
 
 		for (int j = 0; j < slices; j++) {
-				teta = j * alpha;
-				tetaNext = (j + 1) * alpha;
+			teta = j * alpha;
+			tetaNext = (j + 1) * alpha;
 
-				p0 = drawPoints(radiusNow, teta, heigthNow);
-				p1 = drawPoints(radiusNow, tetaNext, heigthNow);
-				p2 = drawPoints(radiusNext, tetaNext, heigthNow + scaleHeigth);
-				p3 = drawPoints(radiusNext, teta, heigthNow + scaleHeigth);
+			p0 = drawPoints(radiusNow, teta, heigthNow);
+			p1 = drawPoints(radiusNow, tetaNext, heigthNow);
+			p2 = drawPoints(radiusNext, tetaNext, heigthNow + scaleHeigth);
+			p3 = drawPoints(radiusNext, teta, heigthNow + scaleHeigth);
 
-				//draw first triangle 
-				points.push_back(p0);
-				points.push_back(p1);
-				points.push_back(p2);
+			//draw first triangle
+			points.push_back(p0);
+			points.push_back(p1);
+			points.push_back(p2);
 
-				//draw second triangle
-				points.push_back(p0);
-				points.push_back(p2);
-				points.push_back(p3);
+			//draw second triangle
+			points.push_back(p0);
+			points.push_back(p2);
+			points.push_back(p3);
+
+			//normal
+			p0 = drawNormalPoints(angle,teta);
+			p1 = drawNormalPoints(angle,tetaNext);
+
+			(*normal).push_back(p0);
+			(*normal).push_back(p1);
+			(*normal).push_back(p1);
+			(*normal).push_back(p0);
+			(*normal).push_back(p1);
+			(*normal).push_back(p0);
+
+			//texture
+			float res = (layers - i) / layers;
+			float resNext = (layers - (i+1)) / layers;
+
+			(*texture).push_back(0.75f + 0.25f * cos(teta) * res);
+			(*texture).push_back(0.5f +  0.5f * sin(teta) * res);
+			(*texture).push_back(0.75f + 0.25f * cos(tetaNext) * res);
+			(*texture).push_back( 0.5f +  0.5f * sin(tetaNext) * res);
+			(*texture).push_back(0.75f + 0.25f * cos(tetaNext) * resNext);
+			(*texture).push_back( 0.5f +  0.5f * sin(tetaNext) * resNext);
+			(*texture).push_back(0.75f + 0.25f * cos(teta) * res);
+			(*texture).push_back( 0.5f +  0.5f * sin(teta) * res);
+			(*texture).push_back(0.75f + 0.25f * cos(tetaNext) * resNext);
+			(*texture).push_back( 0.5f +  0.5f * sin(tetaNext) * resNext);
+			(*texture).push_back(0.75f + 0.25f * cos(teta) * resNext);
+			(*texture).push_back( 0.5f +  0.5f * sin(teta) * resNext);
 		}
 	}
 	return points;
@@ -305,7 +356,7 @@ vector<Point> plane(float size)
 }
 
 //draw cylinder
-vector<Point> cylinder(float radius, float height, int slices, int layers){
+vector<Point> cylinder(float radius, float height, int slices, int layers, vector<Point> *normal, vector<float> *texture){
 	vector<Point> points;
 	Point p0, p1, p2, p3;
 	float teta, alpha, scaleHeigth, heigthNow, tetaNext;
@@ -321,12 +372,28 @@ vector<Point> cylinder(float radius, float height, int slices, int layers){
 		p0.x = 0;
 		p0.y = 0;
 		p0.z = 0;
+		p3.x = 0;
+		p3.y = -1;
+		p3.z = 0;
 		p1 = drawPoints(radius, tetaNext, 0);
 		p2 = drawPoints(radius, teta, 0);
 
 		points.push_back(p0);
 		points.push_back(p1);
 		points.push_back(p2);
+
+		//normal
+		(*normal).push_back(p3);
+		(*normal).push_back(p3);
+		(*normal).push_back(p3);
+
+		//texture
+		(*texture).push_back(0.25f);
+		(*texture).push_back(0.25f + cos(tetaNext) / 0.4f);
+		(*texture).push_back(0.25f + cos(teta) / 0.4f);
+		(*texture).push_back(0.5f);
+		(*texture).push_back(0.5f + sin(tetaNext) / 0.2f);
+		(*texture).push_back(0.5f + sin(teta) / 0.2f);
 	}
 
 	for (int i = 0; i < layers; i++) {
@@ -351,6 +418,7 @@ vector<Point> cylinder(float radius, float height, int slices, int layers){
 			points.push_back(p0);
 			points.push_back(p2);
 			points.push_back(p3);
+
 		}
 	}
 	
@@ -362,12 +430,23 @@ vector<Point> cylinder(float radius, float height, int slices, int layers){
         p0.x = 0;
         p0.y = height;
         p0.z = 0;
+		p3.x = 0;
+		p3.y = 1;
+		p3.z = 0;
         p1 = drawPoints(radius, tetaNext, height);
         p2 = drawPoints(radius, teta, height);
 
         points.push_back(p0);
         points.push_back(p2);
         points.push_back(p1);
+
+        //normal
+		(*normal).push_back(p3);
+		(*normal).push_back(p3);
+		(*normal).push_back(p3);
+
+        //texture
+
     }
 	return points;
 }

@@ -123,6 +123,44 @@ Point* Patch::getPoint(float ta, float tb, float coordenadasX[4][4], float coord
             return p;
         }
 
+float Patch::getTangent(float tu, float tv, float m[4][4] , float points[4][4], int deriv) {
+    float point = 0;
+    float aux[4], segAux[4];
+
+    if(deriv){
+        for(int i = 0; i<4; i++){
+            aux[i] = (powf(tu,3.0)*m[0][i]) + (powf(tu,2.0)*m[1][i]) + (tu*m[2][i]) + m[3][i];
+        }
+    } else {
+        for(int i = 0; i<4; i++){
+            aux[i] = (3 * powf(tu,2.0)*m[0][i]) + (2*tu*m[1][i]) + (1*m[2][i]);
+        }
+    }
+
+    //(bu*M)*P
+    for(int i = 0; i<4; i++){
+        segAux[i] = (aux[0]*points[0][i]) + (aux[1]*points[1][i]) + (aux[2]*points[2][i]) + (aux[3]*points[3][i]);
+    }
+
+    //((bu*M)*P)*MT
+    for(int i = 0; i<4; i++){
+        aux[i] = (segAux[0]*m[0][i]) + (segAux[1]*m[1][i]) + (segAux[2]*m[2][i]) + (segAux[3]*m[3][i]);
+    }
+
+    if(deriv) {
+        point = aux[0] * (3 * powf(tv,2.0));
+        point += aux[1] * (2 * tv);
+        point += aux[2];
+    } else {
+        point = aux[0] * powf(tv,3.0);
+        point += aux[1] * powf(tv,2.0);
+        point += aux[2] * tv;
+        point += aux[3];
+    }
+
+    return point;
+}
+
 
 vector<Point> Patch::getPatchPoints(int patch){
     vector<Point> points;
