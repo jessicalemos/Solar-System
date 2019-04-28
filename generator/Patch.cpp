@@ -245,17 +245,17 @@ void Patch::getPatchPoints(int patch, vector<Point>* points, vector<float>* text
             cross(resV,resU,res);
             n3 = new Point(res[0],res[1],res[2]);
 
-            points.push_back(*p0); points.push_back(*p2); points.push_back(*p1);
-            points.push_back(*p1); points.push_back(*p2); points.push_back(*p3);
-            normalList.push_back(*p0); points.push_back(*p2); points.push_back(*p1);
-            normalList.push_back(*p1); points.push_back(*p2); points.push_back(*p3);
+            (*points).push_back(*p0); points.push_back(*p2); points.push_back(*p1);
+            (*points).push_back(*p1); points.push_back(*p2); points.push_back(*p3);
+            (*normalList).push_back(*p0); points.push_back(*p2); points.push_back(*p1);
+            (*normalList).push_back(*p1); points.push_back(*p2); points.push_back(*p3);
 
-            textureList.push_back(1-u); textureList->push_back(1-v);
-            textureList->push_back(1-uu); textureList->push_back(1-v);
-            textureList->push_back(1-u); textureList->push_back(1-vv);
-            textureList->push_back(1-u); textureList->push_back(1-vv);
-            textureList->push_back(1-uu); textureList->push_back(1-v);
-            texttextureList->push_back(1-uu); textureList->push_back(1-vv);
+            (*textureList).push_back(1-u); textureList->push_back(1-v);
+            (*textureList).push_back(1-uu); textureList->push_back(1-v);
+            (*textureList).push_back(1-u); textureList->push_back(1-vv);
+            (*textureList).push_back(1-u); textureList->push_back(1-vv);
+            (*textureList).push_back(1-uu); textureList->push_back(1-v);
+            (*textureList).push_back(1-uu); textureList->push_back(1-vv);
         }
     }
 }
