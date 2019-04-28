@@ -162,12 +162,11 @@ float Patch::getTangent(float tu, float tv, float m[4][4] , float points[4][4], 
 }
 
 
-vector<Point> Patch::getPatchPoints(int patch){
-    vector<Point> points;
+void Patch::getPatchPoints(int patch, vector<Point>* points, vector<float>* textureList, vector<Point>* normalList){
     vector<int> indexesControlPoints = patchs.at(patch);
 
     float coordenadasX[4][4], coordenadasY[4][4], coordenadasZ[4][4];
-    float u,v,uu,vv;
+    float u,v,uu,vv,resU[3],resV[3];
     float t = 1.0f /tessellation;
     int pos = 0;
 
@@ -187,19 +186,77 @@ vector<Point> Patch::getPatchPoints(int patch){
     {
         for (int j = 0; j < tessellation; j++)
         {
+            float *tangenteU, *tangenteV, res[3];
             u = i*t;
             v = j*t;
             uu = (i+1)*t;
             vv = (j+1)*t;
-            Point *p0,*p1,*p2,*p3;
-            p0 = getPoint(u, v, coordenadasX, coordenadasY, coordenadasZ);
-	        p1 = getPoint(u, vv, coordenadasX, coordenadasY, coordenadasZ);
-            p2 = getPoint(uu, v, coordenadasX, coordenadasY, coordenadasZ);
-            p3 = getPoint(uu, vv, coordenadasX, coordenadasY, coordenadasZ);
+            Point *p0,*p1,*p2,*p3,*n0,*n1,*n2,*n3,;
 
-            points.push_back(*p0); points.push_back(*p2); points.push_back(*p1);
-            points.push_back(*p1); points.push_back(*p2); points.push_back(*p3);
+            p0 = getPoint(u, v, coordenadasX, coordenadasY, coordenadasZ);
+            resU[0] = getTangent(u,v,coordenadasX,0);
+            resU[1] = getTangent(u,v,coordenadasY,0);
+            resU[2] = getTangent(u,v,coordenadasZ,0);
+
+            resU[0] = getTangent(u,v,coordenadasX,1);
+            resU[1] = getTangent(u,v,coordenadasY,1);
+            resU[2] = getTangent(u,v,coordenadasZ,1);
+            normalize(resU);
+            normalize(resV);
+            cross(resV,resU,res);
+            n0 = new Point(res[0],res[1],res[2]);
+
+            p1 = getPoint(u, vv, coordenadasX, coordenadasY, coordenadasZ);
+            resU[0] = getTangent(u,vv,coordenadasX,0);
+            resU[1] = getTangent(u,vv,coordenadasY,0);
+            resU[2] = getTangent(u,vv,coordenadasZ,0);
+
+            resU[0] = getTangent(u,vv,coordenadasX,1);
+            resU[1] = getTangent(u,vv,coordenadasY,1);
+            resU[2] = getTangent(u,vv,coordenadasZ,1);
+            normalize(resU);
+            normalize(resV);
+            cross(resV,resU,res);
+            n1 = new Point(res[0],res[1],res[2]);
+
+            p2 = getPoint(uu, v, coordenadasX, coordenadasY, coordenadasZ);
+            resU[0] = getTangent(uu,v,coordenadasX,0);
+            resU[1] = getTangent(uu,v,coordenadasY,0);
+            resU[2] = getTangent(uu,v,coordenadasZ,0);
+
+            resU[0] = getTangent(uu,v,coordenadasX,1);
+            resU[1] = getTangent(uu,v,coordenadasY,1);
+            resU[2] = getTangent(uu,v,coordenadasZ,1);
+            normalize(resU);
+            normalize(resV);
+            cross(resV,resU,res);
+            n2 = new Point(res[0],res[1],res[2]);
+
+            p3 = getPoint(uu, vv, coordenadasX, coordenadasY, coordenadasZ);
+            resU[0] = getTangent(uu,vv,coordenadasX,0);
+            resU[1] = getTangent(uu,vv,coordenadasY,0);
+            resU[2] = getTangent(uu,vv,coordenadasZ,0);
+
+            resU[0] = getTangent(uu,vv,coordenadasX,1);
+            resU[1] = getTangent(uu,vv,coordenadasY,1);
+            resU[2] = getTangent(uu,vv,coordenadasZ,1);
+            normalize(resU);
+            normalize(resV);
+            cross(resV,resU,res);
+            n3 = new Point(res[0],res[1],res[2]);
+
+            (*points).push_back(*p0); (*points).push_back(*p2); (*points).push_back(*p1);
+            (*points).push_back(*p1); (*points).push_back(*p2); (*points).push_back(*p3);
+            (*normalList).push_back(*p0); (*normalList).push_back(*p2); (*normalList).push_back(*p1);
+            (*normalList).push_back(*p1); (*normalList).push_back(*p2); (*normalList).push_back(*p3);
+
+            (*textureList).push_back(1-u); (*textureList).push_back(1-v);
+            (*textureList).push_back(1-uu); (*textureList).push_back(1-v);
+            (*textureList).push_back(1-u); (*textureList).push_back(1-vv);
+            (*textureList).push_back(1-u); (*textureList).push_back(1-vv);
+            (*textureList).push_back(1-uu); (*textureList).push_back(1-v);
+            (*textureList).push_back(1-uu); (*textureList).push_back(1-vv);
+
         }
     }
-    return points;
 }

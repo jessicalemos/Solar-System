@@ -2,40 +2,70 @@
 #include "headers/Point.h"
 
 
-int readPointsFile(string filename, vector<Point*> *points) {
-	string l, t, token;
-	ifstream file(filename);
-	int j, i = 0;
-	vector<float> tokens;
+int readPointsFile(string filename, vector<Point*> *points, vector<Point*> *normalList, vector<float> *textureList){
+    string l, t; int index,j;
+    ifstream file(filename);
+    string token;
+    vector<float>tokens;
 
-	if (!file.is_open()) {
-		cout << "Unable to open file: " << filename << "." << endl;
-		return -1;
-	}
-	else
-	{
-		while (!file.eof())
-		{
-			getline(file, l);
-			stringstream ss(l.c_str());
+    int i;
 
-			if (l.c_str() != NULL)
-			{
-				j = 0;
+    if (!file.is_open()) {
+        cout << "Unable to open file: " << filename << "." << endl; return -1;
+    }
+    else
+    {
+        index = 0;
+        getline(file, l);
+        int numVertex = atoi(l.c_str());
+        for(int i=0; i < numVertex; i++){
+            getline(file,l);
+            stringstream ss(l);
+            j = 0;
 
-				while(j < 3 && getline(ss,token,',')) {
-					tokens.push_back(stof(token));
-					j++;
-				}
+            while(j < 3 && getline(ss,token,',')) {
+                tokens.push_back(stof(token));
+                j++;
+            }
+            Point *p = new Point(tokens[index++],tokens[index++],tokens[index++]);
+            points->push_back(p);
+        }
 
-				Point *p = new Point(tokens[i++], tokens[i++], tokens[i++]);
-				points->push_back(p);
-			}
-		}
-		points->pop_back();
-		file.close();
-	}
-	return 0;
+        index = 0;
+        getline(file, l);
+        int numNormals = atoi(l.c_str());
+        for(int i=0; i < numNormals; i++){
+            getline(file,l);
+            stringstream ss(l);
+            j = 0;
+
+            while(j < 3 && getline(ss,token,',')) {
+                tokens.push_back(stof(token));
+                j++;
+            }
+            Point *p = new Point(tokens[index++],tokens[index++],tokens[index++]);
+            normalList->push_back(p);
+        }
+
+        index = 0;
+        getline(file, l);
+        int numTexture = atoi(l.c_str());
+        for(int i=0; i < numTexture; i++){
+            getline(file,l);
+            stringstream ss(l);
+            j = 0;
+
+            while(j < 2 && getline(ss,token,',')) {
+                tokens.push_back(stof(token));
+                j++;
+            }
+            textureList->push_back(token[index++]);
+            textureList->push_back(token[index++]);
+        }
+
+        file.close();
+    }
+    return 0;
 }
 
 Group* loadXMLfile(string filename) {

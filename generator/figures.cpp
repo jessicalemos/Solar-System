@@ -15,6 +15,16 @@ float quadrants[8][3] = {
 		{-1, -1,  1},
 };
 
+
+float normals[6][3] = {
+		{0,1,0},
+		{0,-1,0},
+		{0,0,1},
+		{0,0,-1},
+		{1,0,0},
+		{-1,0,0}
+};
+
 Point drawPoints(float radius, float angle, float height) {
 	Point p;
 	p.x = radius * sin(angle);
@@ -131,11 +141,9 @@ vector<Point> cone(float radius, float height, int slices, int layers, vector<Po
 	return points;
 }
 
-void divide(float length, float width, float height, int divisions, vector<Point> pointsTriangle,vector<Point> *points) {
+void divide(float length, float width, float height, int divisions, vector<Point> pointsTriangle, vector<Point> *points, vector<float> *textureList, int face, int tipo) {
 	Point p1 = pointsTriangle[0], p2 = pointsTriangle[1], p3 = pointsTriangle[2],
 			newP1, newP2, newP3;
-
-
 
 	float l, h, newl, newh,neww;
 	newl = length / divisions;
@@ -157,23 +165,6 @@ void divide(float length, float width, float height, int divisions, vector<Point
 		p2.x = p3.x = p1.x + l;
 		p2.z = p1.z;
 		p3.z = p2.z + h;
-
-		for (int i = 0; i < divisions; i++)	{
-			newP1 = p1, newP2 = p2, newP3 = p3;
-
-			for (int j = 0; j < divisions; j++) {
-				(*points).push_back(newP1);
-				(*points).push_back(newP2);
-				(*points).push_back(newP3);
-
-				newP1.z += h;
-				newP2.z += h;
-				newP3.z += h;
-			}
-			p1.x += l;
-			p2.x += l;
-			p3.x += l;
-		}
 	}
 	else if (p1.x == p2.x && p2.x == p3.x) {
 		if (p1.z <= p2.z)
@@ -190,24 +181,8 @@ void divide(float length, float width, float height, int divisions, vector<Point
 		p2.z = p3.z = p1.z + l;
 		p2.y = p1.y;
 		p3.y = p1.y + h;
-
-		for (int i = 0; i < divisions; i++)	{
-			newP1 = p1, newP2 = p2, newP3 = p3;
-
-			for (int j = 0; j < divisions; j++) {
-				(*points).push_back(newP1);
-				(*points).push_back(newP2);
-				(*points).push_back(newP3);
-
-				newP1.y += h;
-				newP2.y += h;
-				newP3.y += h;
-			}
-			p1.z += l;
-			p2.z += l;
-			p3.z += l;
-		}
 	}
+
 	else if (p1.z == p2.z && p2.z == p3.z) {
 		if (p1.x < p2.x)
 			l = newl;
@@ -224,18 +199,145 @@ void divide(float length, float width, float height, int divisions, vector<Point
 		p2.y = p1.y;
 		p3.y = p2.y + h;
 
-		for (int i = 0; i < divisions; i++) {
-			newP1 = p1, newP2 = p2, newP3 = p3;
+	}
 
-			for (int j = 0; j < divisions; j++){
-				(*points).push_back(newP1);
-				(*points).push_back(newP2);
-				(*points).push_back(newP3);
+	for (int i = 0; i < divisions; i++)	{
+		newP1 = p1, newP2 = p2, newP3 = p3;
 
+		for (int j = 0; j < divisions; j++) {
+			(*points).push_back(newP1);
+			(*points).push_back(newP2);
+			(*points).push_back(newP3);
+
+			if(face == 2){
 				newP1.y += h;
 				newP2.y += h;
 				newP3.y += h;
+				if (tipo == -1){
+					(*textureList).push_back(0.50f - i     * 0.25f     / divisions);
+					(*textureList).push_back(1.0f  - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f  - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f  - (j+1) * 1.0f/3.0f / divisions);
+				} else {
+					(*textureList).push_back(0.25f     + i     * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f     + (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f     + (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
+				}
 			}
+			else if(face == 3){
+				newP1.y += h;
+				newP2.y += h;
+				newP3.y += h;
+
+				if (tipo == -1){
+					(*textureList).push_back(1.0f      - i     * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(1.0f      - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(1.0f      - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - (j+1) * 1.0f/3.0f / divisions);
+				} else {
+					(*textureList).push_back(0.75f     + i     * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.75f     + (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.75f     + (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
+				}
+			}
+			else if(face == 5){
+				newP1.y += h;
+				newP2.y += h;
+				newP3.y += h;
+				if (tipo == -1){
+					(*textureList).push_back(0.25f     - i     * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f     - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - j     * 0.333f    / divisions);
+					(*textureList).push_back(0.25f     - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - (j+1) * 1.0f/3.0f / divisions);
+				} else {
+					(*textureList).push_back(            i     * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(            (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(            (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
+				}
+			}
+			else if(face == 4){
+				newP1.y += h;
+				newP2.y += h;
+				newP3.y += h;
+				if(tipo == -1){
+					(*textureList).push_back(0.75f     - i     * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.75f     - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.75f     - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - (j+1) * 1.0f/3.0f / divisions);
+				} else {
+					(*textureList).push_back(0.50f     + i     * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f     + (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f     + (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
+				}
+			}
+			else if(face == 0){
+				newP1.z += h;
+				newP2.z += h;
+				newP3.z += h;
+				if(tipo == -1){
+					(*textureList).push_back(0.50f - i     * 0.25f     / divisions);
+					(*textureList).push_back(1.0f  - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f  - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f  - (j+1) * 1.0f/3.0f / divisions);
+				} else {
+					(*textureList).push_back(0.25f     + i     * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f     + (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f     + (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
+				}
+			}
+			else{
+				newP1.z += h;
+				newP2.z += h;
+				newP3.z += h;
+				if(tipo == -1){
+					(*textureList).push_back(0.50f     - i       * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f - j       * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f     - (i + 1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f - j       * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f     - (i + 1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f - (j + 1) * 1.0f/3.0f / divisions);
+				} else {
+					(*textureList).push_back(0.25f + i       * 0.25f     / divisions);
+					(*textureList).push_back(        j       * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f + (i + 1) * 0.25f     / divisions);
+					(*textureList).push_back(        j       * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f + (i + 1) * 0.25f     / divisions);
+					(*textureList).push_back(        (j + 1) * 1.0f/3.0f / divisions);
+				}
+			}
+		}
+
+		if(face == 5 || face == 4){
+			p1.z += l;
+			p2.z += l;
+			p3.z += l;
+		}
+		else {
 			p1.x += l;
 			p2.x += l;
 			p3.x += l;
@@ -245,44 +347,56 @@ void divide(float length, float width, float height, int divisions, vector<Point
 
 //draw box
 vector<Point> box(float length, float width, float height, int divisions) {
-	vector<Point> points;
-	int tam = 36;
+	vector<Point> points, normalList;
+	vector<float> textureList;
+	int tam = 36, face = 0;
 	vector<Point> pointsTriangle(3);
+	Point p;
+	int tipo = -1;
 
 	int faces[36] =
-	{
-		4,7,6,6,5,4,
-		1,0,4,4,5,1,
-		3,2,6,6,7,3,
-		1,2,3,3,0,1,
-		2,1,5,5,6,2,
-		0,3,7,7,4,0,	
-	};
+			{
+					4,7,6,6,5,4,
+					1,0,4,4,5,1,
+					3,2,6,6,7,3,
+					1,2,3,3,0,1,
+					2,1,5,5,6,2,
+					0,3,7,7,4,0,
+			};
 
-	for (int i = 0, j = 0; i < tam; i++)
+	int normal[6] = {1,4,5,0,3,2};
+
+	for (int i = 0,j=0; i < tam; i++)
 	{
-		Point p;
 		int f = faces[i];
 
 		p.x = length / 2 * quadrants[f][0];
 		p.y = height / 2 * quadrants[f][1];
 		p.z = width / 2 * quadrants[f][2];
-
-		if (divisions > 1)
-		{
-			if (j == 3)
-			{
-				divide(length, width, height, divisions, pointsTriangle,&points);
-				j = 0;
-			}
-			pointsTriangle[j++] = p;
-
-			if (i + 1 == tam)
-				divide(length, width, height, divisions, pointsTriangle,&points);
+		if ((i+1)%3){
+			divide(length, width, height, divisions, pointsTriangle,&points,&textureList,face,tipo);
+			j = 0;
+			tipo *= -1;
 		}
+		pointsTriangle[j++] = p;
+		if ((i+1)%6 == 0)
+			face++;
 		else
 			points.push_back(p);
 	}
+
+	int num = (int) points.size() / 6;
+	for (int i = 0; i < 6; i++)
+	{
+		int n = normal[i];
+		p.x = normals[n][0];
+		p.y = normals[n][1];
+		p.z = normals[n][2];
+
+		for (int j = 0; j < num; j++)
+			normalList.push_back(p);
+	}
+    // writePointsFile(fileName,points,normal,textureList);
 	return points;
 }
 
