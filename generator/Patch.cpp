@@ -162,7 +162,7 @@ float Patch::getTangent(float tu, float tv, float m[4][4] , float points[4][4], 
 }
 
 
-void Patch::getPatchPoints(int patch, vector<Point>* points, vector<Point>* textureList, vector<Point>* normalList){
+void Patch::getPatchPoints(int patch, vector<Point>* points, vector<float>* textureList, vector<Point>* normalList){
     vector<int> indexesControlPoints = patchs.at(patch);
 
     float coordenadasX[4][4], coordenadasY[4][4], coordenadasZ[4][4];
@@ -250,7 +250,7 @@ void Patch::getPatchPoints(int patch, vector<Point>* points, vector<Point>* text
             normalList.push_back(*p0); points.push_back(*p2); points.push_back(*p1);
             normalList.push_back(*p1); points.push_back(*p2); points.push_back(*p3);
 
-            textureList->push_back(1-u); textureList->push_back(1-v);
+            textureList.push_back(1-u); textureList->push_back(1-v);
             textureList->push_back(1-uu); textureList->push_back(1-v);
             textureList->push_back(1-u); textureList->push_back(1-vv);
             textureList->push_back(1-u); textureList->push_back(1-vv);

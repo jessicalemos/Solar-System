@@ -214,19 +214,19 @@ void divide(float length, float width, float height, int divisions, vector<Point
 				newP2.y += h;
 				newP3.y += h;
 				if (tipo == -1){
-					textureList->push_back(0.50f - i     * 0.25f     / divisions);
-					textureList->push_back(1.0f  - j     * 1.0f/3.0f / divisions);
-					textureList->push_back(0.50f - (i+1) * 0.25f     / divisions);
-					textureList->push_back(1.0f  - j     * 1.0f/3.0f / divisions);
-					textureList->push_back(0.50f - (i+1) * 0.25f     / divisions);
-					textureList->push_back(1.0f  - (j+1) * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f - i     * 0.25f     / divisions);
+					(*textureList).push_back(1.0f  - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f  - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f  - (j+1) * 1.0f/3.0f / divisions);
 				} else {
-					textureList->push_back(0.25f     + i     * 0.25f     / divisions);
-					textureList->push_back(2.0f/3.0f + j     * 1.0f/3.0f / divisions);
-					textureList->push_back(0.25f     + (i+1) * 0.25f     / divisions);
-					textureList->push_back(2.0f/3.0f + j     * 1.0f/3.0f / divisions);
-					textureList->push_back(0.25f     + (i+1) * 0.25f     / divisions);
-					textureList->push_back(2.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f     + i     * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f     + (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f     + (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
 				}
 			}
 			else if(face == 3){
@@ -235,19 +235,19 @@ void divide(float length, float width, float height, int divisions, vector<Point
 				newP3.y += h;
 
 				if (tipo == -1){
-					textureList->push_back(1.0f      - i     * 0.25f     / divisions);
-					textureList->push_back(2.0f/3.0f - j     * 1.0f/3.0f / divisions);
-					textureList->push_back(1.0f      - (i+1) * 0.25f     / divisions);
-					textureList->push_back(2.0f/3.0f - j     * 1.0f/3.0f / divisions);
-					textureList->push_back(1.0f      - (i+1) * 0.25f     / divisions);
-					textureList->push_back(2.0f/3.0f - (j+1) * 1.0f/3.0f / divisions);
+					(*textureList).push_back(1.0f      - i     * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(1.0f      - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(1.0f      - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - (j+1) * 1.0f/3.0f / divisions);
 				} else {
-					textureList->push_back(0.75f     + i     * 0.25f     / divisions);
-					textureList->push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
-					textureList->push_back(0.75f     + (i+1) * 0.25f     / divisions);
-					textureList->push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
-					textureList->push_back(0.75f     + (i+1) * 0.25f     / divisions);
-					textureList->push_back(1.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.75f     + i     * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.75f     + (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.75f     + (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
 				}
 			}
 			else if(face == 5){
@@ -255,19 +255,19 @@ void divide(float length, float width, float height, int divisions, vector<Point
 				newP2.y += h;
 				newP3.y += h;
 				if (tipo == -1){
-					textureList->push_back(0.25f     - i     * 0.25f     / divisions);
-					textureList->push_back(2.0f/3.0f - j     * 1.0f/3.0f / divisions);
-					textureList->push_back(0.25f     - (i+1) * 0.25f     / divisions);
-					textureList->push_back(2.0f/3.0f - j     * 0.333f    / divisions);
-					textureList->push_back(0.25f     - (i+1) * 0.25f     / divisions);
-					textureList->push_back(2.0f/3.0f - (j+1) * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f     - i     * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f     - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - j     * 0.333f    / divisions);
+					(*textureList).push_back(0.25f     - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - (j+1) * 1.0f/3.0f / divisions);
 				} else {
-					textureList->push_back(            i     * 0.25f     / divisions);
-					textureList->push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
-					textureList->push_back(            (i+1) * 0.25f     / divisions);
-					textureList->push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
-					textureList->push_back(            (i+1) * 0.25f     / divisions);
-					textureList->push_back(1.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
+					(*textureList).push_back(            i     * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(            (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(            (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
 				}
 			}
 			else if(face == 4){
@@ -275,19 +275,19 @@ void divide(float length, float width, float height, int divisions, vector<Point
 				newP2.y += h;
 				newP3.y += h;
 				if(tipo == -1){
-					textureList->push_back(0.75f     - i     * 0.25f     / divisions);
-					textureList->push_back(2.0f/3.0f - j     * 1.0f/3.0f / divisions);
-					textureList->push_back(0.75f     - (i+1) * 0.25f     / divisions);
-					textureList->push_back(2.0f/3.0f - j     * 1.0f/3.0f / divisions);
-					textureList->push_back(0.75f     - (i+1) * 0.25f     / divisions);
-					textureList->push_back(2.0f/3.0f - (j+1) * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.75f     - i     * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.75f     - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.75f     - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f - (j+1) * 1.0f/3.0f / divisions);
 				} else {
-					textureList->push_back(0.50f     + i     * 0.25f     / divisions);
-					textureList->push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
-					textureList->push_back(0.50f     + (i+1) * 0.25f     / divisions);
-					textureList->push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
-					textureList->push_back(0.50f     + (i+1) * 0.25f     / divisions);
-					textureList->push_back(1.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f     + i     * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f     + (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f     + (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
 				}
 			}
 			else if(face == 0){
@@ -295,19 +295,19 @@ void divide(float length, float width, float height, int divisions, vector<Point
 				newP2.z += h;
 				newP3.z += h;
 				if(tipo == -1){
-					textureList->push_back(0.50f - i     * 0.25f     / divisions);
-					textureList->push_back(1.0f  - j     * 1.0f/3.0f / divisions);
-					textureList->push_back(0.50f - (i+1) * 0.25f     / divisions);
-					textureList->push_back(1.0f  - j     * 1.0f/3.0f / divisions);
-					textureList->push_back(0.50f - (i+1) * 0.25f     / divisions);
-					textureList->push_back(1.0f  - (j+1) * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f - i     * 0.25f     / divisions);
+					(*textureList).push_back(1.0f  - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f  - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f  - (j+1) * 1.0f/3.0f / divisions);
 				} else {
-					textureList->push_back(0.25f     + i     * 0.25f     / divisions);
-					textureList->push_back(2.0f/3.0f + j     * 1.0f/3.0f / divisions);
-					textureList->push_back(0.25f     + (i+1) * 0.25f     / divisions);
-					textureList->push_back(2.0f/3.0f + j     * 1.0f/3.0f / divisions);
-					textureList->push_back(0.25f     + (i+1) * 0.25f     / divisions);
-					textureList->push_back(2.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f     + i     * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f     + (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f + j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f     + (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
 				}
 			}
 			else{
@@ -315,19 +315,19 @@ void divide(float length, float width, float height, int divisions, vector<Point
 				newP2.z += h;
 				newP3.z += h;
 				if(tipo == -1){
-					textureList->push_back(0.50f     - i       * 0.25f     / divisions);
-					textureList->push_back(1.0f/3.0f - j       * 1.0f/3.0f / divisions);
-					textureList->push_back(0.50f     - (i + 1) * 0.25f     / divisions);
-					textureList->push_back(1.0f/3.0f - j       * 1.0f/3.0f / divisions);
-					textureList->push_back(0.50f     - (i + 1) * 0.25f     / divisions);
-					textureList->push_back(1.0f/3.0f - (j + 1) * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f     - i       * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f - j       * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f     - (i + 1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f - j       * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.50f     - (i + 1) * 0.25f     / divisions);
+					(*textureList).push_back(1.0f/3.0f - (j + 1) * 1.0f/3.0f / divisions);
 				} else {
-					textureList->push_back(0.25f + i       * 0.25f     / divisions);
-					textureList->push_back(        j       * 1.0f/3.0f / divisions);
-					textureList->push_back(0.25f + (i + 1) * 0.25f     / divisions);
-					textureList->push_back(        j       * 1.0f/3.0f / divisions);
-					textureList->push_back(0.25f + (i + 1) * 0.25f     / divisions);
-					textureList->push_back(        (j + 1) * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f + i       * 0.25f     / divisions);
+					(*textureList).push_back(        j       * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f + (i + 1) * 0.25f     / divisions);
+					(*textureList).push_back(        j       * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f + (i + 1) * 0.25f     / divisions);
+					(*textureList).push_back(        (j + 1) * 1.0f/3.0f / divisions);
 				}
 			}
 		}
