@@ -25,6 +25,14 @@ float normals[6][3] = {
 		{-1,0,0}
 };
 
+float texturePlane[4][2] = {
+    {1,0},
+    {1,1},
+    {0,1},
+    {0,0}
+};
+
+
 Point drawPoints(float radius, float angle, float height) {
 	Point p;
 	p.x = radius * sin(angle);
@@ -450,24 +458,33 @@ vector<Point> sphere(float radius, int slices, int layers)
 }
 
 //draw plane
-vector<Point> plane(float size)
+vector<Point> plane(float size,vector<Point> *normal, vector<float> *texture)
 {
-	Point pt;
-	vector<Point> points;
+        Point pt;
+        vector<Point> points;
 
-	int face[6] = { 0, 1, 3, 3, 1, 2 };
+        int face[6] = { 0, 1, 3, 3, 1, 2 };
 
-	for (int i = 0, j; i < 6; i++)
-	{
-		j = face[i];
-		pt.x = size * quadrants[j][0];
-		pt.y = 0;
-		pt.z = size * quadrants[j][2];
+        for (int i = 0, j; i < 6; i++)
+        {
+                j = face[i];
+                pt.x = size * quadrants[j][0];
+                pt.y = 0;
+                pt.z = size * quadrants[j][2];
+                points.push_back(pt);
 
-		points.push_back(pt);
-	}
-	return points;
+                pt.x = 0;
+                pt.y = 1;
+                pt.z = 0;
+               (*normal).push_back(pt);
+
+               (*texture).push_back(texturePlane[j][0]);
+               (*texture).push_back(texturePlane[j][1]);
+
+        }
+        return points;
 }
+
 
 //draw cylinder
 vector<Point> cylinder(float radius, float height, int slices, int layers, vector<Point> *normal, vector<float> *texture){

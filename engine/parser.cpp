@@ -265,3 +265,59 @@ void parseGroup (Group *group, XMLElement *gElement)
         element = element->NextSiblingElement();
     }
 }
+
+void parseMaterials (XMLElement *element, float *info, vector<int> *material)
+{
+    // DIFFUSE MATERIAL
+    if (element->Attribute("diffR") || element->Attribute("diffG") || element->Attribute("diffB"))
+    {
+        material->push_back(DIFFUSE);
+        if (element->Attribute("diffR"))
+            info[0] = stof(element->Attribute("diffR"));
+        if (element->Attribute("diffG"))
+            info[1] = stof(element->Attribute("diffG"));
+        if (element->Attribute("diffB"))
+            info[2] = stof(element->Attribute("diffB"));
+        info[3] = 1.0f;
+    }
+
+    // AMBIENT MATERIAL
+    if (element->Attribute("ambR") || element->Attribute("ambG") || element->Attribute("ambB"))
+    {
+        material->push_back(AMBIENT);
+        if (element->Attribute("ambR"))
+            info[4] = stof(element->Attribute("ambR"));
+        if (element->Attribute("ambG"))
+            info[5] = stof(element->Attribute("ambG"));
+        if (element->Attribute("ambB"))
+            info[6] = stof(element->Attribute("ambB"));
+        info[7] = 1.0f;
+    }
+
+    // SPECULAR MATERIAL
+    if (element->Attribute("specR") || element->Attribute("specG") || element->Attribute("specB"))
+    {
+        material->push_back(SPECULAR);
+        if (element->Attribute("specR"))
+            info[8] = stof(element->Attribute("specR"));
+        if (element->Attribute("specG"))
+            info[9] = stof(element->Attribute("specG"));
+        if (element->Attribute("specB"))
+            info[10] = stof(element->Attribute("specB"));
+        info[11] = 1.0f;
+    }
+
+    // EMISSION MATERIAL
+    if (element->Attribute("emiR") || element->Attribute("emiG") || element->Attribute("emiB"))
+    {
+        material->push_back(EMISSION);
+        if (element->Attribute("emiR"))
+            info[12] = stof(element->Attribute("emiR"));
+        if (element->Attribute("emiG"))
+            info[13] = stof(element->Attribute("emiG"));
+        if (element->Attribute("emiB"))
+            info[14] = stof(element->Attribute("emiB"));
+       info[15] = 1.0f;
+    }
+}                                                                                                                                                                    314,8         98%
+

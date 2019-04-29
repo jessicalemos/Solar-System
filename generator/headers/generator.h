@@ -7,6 +7,6 @@
 
 using namespace std;
 
-void writePointsFile(string filename, vector<Point> points);
+void writePointsFile(string filename, vector<Point> verts,vector<Point> normals,vector<float>text);
 
 #endif
