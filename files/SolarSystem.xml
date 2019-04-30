@@ -7,7 +7,7 @@
             <group>
                   <scale X="-100" Y="-100" Z="-100" />
                   <models>
-                          <model file="sphere.3d" texture="../../texture/2k_stars.jpg" emiR="0.4" emiG="0.4" emiB="0.4" />
+                          <model file="sphere.3d" texture="../../texture/stars.jpg" emiR="0.4" emiG="0.4" emiB="0.4" />
                   </models>
             </group>
             <!-- SOLAR SYSTEM -->
@@ -16,7 +16,7 @@
                   <scale X="3.6" Y="3.6" Z="3.6" />
                   <colour R="1" G="0.55" B="0.0" />
                   <models>
-                          <model file="sphere.3d" texture="../../texture/2k_sun.jpg" emiR="0.8" emiG="0.8" emiB="0.8" />
+                          <model file="sphere.3d" texture="../../texture/sun.jpg" emiR="0.8" emiG="0.8" emiB="0.8" />
                   </models>
             </group>
             <group>
@@ -43,7 +43,7 @@
                   <rotate time="10" Y="1" />
                   <colour R="0.2" G="0.2" B="0.2" />
                   <models>
-                          <model file="sphere.3d" texture="../../texture/2k_mercury.jpg"/>
+                          <model file="sphere.3d" texture="../../texture/mercury.jpg"/>
                   </models>
             </group>
             <group>
@@ -70,7 +70,7 @@
                   <scale X="0.4" Y="0.4" Z="0.4" />
                   <colour R="0.8" G="0.5" B="0.5" />
                   <models>
-                          <model file="sphere.3d" texture="../../texture/2k_venus_surface.jpg"  />
+                          <model file="sphere.3d" texture="../../texture/venus.jpg"  />
                   </models>
             </group>
             <group>
@@ -97,7 +97,7 @@
                   <rotate time="10" X="0" Y="1" Z="2" />
                   <colour R="0.39" G="0.58" B="0.93" />
                    <models>
-                          <model file="sphere.3d" texture="../../texture/8k_earth_daymap.jpg" diffR="0.9" diffG="0.9" diffB="0.9" />
+                          <model file="sphere.3d" texture="../../texture/earth.jpg" diffR="0.9" diffG="0.9" diffB="0.9" />
                   </models>
                   <group>
                         <!-- Moon -->
@@ -123,7 +123,7 @@
                         <scale X="0.3" Y="0.3" Z="0.3" />
                         <colour R="0.2" G="0.2" B="0.2" />
                         <models>
-                                <model file="sphere.3d" texture="../../texture/2k_moon.jpg" />
+                                <model file="sphere.3d" texture="../../texture/moon.jpg" />
                         </models>
                   </group>
             </group>
@@ -151,7 +151,7 @@
                   <scale X="0.25" Y="0.25" Z="0.25" />
                   <colour R="0.82" G="0.41" B="0.12" />
                   <models>
-                          <model file="sphere.3d" texture="../../texture/2k_mars.jpg"  />
+                          <model file="sphere.3d" texture="../../texture/mars.jpg"  />
                   </models>
             </group>
             <group>
@@ -178,7 +178,7 @@
                   <scale X="0.7" Y="0.7" Z="0.7" />
                   <colour R="0.82" G="0.71" B="0.55" />
                   <models>
-		      <model file="sphere.3d" texture="../../texture/2k_jupiter.jpg" />
+		      <model file="sphere.3d" texture="../../texture/jupiter.jpg" />
                   </models>
                   <group>
                         <!-- Ganimedes -->
@@ -242,7 +242,7 @@
                   <scale X="1.4" Y="1.4" Z="1.4" />
                   <!--  <colour R="0.8" G="0.6" B="0.6" /> -->
                   <models>
-                          <model file="sphere.3d" texture="../../texture/2k_saturn.jpg" />
+                          <model file="sphere.3d" texture="../../texture/saturn.jpg" />
                   </models>
                   <group>
                         <!-- Ring -->
@@ -250,7 +250,7 @@
                         <scale X="2" Z="0" Y="2" />
                         <colour R="0.8" G="0.6" B="0.4" />
                         <models>
-                                <model file="torus.3d" texture="../..texture/2k_saturn_ring_alpha.jpg" emiR="0.2" emiG="0.2" emiB="0.2" />
+                                <model file="torus.3d" texture="../..texture/saturn_ring.jpg" emiR="0.2" emiG="0.2" emiB="0.2" />
                         </models>
                   </group>
                   <group>
@@ -287,7 +287,7 @@
                   <scale X="0.9" Y="0.9" Z="0.9" />
                   <colour R="0.69" G="0.88" B="0.9" />
                   <models>
-                          <model file="sphere.3d" texture="../../texture/2k_uranus.jpg" />
+                          <model file="sphere.3d" texture="../../texture/uranus.jpg" />
                   </models>
                   <group>
                         <!-- Ring -->
@@ -295,7 +295,7 @@
                         <scale X="2" Z="0" Y="2" />
                         <!--  <colour R="0.69" G="0.88" B="0.9" /> -->
                         <models>
-                                <model file="torus.3d" texture="../../texture/Uranus.Rings.jpg" />
+                                <model file="torus.3d" texture="../../texture/uranus_ring.jpg" />
                         </models>
                   </group>
             </group>
@@ -323,7 +323,7 @@
                   <scale X="0.6" Y="0.6" Z="0.6" />
                   <!--  <colour R="0.2" G="0.2" B="1.0" /> -->
                   <models>
-                          <model file="sphere.3d" texture="../../texture/2k_neptune.jpg" />
+                          <model file="sphere.3d" texture="../../texture/neptune.jpg" />
                   </models>
             </group>
             <group>
@@ -339,7 +339,7 @@
                   <scale X="0.6" Y="0.6" Z="0.6" />
                   <!--  <colour R="0.94" G="1.0" B="1.0" /> -->
                   <models>
-                          <model file="teapot.3d" texture="../textures/2k_mercury.jpg" />
+                          <model file="teapot.3d" texture="../textures/mercury.jpg" />
                   </models>
             </group>
       </group>
