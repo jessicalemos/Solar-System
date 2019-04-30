@@ -265,3 +265,49 @@ void parseGroup (Group *group, XMLElement *gElement)
         element = element->NextSiblingElement();
     }
 }
+void parseMaterial(Shape* shape, XMLElement* element) {
+    Point* diffuse = new Point(0.0, 0.0, 0.0);
+    Point* ambient = new Point(0.0, 0.0, 0.0);
+    Point* specular = new Point(0.0, 0.0, 0.0);
+    Point* emission = new Point(0.0, 0.0, 0.0);
+    
+
+    // Diffuse
+    if(element->Attribute("diffR"))
+            diffuse->setX(atof(element->Attribute("diffR")));
+    if(element->Attribute("diffG"))
+            diffuse->setY(atof(element->Attribute("diffG")));
+    if(element->Attribute("diffB"))
+            diffuse->setZ(atof(element->Attribute("diffB")));
+
+    // Ambient
+    if(element->Attribute("ambR"))
+            ambient->setX(atof(element->Attribute("ambR")));
+    if(element->Attribute("ambG"))
+            ambient->setY(atof(element->Attribute("ambG")));
+    if(element->Attribute("ambB"))
+            ambient->setZ(atof(element->Attribute("ambB")));
+
+
+    // Specular
+    if(element->Attribute("specR"))
+        specular->setX(atof(element->Attribute("specR")));
+    if(element->Attribute("specG"))
+        specular->setY(atof(element->Attribute("specG")));
+    if(element->Attribute("specB"))
+        specular->setZ(atof(element->Attribute("specB")));
+
+    // Emission
+    if(element->Attribute("emiR"))
+        emission->setX(atof(element->Attribute("emiR")));
+    if(element->Attribute("emiG"))
+        emission->setY(atof(element->Attribute("emiG")));
+    if(element->Attribute("emiB"))
+        emission->setZ(atof(element->Attribute("emiB")));
+
+   
+    Material* m = new Material(diffuse, ambient, specular, emission);
+    shape->setParseMat(m);
+
+    
+}

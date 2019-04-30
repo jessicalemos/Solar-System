@@ -17,6 +17,10 @@ Shape::Shape(string textureFile, vector<Point*> vertex, vector<Point*> normal, v
     prepareBuffer(vertex,normal,texture);
 }
 
+void Shape::setParseMat(Material* c){
+	m = c;
+}
+
 void Shape::prepareBuffer(vector<Point*> vertex, vector<Point*> normal, vector<Point*> texture){
     int index = 0;
     float* vertexs = new float[vertex.size() * 3];

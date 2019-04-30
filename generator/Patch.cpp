@@ -19,15 +19,12 @@ Patch::Patch(int tess, string filename){
             parserPatchFile(filename);
 }
 
-vector<Point> Patch::geradorModeloBezier(){
-            vector<Point> result;
+void Patch::geradorModeloBezier(vector<Point> *vert, vector<Point> *normal, vector<float> *text)
+        {
+            for(int i=0; i < nPatchs; i++)
+                getPatchPoints(i,vert,text,normal);
+        }
 
-            for(int i=0; i < nPatchs; i++){
-                vector<Point> aux = getPatchPoints(i);
-                result.insert(result.end(),aux.begin(),aux.end());
-            }
-            return result;
-       }
 
 void Patch::parserPatchFile(string filename){
             string line, x,y,z;

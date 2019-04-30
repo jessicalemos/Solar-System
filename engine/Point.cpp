@@ -23,3 +23,15 @@ float Point::getY(){
 float Point::getZ(){
 	return z;
 }
+
+void Point::setX(float px){
+    x = px;
+}
+
+void Point::setY(float py){
+    y=py;
+}
+
+void Point::setZ(float pz){
+    z=pz;
+}

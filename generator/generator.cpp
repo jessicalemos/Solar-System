@@ -10,28 +10,49 @@
 
 using namespace std;
 
-void writePointsFile(string filename, vector<Point> points) {
-	ofstream file;
+void writePointsFile(string filename, vector<Point> verts,vector<Point> normals,vector<float>text) {
+        ofstream file;
 
-	string fileDir = "../../files/" + filename;
-	file.open(fileDir, ios_base::trunc);
+        string fileDir = "../../files/" + filename;
+        file.open(fileDir, ios_base::trunc);
 
-	if (!file.is_open()) {
-		cout << "Error while opening the file " << filename << endl;
-	}
-	else {
-		for (const Point point : points) {
-			string x, y, z;
+        if (!file.is_open()) {
+                cout << "Error while opening the file " << filename << endl;
+        }
+        else {
+                file << verts.size() << "\n";
+                for (const Point vert : verts) {
+                        string x, y, z;
 
-			x = to_string(point.x).append(",");
-			y = to_string(point.y).append(",");
-			z = to_string(point.z).append("\n");
+                        x = to_string(vert.x).append(",");
+                        y = to_string(vert.y).append(",");
+                        z = to_string(vert.z).append("\n");
 
-			file << x << y << z;
-		}
-		file.close();
-		cout << filename << " file was created!" << endl;
-	}
+                        file << x << y << z;
+                }
+
+                file << normals.size() << "\n";
+                for(const Point normal : normals){
+                        string x, y, z;
+                        x = to_string(normal.x).append(",");
+                        y = to_string(normal.y).append(",");
+                        z = to_string(normal.z).append("\n");
+
+                        file << x << y << z;
+                }
+
+                file << text.size() / 2 << "\n";
+                for(float i = 0.0;text.size();i+=2){
+                        string t1,t2;
+                        t1 = to_string(text[i]).append(",");
+                        t2 = to_string(text[i+1]).append("\n");
+
+                        file << t1 << t2;
+                }
+
+                file.close();
+                cout << filename << " file was created!" << endl;
+        }
 }
 
 
@@ -98,18 +119,19 @@ int main (int argc, char **argv)
             points = torus(radiusIn,radiusOut, slices, layers);
     }
 
-     else if (strcmp("-patch",argv[1]) == 0 && argc==5){
-            string filename = argv[2];
-            int tess = atoi(argv[3]);
-            string outputFile = argv[4];
+    else if (strcmp("-patch",argv[1]) == 0 && argc==5){
+          string filename = argv[2];
+          int tess = atoi(argv[3]);
+          string outputFile = argv[4];
 
-            Patch *p = new Patch(tess,filename);
+          Patch *p = new Patch(tess,filename);
+          p->geradorModeloBezier(&vert,&normal,&texture);
 
-            vector<Point> points = p->geradorModeloBezier();
-            writePointsFile(outputFile,points);
+          writePointsFile(outputFile,vert,normal,texture);
 
 
-        }
+      }
+
 
     else{
         printf("Invalid input!\n");

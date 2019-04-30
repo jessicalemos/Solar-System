@@ -26,7 +26,8 @@ using namespace std;
                 Point* getPoint(float ta, float tb, float coordenadasX[4][4], float coordenadasY[4][4], float coordenadasZ[4][4]);
                 void parserPatchFile(string filename);
                 Patch(int tess, string filename);
-                vector<Point> geradorModeloBezier();
+                void geradorModeloBezier(vector<Point> *vert, vector<Point> *normal, vector<float> *text);
+
 
 };
 
