@@ -2,6 +2,7 @@
 #define GROUP_GROUP_H
 
 #include "Transformation.h"
+#include "Light.h"
 #include "Shape.h"
 #include <vector>
 
@@ -20,6 +21,7 @@ class Group {
         void setShapes(vector<Shape*> pt);
         vector<Shape*> getShapes();
         vector<Group*> getGroups();
+        void setLights(vector<Light*> l);
         vector<Transformation*> getTransformations();
 
 };

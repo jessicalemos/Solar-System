@@ -68,6 +68,7 @@ int readPointsFile(string filename, vector<Point*> *points, vector<Point*> *norm
     return 0;
 }
 
+
 Group* loadXMLfile(string filename) {
     Group* group = nullptr;
     XMLDocument xmlDoc;
@@ -82,6 +83,12 @@ Group* loadXMLfile(string filename) {
         if (pRoot != nullptr)
         {
             group = new Group();
+            pElement = pRoot->FirstChildElement("lights");
+            if (pElement)
+            {
+                pElement->FirstChildElement();
+                parseLights(group, pElement);
+            }
             pElement = pRoot->FirstChildElement("group");
             parseGroup(group,pElement);
         }
@@ -233,6 +240,38 @@ void parseModels (Group *group, XMLElement *element) {
     if (shapes.size())
         group->setShapes(shapes);
 }
+
+void parseLights (Group *group, XMLElement *element)
+{
+    vector<Light*> lights;
+    bool ponto;
+    Light* light;
+    float x=0;
+    float y=0;
+    float z=0;
+    
+    element = element->FirstChildElement();
+    for(;element; element=element->NextSiblingElement())
+        if(!strcmp(element->Name(),"light")){
+            if(element->Attribute("type") && !strcmp(element->Attribute("type"),"POINT"))
+                ponto = true;
+            else ponto = false;
+            
+            if(element->Attribute("x"))
+                x = atof(element->Attribute("x"));
+            if(element->Attribute("y"))
+                y = atof(element->Attribute("y"));
+            if(element->Attribute("z"))
+                z = atof(element->Attribute("z"));
+            
+            Point* p = new Point(x,y,z);
+            light = new Light(ponto, p);
+            lights.push_back(light);
+        }
+    
+    group->setLights(lights);
+}
+
 
 void parseGroup (Group *group, XMLElement *gElement)
 {

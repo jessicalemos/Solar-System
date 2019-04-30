@@ -421,68 +421,67 @@ Point pointsSphere (float radius, float beta, float alpha)
 }
 
 //draw sphere
-vector<Point> sphere(float radius, int slices, int layers)
+vector<Point> sphere(float radius, int slices, int layers, vector<Point> *normal, vector<float> *texture)
 {
-	Point p1, p2, p3, p4;
-	vector<Point> points;
-	float alpha, nextAlpha,
-		beta, nextBeta;
-
-	for (int i = 0; i < layers; i++)
-	{
-		beta = i * (M_PI / layers) - M_PI_2;
-		nextBeta = (i + 1) * (M_PI / layers) - M_PI_2;
-
-		for (int j = 0; j < slices; j++)
-		{
-			alpha = j * 2 * M_PI / slices;
-			nextAlpha = (j + 1) * 2 * M_PI / slices;
-
-			p1 = pointsSphere(radius, nextBeta, alpha);
-			p2 = pointsSphere(radius, beta, alpha);
-			p3 = pointsSphere(radius, nextBeta, nextAlpha);
-			p4 = pointsSphere(radius, beta, nextAlpha);
-
-			// First triangle
-			points.push_back(p1);
-			points.push_back(p2);
-			points.push_back(p3);
-
-			// Second triangle
-			points.push_back(p3);
-			points.push_back(p2);
-			points.push_back(p4);
-		}
-	}
-	return points;
-}
-
-//draw plane
-vector<Point> plane(float size,vector<Point> *normal, vector<float> *texture)
-{
-        Point pt;
-        vector<Point> points;
-
-        int face[6] = { 0, 1, 3, 3, 1, 2 };
-
-        for (int i = 0, j; i < 6; i++)
+    Point p1, p2, p3, p4;
+    vector<Point> points;
+    float alpha, nextAlpha,
+    beta, nextBeta;
+    
+    for (int i = 0; i < layers; i++)
+    {
+        beta = i * (M_PI / layers) - M_PI_2;
+        nextBeta = (i + 1) * (M_PI / layers) - M_PI_2;
+        
+        for (int j = 0; j < slices; j++)
         {
-                j = face[i];
-                pt.x = size * quadrants[j][0];
-                pt.y = 0;
-                pt.z = size * quadrants[j][2];
-                points.push_back(pt);
-
-                pt.x = 0;
-                pt.y = 1;
-                pt.z = 0;
-               (*normal).push_back(pt);
-
-               (*texture).push_back(texturePlane[j][0]);
-               (*texture).push_back(texturePlane[j][1]);
-
+            alpha = j * 2 * M_PI / slices;
+            nextAlpha = (j + 1) * 2 * M_PI / slices;
+            
+            p1 = pointsSphere(radius, nextBeta, alpha);
+            p2 = pointsSphere(radius, beta, alpha);
+            p3 = pointsSphere(radius, nextBeta, nextAlpha);
+            p4 = pointsSphere(radius, beta, nextAlpha);
+            
+            // First triangle
+            points.push_back(p1);
+            points.push_back(p2);
+            points.push_back(p3);
+            
+            // Second triangle
+            points.push_back(p3);
+            points.push_back(p2);
+            points.push_back(p4);
+            
+            p1 = pointsSphere(1,nextBeta,alpha);
+            p2 = pointsSphere(1,beta,alpha);
+            p3 = pointsSphere(1,nextBeta,nextAlpha);
+            p4 = pointsSphere(1,beta,nextAlpha);
+            
+            //normal
+            (*normal).push_back(p1);
+            (*normal).push_back(p2);
+            (*normal).push_back(p3);
+            (*normal).push_back(p3);
+            (*normal).push_back(p2);
+            (*normal).push_back(p4);
+            
+            //texture
+            (*texture).push_back( (float) j/slices );
+            (*texture).push_back( (float)(i+1)/layers );
+            (*texture).push_back( (float) j/slices );
+            (*texture).push_back( (float) i/layers );
+            (*texture).push_back( (float)(j+1)/slices );
+            (*texture).push_back( (float)(i+1)/layers );
+            (*texture).push_back( (float)(j+1)/slices );
+            (*texture).push_back( (float)(i+1)/layers );
+            (*texture).push_back( (float) j/slices );
+            (*texture).push_back( (float) i/layers );
+            (*texture).push_back( (float)(j+1)/slices );
+            (*texture).push_back( (float) i/layers );
         }
-        return points;
+    }
+    return points;
 }
 
 
@@ -594,39 +593,46 @@ Point pointsTorus(float radiusIn,float radiusOut,float beta,float alpha){
     return result;
 }
 
-vector<Point> torus(float radiusIn,float radiusOut , int slices, int layers)
-{
-        Point p1, p2, p3, p4;
-        vector<Point> points;
-        float alpha, nextAlpha,
-                beta, nextBeta;
 
-        for (int i = 0; i < layers; i++)
+vector<Point> torus(float radiusIn,float radiusOut , int slices, int layers,vector<Point> *normal, vector<float> *texture){
+    Point p1,p2,p3,p4;
+    vector<Point> points;
+    for (int i = 0; i < layers; i++)
+    {
+        float beta =         i  * (2*M_PI)/layers;
+        float nextBeta =  (i+1) * (2*M_PI)/layers;
+        
+        for (int j = 0; j < slices; j++)
         {
-                beta = i *( 2*M_PI / layers);
-                nextBeta = (i + 1) * 2*M_PI / layers;
-
-                for (int j = 0; j < slices; j++)
-                {
-                        alpha = j * 2 * M_PI / slices;
-                        nextAlpha = (j + 1) * 2 * M_PI / slices;
-
-                        p1 = pointsTorus(radiusIn, radiusOut, nextBeta, alpha);
-                        p2 = pointsTorus(radiusIn, radiusOut, beta, alpha);
-                        p3 = pointsTorus(radiusIn, radiusOut, nextBeta, nextAlpha);
-                        p4 = pointsTorus(radiusIn, radiusOut, beta, nextAlpha);
-
-                        // First triangle
-                        points.push_back(p1);
-                        points.push_back(p2);
-                        points.push_back(p3);
-
-                        // Second triangle
-                        points.push_back(p3);
-                        points.push_back(p2);
-                        points.push_back(p4);
-                }
+            float alpha =        j  * (2*M_PI)/slices;
+            float nextAlpha = (j+1) * (2*M_PI)/slices;
+            
+            p1 = pointsTorus(radiusIn,radiusOut,beta,alpha);
+            p2 = pointsTorus(radiusIn,radiusOut,beta,nextAlpha);
+            p3 = pointsTorus(radiusIn,radiusOut,nextBeta,alpha);
+            p4 = pointsTorus(radiusIn,radiusOut,nextBeta,nextAlpha);
+            
+            points.push_back(p1);points.push_back(p2);points.push_back(p3);
+            points.push_back(p3);points.push_back(p2);points.push_back(p4);
+            
+            p1 = pointsTorus(1,1,beta,alpha);
+            p2 = pointsTorus(1,1,beta,nextAlpha);
+            p3 = pointsTorus(1,1,nextBeta,alpha);
+            p4 = pointsTorus(1,1,nextBeta,nextAlpha);
+            
+            (*normal).push_back(p1);(*normal).push_back(p2);(*normal).push_back(p3);
+            (*normal).push_back(p3);(*normal).push_back(p2);(*normal).push_back(p4);
+            
+            (*texture).push_back( (float)    j/slices );(*texture).push_back( (float)    i/layers );
+            (*texture).push_back( (float)(j+1)/slices ); (*texture).push_back( (float)    i/layers );
+            (*texture).push_back( (float)    j/slices ); (*texture).push_back( (float)(i+1)/layers );
+            
+            (*texture).push_back( (float)    j/slices ); (*texture).push_back( (float)(i+1)/layers );
+            (*texture).push_back( (float)(j+1)/slices ); (*texture).push_back( (float)    i/layers );
+            (*texture).push_back( (float)(j+1)/slices ); (*texture).push_back( (float)(i+1)/layers );
         }
-        return points;
-
+    }
+    return points;
+    
 }
+
