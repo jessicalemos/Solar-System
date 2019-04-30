@@ -25,13 +25,13 @@ float Point::getZ(){
 }
 
 void Point::setX(float px){
-    x = p;
+    x = px;
 }
 
 void Point::setY(float py){
-    y=p;
+    y=py;
 }
 
 void Point::setZ(float pz){
-    z=p;
+    z=pz;
 }
