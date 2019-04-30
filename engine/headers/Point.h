@@ -19,6 +19,9 @@ class Point{
 		float getX();
 		float getY();
 		float getZ();
+                void setX(float px);
+		void setY(float py);
+		void setZ(float pz);
 };
 
 #endif

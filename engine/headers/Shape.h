@@ -22,6 +22,7 @@ class Shape {
     public:
         Shape();
         Shape(vector<Point*> vertex, vector<Point*> normal, vector<Point*> texture);
+        void setParseMat(Material* c);
         Shape(string textureFile, vector<Point*> vertex, vector<Point*> normal, vector<Point*> texture);
         void loadTexture(string textureFile);
         GLuint* getBuffer();
