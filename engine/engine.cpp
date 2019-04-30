@@ -12,15 +12,25 @@ void drawOrbits(Transformation *t)
 {
     vector<Point*> curvePoints = t->getPointsCurve();
     glColor3f(1.0f, 1.0f, 0.94f);
-    glBegin(GL_POINTS);
+    
+    glPushAttrib(GL_LIGHTING_BIT);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, color);
+    glBegin(GL_LINE_LOOP);
     for(Point *p : curvePoints){
+        float normal[3] = { -p->getX(),
+            -p->getY(),
+            -p->getZ()};
+        t->normalize(normal);
+        glNormal3fv(normal);
         float x = p->getX();
         float y = p->getY();
         float z = p->getZ();
         glVertex3f(x,y,z);
     }
     glEnd();
+    glPopAttrib();
 }
+
 
 void applyTransformation(Transformation *t){
     float CTime = glutGet(GLUT_ELAPSED_TIME);
@@ -133,6 +143,12 @@ void processMenu(int option)
             break;
         case 3:
             stop = 1;
+            break;
+        case -1:
+            glEnable(GL_LIGHTING);
+            break;
+        case -2:
+            glDisable(GL_LIGHTING);
             break;
     }
     glutPostRedisplay();
