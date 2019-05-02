@@ -32,6 +32,30 @@ float texturePlane[4][2] = {
     {0,0}
 };
 
+vector<Point> plane(float size,vector<Point> *normal, vector<float> *texture){
+    Point pt;
+    vector<Point> points;
+
+    int face[6] = { 0, 1, 3, 3, 1, 2 };
+    for (int i = 0, j; i < 6; i++)
+    {
+        j = face[i];
+        pt.x = size * quadrants[j][0];
+        pt.y = 0;
+        pt.z = size * quadrants[j][2];
+        points.push_back(pt);
+
+        pt.x = 0;
+        pt.y = 1;
+        pt.z = 0;
+        (*normal).push_back(pt);
+
+        (*texture).push_back(texturePlane[j][0]);
+        (*texture).push_back(texturePlane[j][1]);
+
+    }
+    return points;
+}
 
 Point drawPoints(float radius, float angle, float height) {
 	Point p;

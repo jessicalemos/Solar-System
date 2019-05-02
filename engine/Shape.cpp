@@ -1,15 +1,16 @@
+#include <IL/il.h>
+#include "headers/Material.h"
 #include "headers/Shape.h"
 
-Shape::Shape(){}
 
-Shape::Shape(vector<Point*> vertex, vector<Point*> normal, vector<Point*> texture){
+Shape::Shape(vector<Point*> vertex, vector<Point*> normal, vector<float> texture){
     numVertex[0] = vertex.size();
     numVertex[1] = normal.size();
     numVertex[2] = texture.size();
     prepareBuffer(vertex,normal,texture);
 }
 
-Shape::Shape(string textureFile, vector<Point*> vertex, vector<Point*> normal, vector<Point*> texture){
+Shape::Shape(string textureFile, vector<Point*> vertex, vector<Point*> normal, vector<float> texture){
     numVertex[0] = vertex.size();
     numVertex[1] = normal.size();
     numVertex[2] = texture.size();
@@ -21,7 +22,7 @@ void Shape::setParseMat(Material* c){
 	m = c;
 }
 
-void Shape::prepareBuffer(vector<Point*> vertex, vector<Point*> normal, vector<Point*> texture){
+void Shape::prepareBuffer(vector<Point*> vertex, vector<Point*> normal, vector<float> texture){
     int index = 0;
     float* vertexs = new float[vertex.size() * 3];
     for(vector<Point*>::const_iterator vertex_it = vertex.begin(); vertex_it != vertex.end(); ++vertex_it){
@@ -29,17 +30,17 @@ void Shape::prepareBuffer(vector<Point*> vertex, vector<Point*> normal, vector<P
         vertexs[index++] = (*vertex_it)->getY();
         vertexs[index++] = (*vertex_it)->getZ();
     }
-    float* normals = new float[vertex.size() * 3];
+    index = 0;
+    float* normals = new float[normal.size() * 3];
     for(vector<Point*>::const_iterator vertex_it = normal.begin(); vertex_it != normal.end(); ++vertex_it){
         normals[index++] = (*vertex_it)->getX();
         normals[index++] = (*vertex_it)->getY();
         normals[index++] = (*vertex_it)->getZ();
     }
-    float* textures = new float[vertex.size() * 3];
-    for(vector<Point*>::const_iterator vertex_it = texture.begin(); vertex_it != texture.end(); ++vertex_it){
-        textures[index++] = (*vertex_it)->getX();
-        textures[index++] = (*vertex_it)->getY();
-        textures[index++] = (*vertex_it)->getZ();
+    index = 0;
+    float* textures = new float[texture.size() * 3];
+    for(vector<float>::const_iterator i = texture.begin(); i != texture.end(); ++i){
+        textures[index++] = *i;
     }
 
     glGenBuffers(1,buffer);
@@ -87,7 +88,7 @@ void Shape::loadTexture(string textureFile){
     ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
     ilGenImages(1, &t);
     ilBindImage(t);
-    ilLoadImage((ILstring) texture_file.c_str());
+    ilLoadImage((ILstring) textureFile.c_str());
     tw = ilGetInteger(IL_IMAGE_WIDTH);
     th = ilGetInteger(IL_IMAGE_HEIGHT);
     ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);

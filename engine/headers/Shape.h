@@ -2,6 +2,7 @@
 #define ENGINE_SHAPE_H
 
 #include "Point.h"
+#include "Material.h"
 #include <vector>
 
 #ifdef __APPLE__
@@ -9,6 +10,7 @@
 #else
 #include <GL/glew.h>
 #include <GL/glut.h>
+#include <IL/il.h>
 #endif
 
 using namespace std;
@@ -18,17 +20,17 @@ class Shape {
         int numVertex[3];
         GLuint buffer[3];
         GLuint text;
+        Material* m;
 
     public:
-        Shape();
-        Shape(vector<Point*> vertex, vector<Point*> normal, vector<Point*> texture);
+        Shape(vector<Point*> vertex, vector<Point*> normal, vector<float> texture);
         void setParseMat(Material* c);
-        Shape(string textureFile, vector<Point*> vertex, vector<Point*> normal, vector<Point*> texture);
+        Shape(string textureFile, vector<Point*> vertex, vector<Point*> normal, vector<float> texture);
         void loadTexture(string textureFile);
         GLuint* getBuffer();
         GLuint getTexture();
         void setTexture(GLuint text);
-        void prepareBuffer(vector<Point*> vertex, vector<Point*> normal, vector<Point*> texture);
+        void prepareBuffer(vector<Point*> vertex, vector<Point*> normal, vector<float> texture);
         void draw();
 };
 

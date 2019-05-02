@@ -91,13 +91,13 @@ int main (int argc, char **argv)
             int slices = atoi(argv[3]);
             int layers = atoi(argv[4]);
             file = argv[5];
-            points = sphere(radius, slices, layers);
+            points = sphere(radius, slices, layers,&normal,&texture);
     }
     else if (strcmp("plane", argv[1]) == 0 && argc == 4)
     {
             float size = atof(argv[2]);
             file = argv[3];
-            points = plane(size / 2);
+            points = plane(size / 2 ,&normal,&texture);
     }
    else if (strcmp("cylinder",argv[1]) == 0 && argc == 7)
     {
@@ -116,7 +116,7 @@ int main (int argc, char **argv)
             int slices = atoi(argv[4]);
             int layers = atoi(argv[5]);
             file = argv[6];
-            points = torus(radiusIn,radiusOut, slices, layers);
+            points = torus(radiusIn,radiusOut, slices, layers,&normal,&texture);
     }
 
     else if (strcmp("-patch",argv[1]) == 0 && argc==5){
@@ -125,9 +125,9 @@ int main (int argc, char **argv)
           string outputFile = argv[4];
 
           Patch *p = new Patch(tess,filename);
-          p->geradorModeloBezier(&vert,&normal,&texture);
+          p->geradorModeloBezier(&points,&normal,&texture);
 
-          writePointsFile(outputFile,vert,normal,texture);
+          writePointsFile(outputFile,points,normal,texture);
 
 
       }

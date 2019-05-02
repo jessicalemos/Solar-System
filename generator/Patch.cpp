@@ -89,10 +89,6 @@ void Patch::parserPatchFile(string filename){
 
 Point* Patch::getPoint(float ta, float tb, float coordenadasX[4][4], float coordenadasY[4][4], float coordenadasZ[4][4]){
 	    float x = 0.0f, y = 0.0f, z = 0.0f;
-            float m[4][4] = {{-1.0f,  3.0f, -3.0f,  1.0f},
-                             { 3.0f, -6.0f,  3.0f,  0.0f},
-                             {-3.0f,  3.0f,  0.0f,  0.0f},
-                             { 1.0f,  0.0f,  0.0f,  0.0f}};
 
             float a[4] = { ta*ta*ta, ta*ta, ta, 1.0f};
             float b[4] = { tb*tb*tb, tb*tb, tb, 1.0f};
@@ -120,7 +116,7 @@ Point* Patch::getPoint(float ta, float tb, float coordenadasX[4][4], float coord
             return p;
         }
 
-float Patch::getTangent(float tu, float tv, float m[4][4] , float points[4][4], int deriv) {
+float Patch::getTangent(float tu, float tv, float points[4][4], int deriv) {
     float point = 0;
     float aux[4], segAux[4];
 
@@ -158,7 +154,20 @@ float Patch::getTangent(float tu, float tv, float m[4][4] , float points[4][4], 
     return point;
 }
 
+//normalizar vetor
+void Patch::normalize(float *a) {
+    float n = sqrt(a[0]*a[0] + a[1] * a[1] + a[2] * a[2]);
+    a[0] = a[0]/n;
+    a[1] = a[1]/n;
+    a[2] = a[2]/n;
+}
 
+void Patch::cross(float *a, float *b, float *res)
+{
+    res[0] = a[1]*b[2] - a[2]*b[1];
+    res[1] = a[2]*b[0] - a[0]*b[2];
+    res[2] = a[0]*b[1] - a[1]*b[0];
+}
 void Patch::getPatchPoints(int patch, vector<Point>* points, vector<float>* textureList, vector<Point>* normalList){
     vector<int> indexesControlPoints = patchs.at(patch);
 
@@ -188,7 +197,7 @@ void Patch::getPatchPoints(int patch, vector<Point>* points, vector<float>* text
             v = j*t;
             uu = (i+1)*t;
             vv = (j+1)*t;
-            Point *p0,*p1,*p2,*p3,*n0,*n1,*n2,*n3,;
+            Point *p0,*p1,*p2,*p3,*n0,*n1,*n2,*n3;
 
             p0 = getPoint(u, v, coordenadasX, coordenadasY, coordenadasZ);
             resU[0] = getTangent(u,v,coordenadasX,0);

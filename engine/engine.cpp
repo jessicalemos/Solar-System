@@ -12,9 +12,10 @@ void drawOrbits(Transformation *t)
 {
     vector<Point*> curvePoints = t->getPointsCurve();
     glColor3f(1.0f, 1.0f, 0.94f);
-    
+    float cor[4]={0.2f,0.2f,0.2f,1.0f};
+
     glPushAttrib(GL_LIGHTING_BIT);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, color);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, cor);
     glBegin(GL_LINE_LOOP);
     for(Point *p : curvePoints){
         float normal[3] = { -p->getX(),
