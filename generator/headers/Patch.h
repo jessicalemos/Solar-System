@@ -25,7 +25,7 @@ using namespace std;
                 Patch();
                 Patch(vector<Point> p);
                 void multMatrixVector(float *m, float *v, float *res);
-                float getTangent(float tu, float tv, float p[4][4], int deriv);
+                float* getTangent(float tu, float tv, float mX[4][4], float mY[4][4], float mZ[4][4], int type);
                 void normalize(float *a);
                 void cross(float *a, float *b, float *res);
                 void getPatchPoints(int patch, vector<Point>* points, vector<float>* textureList, vector<Point>* normalList);
