@@ -89,10 +89,6 @@ void Patch::parserPatchFile(string filename){
 
 Point* Patch::getPoint(float ta, float tb, float coordenadasX[4][4], float coordenadasY[4][4], float coordenadasZ[4][4]){
 	    float x = 0.0f, y = 0.0f, z = 0.0f;
-            float m[4][4] = {{-1.0f,  3.0f, -3.0f,  1.0f},
-                             { 3.0f, -6.0f,  3.0f,  0.0f},
-                             {-3.0f,  3.0f,  0.0f,  0.0f},
-                             { 1.0f,  0.0f,  0.0f,  0.0f}};
 
             float a[4] = { ta*ta*ta, ta*ta, ta, 1.0f};
             float b[4] = { tb*tb*tb, tb*tb, tb, 1.0f};
@@ -120,7 +116,7 @@ Point* Patch::getPoint(float ta, float tb, float coordenadasX[4][4], float coord
             return p;
         }
 
-float Patch::getTangent(float tu, float tv, float m[4][4] , float points[4][4], int deriv) {
+float Patch::getTangent(float tu, float tv, float points[4][4], int deriv) {
     float point = 0;
     float aux[4], segAux[4];
 
@@ -158,7 +154,20 @@ float Patch::getTangent(float tu, float tv, float m[4][4] , float points[4][4], 
     return point;
 }
 
+//normalizar vetor
+void Patch::normalize(float *a) {
+    float n = sqrt(a[0]*a[0] + a[1] * a[1] + a[2] * a[2]);
+    a[0] = a[0]/n;
+    a[1] = a[1]/n;
+    a[2] = a[2]/n;
+}
 
+void Patch::cross(float *a, float *b, float *res)
+{
+    res[0] = a[1]*b[2] - a[2]*b[1];
+    res[1] = a[2]*b[0] - a[0]*b[2];
+    res[2] = a[0]*b[1] - a[1]*b[0];
+}
 void Patch::getPatchPoints(int patch, vector<Point>* points, vector<float>* textureList, vector<Point>* normalList){
     vector<int> indexesControlPoints = patchs.at(patch);
 
@@ -183,21 +192,21 @@ void Patch::getPatchPoints(int patch, vector<Point>* points, vector<float>* text
     {
         for (int j = 0; j < tessellation; j++)
         {
-            float *tangenteU, *tangenteV, res[3];
+            float res[3];
             u = i*t;
             v = j*t;
             uu = (i+1)*t;
             vv = (j+1)*t;
-            Point *p0,*p1,*p2,*p3,*n0,*n1,*n2,*n3,;
+            Point *p0,*p1,*p2,*p3,*n0,*n1,*n2,*n3;
 
             p0 = getPoint(u, v, coordenadasX, coordenadasY, coordenadasZ);
             resU[0] = getTangent(u,v,coordenadasX,0);
             resU[1] = getTangent(u,v,coordenadasY,0);
             resU[2] = getTangent(u,v,coordenadasZ,0);
 
-            resU[0] = getTangent(u,v,coordenadasX,1);
-            resU[1] = getTangent(u,v,coordenadasY,1);
-            resU[2] = getTangent(u,v,coordenadasZ,1);
+            resV[0] = getTangent(u,v,coordenadasX,1);
+            resV[1] = getTangent(u,v,coordenadasY,1);
+            resV[2] = getTangent(u,v,coordenadasZ,1);
             normalize(resU);
             normalize(resV);
             cross(resV,resU,res);
@@ -208,9 +217,9 @@ void Patch::getPatchPoints(int patch, vector<Point>* points, vector<float>* text
             resU[1] = getTangent(u,vv,coordenadasY,0);
             resU[2] = getTangent(u,vv,coordenadasZ,0);
 
-            resU[0] = getTangent(u,vv,coordenadasX,1);
-            resU[1] = getTangent(u,vv,coordenadasY,1);
-            resU[2] = getTangent(u,vv,coordenadasZ,1);
+            resV[0] = getTangent(u,vv,coordenadasX,1);
+            resV[1] = getTangent(u,vv,coordenadasY,1);
+            resV[2] = getTangent(u,vv,coordenadasZ,1);
             normalize(resU);
             normalize(resV);
             cross(resV,resU,res);
@@ -221,9 +230,9 @@ void Patch::getPatchPoints(int patch, vector<Point>* points, vector<float>* text
             resU[1] = getTangent(uu,v,coordenadasY,0);
             resU[2] = getTangent(uu,v,coordenadasZ,0);
 
-            resU[0] = getTangent(uu,v,coordenadasX,1);
-            resU[1] = getTangent(uu,v,coordenadasY,1);
-            resU[2] = getTangent(uu,v,coordenadasZ,1);
+            resV[0] = getTangent(uu,v,coordenadasX,1);
+            resV[1] = getTangent(uu,v,coordenadasY,1);
+            resV[2] = getTangent(uu,v,coordenadasZ,1);
             normalize(resU);
             normalize(resV);
             cross(resV,resU,res);
@@ -234,9 +243,9 @@ void Patch::getPatchPoints(int patch, vector<Point>* points, vector<float>* text
             resU[1] = getTangent(uu,vv,coordenadasY,0);
             resU[2] = getTangent(uu,vv,coordenadasZ,0);
 
-            resU[0] = getTangent(uu,vv,coordenadasX,1);
-            resU[1] = getTangent(uu,vv,coordenadasY,1);
-            resU[2] = getTangent(uu,vv,coordenadasZ,1);
+            resV[0] = getTangent(uu,vv,coordenadasX,1);
+            resV[1] = getTangent(uu,vv,coordenadasY,1);
+            resV[2] = getTangent(uu,vv,coordenadasZ,1);
             normalize(resU);
             normalize(resV);
             cross(resV,resU,res);
@@ -244,8 +253,8 @@ void Patch::getPatchPoints(int patch, vector<Point>* points, vector<float>* text
 
             (*points).push_back(*p0); (*points).push_back(*p2); (*points).push_back(*p1);
             (*points).push_back(*p1); (*points).push_back(*p2); (*points).push_back(*p3);
-            (*normalList).push_back(*p0); (*normalList).push_back(*p2); (*normalList).push_back(*p1);
-            (*normalList).push_back(*p1); (*normalList).push_back(*p2); (*normalList).push_back(*p3);
+            (*normalList).push_back(*n0); (*normalList).push_back(*n2); (*normalList).push_back(*n1);
+            (*normalList).push_back(*n1); (*normalList).push_back(*n2); (*normalList).push_back(*n3);
 
             (*textureList).push_back(1-u); (*textureList).push_back(1-v);
             (*textureList).push_back(1-uu); (*textureList).push_back(1-v);
@@ -253,7 +262,6 @@ void Patch::getPatchPoints(int patch, vector<Point>* points, vector<float>* text
             (*textureList).push_back(1-u); (*textureList).push_back(1-vv);
             (*textureList).push_back(1-uu); (*textureList).push_back(1-v);
             (*textureList).push_back(1-uu); (*textureList).push_back(1-vv);
-
         }
     }
 }

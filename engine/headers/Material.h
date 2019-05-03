@@ -1,11 +1,7 @@
 #ifndef __MATERIAL_H__
 #define __MATERIAL_H__
 
-#include <GLUT/glut.h>
-#include <iostream>
-
-#include "Colour.h"
-
+#include "Point.h"
 
 using namespace std;
 
@@ -18,12 +14,12 @@ class Material{
     
 public:
     Material();
-    Material::Material(Point* d, Point* a, Point* s, Point* e);
+    Material(Point* d, Point* a, Point* s, Point* e);
     void draw();
-    float* Material::getDiffuse();
-    float* Material::getAmbient();
-    float* Material::getSpecular();
-    float* Material::getEmission();
+    float* getDiffuse();
+    float* getAmbient();
+    float* getSpecular();
+    float* getEmission();
 };
 
 #endif

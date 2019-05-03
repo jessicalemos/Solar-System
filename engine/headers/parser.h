@@ -18,5 +18,7 @@ using namespace tinyxml2;
 
 Group* loadXMLfile(string filename);
 void parseGroup (Group *group, XMLElement *gElement);
+void parseLights (Group *group, XMLElement *gElement);
+void parseMaterial(Shape* shape, XMLElement* element);
 
 #endif

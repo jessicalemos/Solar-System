@@ -1,6 +1,6 @@
-#include "../../Material.h"
-
-float diffuse[4], ambient[4], specular[4], emission[4];
+#include "headers/Material.h"
+#include <GL/glew.h>
+#include <GL/glut.h>
 
 Material::Material(){}
 

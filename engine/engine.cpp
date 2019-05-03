@@ -12,9 +12,10 @@ void drawOrbits(Transformation *t)
 {
     vector<Point*> curvePoints = t->getPointsCurve();
     glColor3f(1.0f, 1.0f, 0.94f);
-    
+    float cor[4]={0.2f,0.2f,0.2f,1.0f};
+
     glPushAttrib(GL_LIGHTING_BIT);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, color);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, cor);
     glBegin(GL_LINE_LOOP);
     for(Point *p : curvePoints){
         float normal[3] = { -p->getX(),
@@ -296,9 +297,18 @@ int main(int argc, char **argv)
 
     showMenu();
     // OpenGL settings
+    ilInit();
+    ilEnable(IL_ORIGIN_SET);
+    ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_RESCALE_NORMAL);
 
     // enter GLUT's main loop
     glutMainLoop();

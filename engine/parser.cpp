@@ -1,5 +1,6 @@
 #include "headers/parser.h"
 #include "headers/Point.h"
+#include "headers/Material.h"
 
 
 int readPointsFile(string filename, vector<Point*> *points, vector<Point*> *normalList, vector<float> *textureList){
@@ -7,8 +8,6 @@ int readPointsFile(string filename, vector<Point*> *points, vector<Point*> *norm
     ifstream file(filename);
     string token;
     vector<float>tokens;
-
-    int i;
 
     if (!file.is_open()) {
         cout << "Unable to open file: " << filename << "." << endl; return -1;
@@ -227,10 +226,17 @@ void parseModels (Group *group, XMLElement *element) {
         string fileDir = "../../files/" + file;
         if(!file.empty()) {
             vector<Point*> points;
-            readPointsFile(fileDir, &points);
+            vector<Point*> normal;
+            vector<float> texture;
+            readPointsFile(fileDir, &points,&normal, &texture);
 
             if (points.size()) {
-                Shape *shape = new Shape(points);
+                Shape *shape;
+                if(element->Attribute("texture"))
+                    shape  = new Shape(element->Attribute("texture"),points, normal, texture);
+                else
+                    shape = new Shape(points, normal, texture);
+                parseMaterial(shape, element);
                 shapes.push_back(shape);
             }
         }

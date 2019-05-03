@@ -18,11 +18,17 @@ using namespace std;
                 map<int,vector<int> > patchs;
 
         public:
+                float m[4][4] = {{-1.0f,  3.0f, -3.0f,  1.0f},
+                      { 3.0f, -6.0f,  3.0f,  0.0f},
+                      {-3.0f,  3.0f,  0.0f,  0.0f},
+                      { 1.0f,  0.0f,  0.0f,  0.0f}};
                 Patch();
                 Patch(vector<Point> p);
                 void multMatrixVector(float *m, float *v, float *res);
-                float getTangent(float tu, float tv, float m[4][4] , float p[4][4], int deriv);
-                void getPatchPoints(int patch, vector<Point>* points, vector<Point>* textureList, vector<Point>* normalList);
+                float getTangent(float tu, float tv, float p[4][4], int deriv);
+                void normalize(float *a);
+                void cross(float *a, float *b, float *res);
+                void getPatchPoints(int patch, vector<Point>* points, vector<float>* textureList, vector<Point>* normalList);
                 Point* getPoint(float ta, float tb, float coordenadasX[4][4], float coordenadasY[4][4], float coordenadasZ[4][4]);
                 void parserPatchFile(string filename);
                 Patch(int tess, string filename);
