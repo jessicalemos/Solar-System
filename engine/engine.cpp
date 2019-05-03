@@ -297,9 +297,18 @@ int main(int argc, char **argv)
 
     showMenu();
     // OpenGL settings
+    ilInit();
+    ilEnable(IL_ORIGIN_SET);
+    ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_RESCALE_NORMAL);
 
     // enter GLUT's main loop
     glutMainLoop();

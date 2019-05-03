@@ -192,7 +192,7 @@ void Patch::getPatchPoints(int patch, vector<Point>* points, vector<float>* text
     {
         for (int j = 0; j < tessellation; j++)
         {
-            float *tangenteU, *tangenteV, res[3];
+            float res[3];
             u = i*t;
             v = j*t;
             uu = (i+1)*t;
