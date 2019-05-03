@@ -96,7 +96,10 @@ vector<Point> cone(float radius, float height, int slices, int layers, vector<Po
 		p0.z = 0;
 		p1 = drawPoints(radius, tetaNext, 0);
 		p2 = drawPoints(radius, teta, 0);	
-
+		p3.x = 0;
+		p3.y = -1;
+		p3.z = 0;
+		
 		points.push_back(p0);
 		points.push_back(p1);
 		points.push_back(p2);
