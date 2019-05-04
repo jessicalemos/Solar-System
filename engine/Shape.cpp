@@ -37,15 +37,8 @@ void Shape::prepareBuffer(vector<Point*> vertex, vector<Point*> normal, vector<f
         normals[index++] = (*vertex_it)->getY();
         normals[index++] = (*vertex_it)->getZ();
     }
-    index = 0;
-    float* textures = new float[vertex.size() * 3];
-    for(vector<Point*>::const_iterator vertex_it = texture.begin(); vertex_it != texture.end(); ++vertex_it){
-        textures[index++] = (*vertex_it)->getX();
-        textures[index++] = (*vertex_it)->getY();
-        textures[index++] = (*vertex_it)->getZ();
-    }
 
-    glGenBuffers(1,buffer);
+    glGenBuffers(3,buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
     glBufferData(GL_ARRAY_BUFFER,
                  sizeof(float) * numVertex[0] * 3,
@@ -60,8 +53,8 @@ void Shape::prepareBuffer(vector<Point*> vertex, vector<Point*> normal, vector<f
 
     glBindBuffer(GL_ARRAY_BUFFER, buffer[2]);
     glBufferData(GL_ARRAY_BUFFER,
-                 sizeof(float) * numVertex[2] * 3,
-                 textures,
+                 sizeof(float) * numVertex[2],
+                 texture,
                  GL_STATIC_DRAW);
 
     delete [] vertexs;

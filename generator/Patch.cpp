@@ -116,42 +116,52 @@ Point* Patch::getPoint(float ta, float tb, float coordenadasX[4][4], float coord
             return p;
         }
 
-float Patch::getTangent(float tu, float tv, float points[4][4], int deriv) {
-    float point = 0;
-    float aux[4], segAux[4];
 
-    if(deriv){
-        for(int i = 0; i<4; i++){
-            aux[i] = (powf(tu,3.0)*m[0][i]) + (powf(tu,2.0)*m[1][i]) + (tu*m[2][i]) + m[3][i];
-        }
-    } else {
-        for(int i = 0; i<4; i++){
-            aux[i] = (3 * powf(tu,2.0)*m[0][i]) + (2*tu*m[1][i]) + (1*m[2][i]);
-        }
+float* Patch::getTangent(float tu, float tv, float mX[4][4], float mY[4][4], float mZ[4][4], int type){
+    float u[4], v[4];
+
+    if(type == 0) {
+        u[0] = 3.0f * tu * tu;
+        u[1] = 2.0f * tu;
+        u[2] = 1.0f;
+        u[3] = 0.0f;
+
+        v[0] = tv * tv * tv;
+        v[1] = tv * tv;
+        v[2] = tv;
+        v[3] = 1.0f;
+    }
+    else {
+        u[0] = tu * tu * tu;
+        u[1] = tu * tu;
+        u[2] = tu;
+        u[3] = 1.0f;
+
+        v[0] = 3.0f * tv * tv;
+        v[1] = 2.0f * tv;
+        v[2] = 1.0f;
+        v[3] = 0.0f;
     }
 
-    //(bu*M)*P
-    for(int i = 0; i<4; i++){
-        segAux[i] = (aux[0]*points[0][i]) + (aux[1]*points[1][i]) + (aux[2]*points[2][i]) + (aux[3]*points[3][i]);
-    }
+    float uM[4];
+    multMatrixVector(*m,u,uM);
 
-    //((bu*M)*P)*MT
-    for(int i = 0; i<4; i++){
-        aux[i] = (segAux[0]*m[0][i]) + (segAux[1]*m[1][i]) + (segAux[2]*m[2][i]) + (segAux[3]*m[3][i]);
-    }
+    float Mv[4];
+    multMatrixVector(*m,v,Mv);
 
-    if(deriv) {
-        point = aux[0] * (3 * powf(tv,2.0));
-        point += aux[1] * (2 * tv);
-        point += aux[2];
-    } else {
-        point = aux[0] * powf(tv,3.0);
-        point += aux[1] * powf(tv,2.0);
-        point += aux[2] * tv;
-        point += aux[3];
-    }
+    float matX[4], matY[4], matZ[4];
+    multMatrixVector(*mX,uM,matX);
+    multMatrixVector(*mY,uM,matY);
+    multMatrixVector(*mZ,uM,matZ);
 
-    return point;
+    float *tang = (float *) calloc(3, sizeof(float));
+    for (int i = 0; i < 4; i++)
+    {
+        tang[0] += matX[i] * Mv[i];
+        tang[1] += matY[i] * Mv[i];
+        tang[2] += matZ[i] * Mv[i];
+    }
+    return tang;
 }
 
 //normalizar vetor
