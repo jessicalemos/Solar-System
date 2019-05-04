@@ -43,7 +43,7 @@ void writePointsFile(string filename, vector<Point> verts,vector<Point> normals,
                 }
 
                 file << text.size() / 2 << "\n";
-                for(float i = 0.0;text.size();i+=2){
+                for(float i = 0.0;i<text.size();i+=2){
                         string t1,t2;
                         t1 = to_string(text[i]).append(",");
                         t2 = to_string(text[i+1]).append("\n");
@@ -123,14 +123,10 @@ int main (int argc, char **argv)
     else if (strcmp("-patch",argv[1]) == 0 && argc==5){
           string filename = argv[2];
           int tess = atoi(argv[3]);
-          string outputFile = argv[4];
+          file = argv[4];
 
           Patch *p = new Patch(tess,filename);
           p->geradorModeloBezier(&points,&normal,&texture);
-
-          writePointsFile(outputFile,points,normal,texture);
-
-
       }
 
 
