@@ -76,7 +76,7 @@ Point drawNormalPoints(float angle, float teta) {
 }
 
 // draw cone
-vector<Point> cone(float radius, float height, int slices, int layers, vector<Point> normal, vector<float> texture){
+vector<Point> cone(float radius, float height, int slices, int layers, vector<Point> *normal, vector<float> *texture){
 	vector<Point> points;
 	Point p0, p1, p2, p3;
 	float teta, alpha, scaleHeigth, heigthNow, 
@@ -105,17 +105,17 @@ vector<Point> cone(float radius, float height, int slices, int layers, vector<Po
 		points.push_back(p2);
 
 		//normal
-		normal.push_back(p3);
-		normal.push_back(p3);
-        normal.push_back(p3);
+		(*normal).push_back(p3);
+		(*normal).push_back(p3);
+		(*normal).push_back(p3);
 
 		//texture
-		texture.push_back(0.25f);
-		texture.push_back(0.25f + cos(tetaNext) / 0.4f);
-		texture.push_back(0.25f + cos(teta) / 0.4f);
-		texture.push_back(0.5f);
-		texture.push_back(0.5f + sin(tetaNext) / 0.2f);
-		texture.push_back(0.5f + sin(teta) / 0.2f);
+		(*texture).push_back(0.25f);
+		(*texture).push_back(0.25f + cos(tetaNext) / 0.4f);
+		(*texture).push_back(0.25f + cos(teta) / 0.4f);
+		(*texture).push_back(0.5f);
+		(*texture).push_back(0.5f + sin(tetaNext) / 0.2f);
+		(*texture).push_back(0.5f + sin(teta) / 0.2f);
 	}
 
 	float angle = atan(radius / height);
@@ -148,29 +148,29 @@ vector<Point> cone(float radius, float height, int slices, int layers, vector<Po
 			p0 = drawNormalPoints(angle,teta);
 			p1 = drawNormalPoints(angle,tetaNext);
 
-			normal.push_back(p0);
-			normal.push_back(p1);
-			normal.push_back(p1);
-			normal.push_back(p0);
-			normal.push_back(p1);
-			normal.push_back(p0);
+			(*normal).push_back(p0);
+			(*normal).push_back(p1);
+			(*normal).push_back(p1);
+			(*normal).push_back(p0);
+			(*normal).push_back(p1);
+			(*normal).push_back(p0);
 
 			//texture
-			float res = (layers - i) / layers;
-			float resNext = (layers - (i+1)) / layers;
+			float res = (float) (layers - i) / layers;
+			float resNext = (float) (layers - (i+1)) / layers;
 
-			texture.push_back(0.75f + 0.25f * cos(teta) * res);
-			texture.push_back(0.5f +  0.5f * sin(teta) * res);
-			texture.push_back(0.75f + 0.25f * cos(tetaNext) * res);
-			texture.push_back( 0.5f +  0.5f * sin(tetaNext) * res);
-			texture.push_back(0.75f + 0.25f * cos(tetaNext) * resNext);
-			texture.push_back( 0.5f +  0.5f * sin(tetaNext) * resNext);
-			texture.push_back(0.75f + 0.25f * cos(teta) * res);
-			texture.push_back( 0.5f +  0.5f * sin(teta) * res);
-			texture.push_back(0.75f + 0.25f * cos(tetaNext) * resNext);
-			texture.push_back( 0.5f +  0.5f * sin(tetaNext) * resNext);
-			texture.push_back(0.75f + 0.25f * cos(teta) * resNext);
-			texture.push_back( 0.5f +  0.5f * sin(teta) * resNext);
+			(*texture).push_back(0.75f + 0.25f * cos(teta) * res);
+			(*texture).push_back(0.5f +  0.5f * sin(teta) * res);
+			(*texture).push_back(0.75f + 0.25f * cos(tetaNext) * res);
+			(*texture).push_back( 0.5f +  0.5f * sin(tetaNext) * res);
+			(*texture).push_back(0.75f + 0.25f * cos(tetaNext) * resNext);
+			(*texture).push_back( 0.5f +  0.5f * sin(tetaNext) * resNext);
+			(*texture).push_back(0.75f + 0.25f * cos(teta) * res);
+			(*texture).push_back( 0.5f +  0.5f * sin(teta) * res);
+			(*texture).push_back(0.75f + 0.25f * cos(tetaNext) * resNext);
+			(*texture).push_back( 0.5f +  0.5f * sin(tetaNext) * resNext);
+			(*texture).push_back(0.75f + 0.25f * cos(teta) * resNext);
+			(*texture).push_back( 0.5f +  0.5f * sin(teta) * resNext);
 		}
 	}
 	return points;

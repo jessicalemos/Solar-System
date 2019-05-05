@@ -77,7 +77,7 @@ int main (int argc, char **argv)
         int slices = atoi(argv[4]);
         int layers = atoi(argv[5]);
         file = argv[6];
-        points = cone(radius,height,slices,layers,normal,texture);
+        points = cone(radius,height,slices,layers,&normal,&texture);
     }
     else if (strcmp("box", argv[1]) == 0 && argc == 7)
     {

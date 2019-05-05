@@ -12,6 +12,6 @@ vector<Point> cylinder(float radius, float height, int slices, int layers, vecto
 Point pointsSphere(float radius, float beta, float alfa);
 vector<Point> sphere(float radius, int slices, int layers,vector<Point> normal, vector<float> texture);
 vector<Point> plane(float size,vector<Point> normal, vector<float> texture);
-vector<Point> cone(float radius, float height, int slices, int layers, vector<Point> normal, vector<float> texture);
+vector<Point> cone(float radius, float height, int slices, int layers, vector<Point> *normal, vector<float> *texture);
 vector<Point> torus(float radiusIn,float radiusOut , int slices, int layers,vector<Point> normal, vector<float> texture);
 #endif
