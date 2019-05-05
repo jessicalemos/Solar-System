@@ -178,11 +178,12 @@ void Patch::cross(float *a, float *b, float *res)
     res[1] = a[2]*b[0] - a[0]*b[2];
     res[2] = a[0]*b[1] - a[1]*b[0];
 }
+
 void Patch::getPatchPoints(int patch, vector<Point>* points, vector<float>* textureList, vector<Point>* normalList){
     vector<int> indexesControlPoints = patchs.at(patch);
 
     float coordenadasX[4][4], coordenadasY[4][4], coordenadasZ[4][4];
-    float u,v,uu,vv,resU[3],resV[3];
+    float u,v,uu,vv;
     float t = 1.0f /tessellation;
     int pos = 0;
 
@@ -202,76 +203,56 @@ void Patch::getPatchPoints(int patch, vector<Point>* points, vector<float>* text
     {
         for (int j = 0; j < tessellation; j++)
         {
-            float res[3];
             u = i*t;
             v = j*t;
             uu = (i+1)*t;
             vv = (j+1)*t;
-            Point *p0,*p1,*p2,*p3,*n0,*n1,*n2,*n3;
+            Point *p0,*p1,*p2,*p3;
+            Point *n0,*n1,*n2,*n3;
+            float *tangenteU,*tangenteV,res[3];
 
             p0 = getPoint(u, v, coordenadasX, coordenadasY, coordenadasZ);
-            resU[0] = getTangent(u,v,coordenadasX,0);
-            resU[1] = getTangent(u,v,coordenadasY,0);
-            resU[2] = getTangent(u,v,coordenadasZ,0);
-
-            resV[0] = getTangent(u,v,coordenadasX,1);
-            resV[1] = getTangent(u,v,coordenadasY,1);
-            resV[2] = getTangent(u,v,coordenadasZ,1);
-            normalize(resU);
-            normalize(resV);
-            cross(resV,resU,res);
+            tangenteU = getTangent(u,v,coordenadasX,coordenadasY,coordenadasZ,0);
+            tangenteV = getTangent(u,v,coordenadasX,coordenadasY,coordenadasZ,1);
+            cross(tangenteU,tangenteV,res);
+            normalize(res);
             n0 = new Point(res[0],res[1],res[2]);
 
             p1 = getPoint(u, vv, coordenadasX, coordenadasY, coordenadasZ);
-            resU[0] = getTangent(u,vv,coordenadasX,0);
-            resU[1] = getTangent(u,vv,coordenadasY,0);
-            resU[2] = getTangent(u,vv,coordenadasZ,0);
-
-            resV[0] = getTangent(u,vv,coordenadasX,1);
-            resV[1] = getTangent(u,vv,coordenadasY,1);
-            resV[2] = getTangent(u,vv,coordenadasZ,1);
-            normalize(resU);
-            normalize(resV);
-            cross(resV,resU,res);
+            tangenteU = getTangent(u,vv,coordenadasX,coordenadasY,coordenadasZ,0);
+            tangenteV = getTangent(u,vv,coordenadasX,coordenadasY,coordenadasZ,1);
+            cross(tangenteU,tangenteV,res);
+            normalize(res);
             n1 = new Point(res[0],res[1],res[2]);
 
             p2 = getPoint(uu, v, coordenadasX, coordenadasY, coordenadasZ);
-            resU[0] = getTangent(uu,v,coordenadasX,0);
-            resU[1] = getTangent(uu,v,coordenadasY,0);
-            resU[2] = getTangent(uu,v,coordenadasZ,0);
-
-            resV[0] = getTangent(uu,v,coordenadasX,1);
-            resV[1] = getTangent(uu,v,coordenadasY,1);
-            resV[2] = getTangent(uu,v,coordenadasZ,1);
-            normalize(resU);
-            normalize(resV);
-            cross(resV,resU,res);
+            tangenteU = getTangent(uu,v,coordenadasX,coordenadasY,coordenadasZ,0);
+            tangenteV = getTangent(uu,v,coordenadasX,coordenadasY,coordenadasZ,1);
+            cross(tangenteU,tangenteV,res);
+            normalize(res);
             n2 = new Point(res[0],res[1],res[2]);
 
             p3 = getPoint(uu, vv, coordenadasX, coordenadasY, coordenadasZ);
-            resU[0] = getTangent(uu,vv,coordenadasX,0);
-            resU[1] = getTangent(uu,vv,coordenadasY,0);
-            resU[2] = getTangent(uu,vv,coordenadasZ,0);
-
-            resV[0] = getTangent(uu,vv,coordenadasX,1);
-            resV[1] = getTangent(uu,vv,coordenadasY,1);
-            resV[2] = getTangent(uu,vv,coordenadasZ,1);
-            normalize(resU);
-            normalize(resV);
-            cross(resV,resU,res);
+            tangenteU = getTangent(uu,vv,coordenadasX,coordenadasY,coordenadasZ,0);
+            tangenteV = getTangent(uu,vv,coordenadasX,coordenadasY,coordenadasZ,1);
+            cross(tangenteU,tangenteV,res);
+            normalize(res);
             n3 = new Point(res[0],res[1],res[2]);
 
-            (*points).push_back(*p0); (*points).push_back(*p2); (*points).push_back(*p1);
-            (*points).push_back(*p1); (*points).push_back(*p2); (*points).push_back(*p3);
-            (*normalList).push_back(*n0); (*normalList).push_back(*n2); (*normalList).push_back(*n1);
-            (*normalList).push_back(*n1); (*normalList).push_back(*n2); (*normalList).push_back(*n3);
+            points->push_back(*p0); points->push_back(*p2); points->push_back(*p1);
+            points->push_back(*p1); points->push_back(*p2); points->push_back(*p3);
 
-            (*textureList).push_back(1-u); (*textureList).push_back(1-v);
-            (*textureList).push_back(1-uu); (*textureList).push_back(1-v);
-            (*textureList).push_back(1-u); (*textureList).push_back(1-vv);
-            (*textureList).push_back(1-u); (*textureList).push_back(1-vv);
-            (*textureList).push_back(1-uu); (*textureList).push_back(1-v);
-            (*textureList).push_back(1-uu); (*textureList).push_back(1-vv);
+            normalList->push_back(*n0); normalList->push_back(*n2); normalList->push_back(*n1);
+            normalList->push_back(*n1); normalList->push_back(*n2); normalList->push_back(*n3);
+
+            textureList->push_back(1-u); textureList->push_back(1-v);
+            textureList->push_back(1-uu); textureList->push_back(1-v);
+            textureList->push_back(1-u); textureList->push_back(1-vv);
+            textureList->push_back(1-u); textureList->push_back(1-vv);
+            textureList->push_back(1-uu); textureList->push_back(1-v);
+            textureList->push_back(1-uu); textureList->push_back(1-vv);
+
+
         }
     }
 }
