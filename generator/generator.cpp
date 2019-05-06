@@ -1,7 +1,6 @@
-#include "headers/generator.h"
-#include "headers/figures.h"
 #include "headers/Patch.h"
 #include "headers/Point.h"
+#include "headers/figures.h"
 
 #include <iostream>
 #include <fstream>
@@ -84,7 +83,7 @@ int main (int argc, char **argv)
         float length = atof(argv[2]), width = atof(argv[3]), height = atof(argv[4]);
         int divisions = atoi(argv[5]);
         file = argv[6];
-        points = box(length,width,height,divisions,normal, texture);
+        points = box(length,width,height,divisions,&normal,&texture);
     }
     else if (strcmp("sphere",argv[1]) == 0 && argc == 6)
     {
@@ -92,13 +91,13 @@ int main (int argc, char **argv)
             int slices = atoi(argv[3]);
             int layers = atoi(argv[4]);
             file = argv[5];
-            points = sphere(radius, slices, layers,normal,texture);
+            points = sphere(radius, slices, layers,&normal,&texture);
     }
     else if (strcmp("plane", argv[1]) == 0 && argc == 4)
     {
             float size = atof(argv[2]);
             file = argv[3];
-            points = plane(size / 2 ,normal,texture);
+            points = plane(size / 2 ,&normal,&texture);
     }
    else if (strcmp("cylinder",argv[1]) == 0 && argc == 7)
     {
@@ -107,7 +106,7 @@ int main (int argc, char **argv)
         int slices = atoi(argv[4]);
         int layers = atoi(argv[5]);
         file = argv[6];
-        points = cylinder(radius,height,slices,layers,normal,texture);
+        points = cylinder(radius,height,slices,layers,&normal,&texture);
     }
      
     else if (strcmp("torus",argv[1]) == 0 && argc == 7){
@@ -117,7 +116,7 @@ int main (int argc, char **argv)
             int slices = atoi(argv[4]);
             int layers = atoi(argv[5]);
             file = argv[6];
-            points = torus(radiusIn,radiusOut, slices, layers,normal,texture);
+            points = torus(radiusIn,radiusOut, slices, layers,&normal,&texture);
     }
 
     else if (strcmp("-patch",argv[1]) == 0 && argc==5){
