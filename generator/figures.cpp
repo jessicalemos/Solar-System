@@ -175,7 +175,6 @@ vector<Point> cone(float radius, float height, int slices, int layers, vector<Po
 	}
 	return points;
 }
-
 void divide(float length, float width, float height, int divisions, vector<Point> pointsTriangle, vector<Point> *points, vector<float> *textureList, int face, int tipo) {
 	Point p1 = pointsTriangle[0], p2 = pointsTriangle[1], p3 = pointsTriangle[2],
 			newP1, newP2, newP3;
@@ -244,27 +243,27 @@ void divide(float length, float width, float height, int divisions, vector<Point
 			(*points).push_back(newP2);
 			(*points).push_back(newP3);
 
-			if(face == 2){
+			if(face == 5){
 				newP1.y += h;
 				newP2.y += h;
 				newP3.y += h;
 				if (tipo == -1){
-					(*textureList).push_back(0.50f - i     * 0.25f     / divisions);
-					(*textureList).push_back(1.0f  - j     * 1.0f/3.0f / divisions);
-					(*textureList).push_back(0.50f - (i+1) * 0.25f     / divisions);
-					(*textureList).push_back(1.0f  - j     * 1.0f/3.0f / divisions);
-					(*textureList).push_back(0.50f - (i+1) * 0.25f     / divisions);
-					(*textureList).push_back(1.0f  - (j+1) * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.5f - i     * 0.25f     / divisions);
+					(*textureList).push_back(2.0/3.0f  - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.5f - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0/3.0f  - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.5f - (i+1) * 0.25f     / divisions);
+					(*textureList).push_back(2.0/3.0f  - (j+1) * 1.0f/3.0f / divisions);
 				} else {
-					(*textureList).push_back(0.25f     + i     * 0.25f     / divisions);
-					(*textureList).push_back(2.0f/3.0f + j     * 1.0f/3.0f / divisions);
-					(*textureList).push_back(0.25f     + (i+1) * 0.25f     / divisions);
-					(*textureList).push_back(2.0f/3.0f + j     * 1.0f/3.0f / divisions);
-					(*textureList).push_back(0.25f     + (i+1) * 0.25f     / divisions);
-					(*textureList).push_back(2.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f + i * 0.25f / divisions);
+					(*textureList).push_back(1.0f/3.0f + j * 1.0f/3.0f / divisions);
+					(*textureList).push_back(0.25f + (i + 1) * 0.25f / divisions);
+					(*textureList).push_back(1.0f/3.0f + j * 1.0f/3.0f / divisions);
+					(*textureList).push_back(01.5f + (i + 1) * 0.25f / divisions);
+					(*textureList).push_back(1.0f/3.0f + (j + 1) * 1.0f / 3.0f / divisions);
 				}
 			}
-			else if(face == 3){
+			else if(face == 4){
 				newP1.y += h;
 				newP2.y += h;
 				newP3.y += h;
@@ -285,7 +284,7 @@ void divide(float length, float width, float height, int divisions, vector<Point
 					(*textureList).push_back(1.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
 				}
 			}
-			else if(face == 5){
+			else if(face == 2){
 				newP1.y += h;
 				newP2.y += h;
 				newP3.y += h;
@@ -293,7 +292,7 @@ void divide(float length, float width, float height, int divisions, vector<Point
 					(*textureList).push_back(0.25f     - i     * 0.25f     / divisions);
 					(*textureList).push_back(2.0f/3.0f - j     * 1.0f/3.0f / divisions);
 					(*textureList).push_back(0.25f     - (i+1) * 0.25f     / divisions);
-					(*textureList).push_back(2.0f/3.0f - j     * 0.333f    / divisions);
+					(*textureList).push_back(2.0f/3.0f - j     * 1.0f/3.0f / divisions);
 					(*textureList).push_back(0.25f     - (i+1) * 0.25f     / divisions);
 					(*textureList).push_back(2.0f/3.0f - (j+1) * 1.0f/3.0f / divisions);
 				} else {
@@ -305,7 +304,7 @@ void divide(float length, float width, float height, int divisions, vector<Point
 					(*textureList).push_back(1.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
 				}
 			}
-			else if(face == 4){
+			else if(face == 1){
 				newP1.y += h;
 				newP2.y += h;
 				newP3.y += h;
@@ -325,7 +324,7 @@ void divide(float length, float width, float height, int divisions, vector<Point
 					(*textureList).push_back(1.0f/3.0f + (j+1) * 1.0f/3.0f / divisions);
 				}
 			}
-			else if(face == 0){
+			else if(face == 3){
 				newP1.z += h;
 				newP2.z += h;
 				newP3.z += h;
@@ -367,7 +366,7 @@ void divide(float length, float width, float height, int divisions, vector<Point
 			}
 		}
 
-		if(face == 5 || face == 4){
+		if(face == 1 || face == 2){
 			p1.z += l;
 			p2.z += l;
 			p3.z += l;
@@ -407,16 +406,14 @@ vector<Point> box(float length, float width, float height, int divisions, vector
 		p.x = length / 2 * quadrants[f][0];
 		p.y = height / 2 * quadrants[f][1];
 		p.z = width / 2 * quadrants[f][2];
-		if ((i+1)%3){
+		pointsTriangle[j++] = p;
+		if ((i+1)%3 == 0){
 			divide(length, width, height, divisions, pointsTriangle,&points,texture,face,tipo);
 			j = 0;
 			tipo *= -1;
 		}
-		pointsTriangle[j++] = p;
 		if ((i+1)%6 == 0)
 			face++;
-		else
-			points.push_back(p);
 	}
 
 	int num = (int) points.size() / 6;
@@ -430,7 +427,6 @@ vector<Point> box(float length, float width, float height, int divisions, vector
 		for (int j = 0; j < num; j++)
 			(*normal).push_back(p);
 	}
-    // writePointsFile(fileName,points,normal,textureList);
 	return points;
 }
 
