@@ -5,7 +5,7 @@
       <group>
             <scale X="20" Y="20" Z="20" />
             <models>
-                  <model file="../../plane.3d" texture="../../texture/earth.jpg" />
+                  <model file="plane.3d" texture="../../texture/earth.jpg" />
             </models>
       </group>
 </scene>

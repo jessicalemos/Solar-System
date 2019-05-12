@@ -229,7 +229,7 @@ void parseModels (Group *group, XMLElement *element) {
             vector<Point*> normal;
             vector<float> texture;
             readPointsFile(fileDir, &points,&normal, &texture);
-
+            
             if (points.size()) {
                 Shape *shape;
                 if(element->Attribute("texture"))

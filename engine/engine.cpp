@@ -256,6 +256,26 @@ void changeSize(int w, int h)
     glMatrixMode(GL_MODELVIEW);
 }
 
+void init()
+{
+    ilInit();
+    ilEnable(IL_ORIGIN_SET);
+    ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glPolygonMode(GL_FRONT, GL_FILL);
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_LIGHTING);
+
+    //glEnable(GL_NORMALIZE);
+    glEnable(GL_RESCALE_NORMAL);
+}
+
 int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
@@ -280,10 +300,12 @@ int main(int argc, char **argv)
         MenuAjuda();
         return 0;
     }
+
+    init();
+
     scene = loadXMLfile(argv[1]);
     camera = new Camera();
     if(scene == nullptr) return 0;
-    // put GLUT init here
 
     // put callback registration here
     glutDisplayFunc(renderScene);
@@ -296,19 +318,6 @@ int main(int argc, char **argv)
     glutMotionFunc(mouseMotion);
 
     showMenu();
-    // OpenGL settings
-    ilInit();
-    ilEnable(IL_ORIGIN_SET);
-    ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_NORMAL_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_RESCALE_NORMAL);
 
     // enter GLUT's main loop
     glutMainLoop();
