@@ -25,8 +25,12 @@ class Transformation
         Transformation();
         Transformation(string typeT, float a, float xx, float yy, float zz);
         Transformation(float ti, vector<Point*> cP, bool de, string t);
+		Transformation(float r, float g, float b);
         string getType();
         float getAngle();
+		void setX(float x);
+		void setY(float y);
+		void setZ(float z);
         float getX();
         float getY();
         float getZ();

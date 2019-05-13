@@ -14,7 +14,6 @@
             <group>
                   <!-- Sun -->
                   <scale X="3.6" Y="3.6" Z="3.6" />
-                  <colour R="1" G="0.55" B="0.0" />
                   <models>
                           <model file="sphere.3d" texture="../../texture/sun.jpg" emiR="0.8" emiG="0.8" emiB="0.8" />
                   </models>
@@ -41,7 +40,6 @@
                   </translate>
                   <scale X="0.2" Y="0.2" Z="0.2" />
                   <rotate time="10" Y="1" />
-                  <colour R="0.2" G="0.2" B="0.2" />
                   <models>
                           <model file="sphere.3d" texture="../../texture/mercury.jpg"/>
                   </models>
@@ -68,7 +66,6 @@
                   </translate>
                   <rotate time="10" X="0" Y="1" Z="0" />
                   <scale X="0.4" Y="0.4" Z="0.4" />
-                  <colour R="0.8" G="0.5" B="0.5" />
                   <models>
                           <model file="sphere.3d" texture="../../texture/venus.jpg"  />
                   </models>
@@ -95,7 +92,6 @@
                   </translate>
                   <scale X="0.5" Y="0.5" Z="0.5" />
                   <rotate time="10" X="0" Y="1" Z="2" />
-                  <colour R="0.39" G="0.58" B="0.93" />
                    <models>
                           <model file="sphere.3d" texture="../../texture/earth.jpg" diffR="0.9" diffG="0.9" diffB="0.9" />
                   </models>
@@ -121,7 +117,6 @@
                               <point X="9.238795" Y="0.000000" Z="-3.826834" />
                         </translate>
                         <scale X="0.3" Y="0.3" Z="0.3" />
-                        <colour R="0.2" G="0.2" B="0.2" />
                         <models>
                                 <model file="sphere.3d" texture="../../texture/moon.jpg" />
                         </models>
@@ -149,7 +144,6 @@
                   </translate>
                   <rotate time="10" X="0" Y="1" Z="0" />
                   <scale X="0.25" Y="0.25" Z="0.25" />
-                  <colour R="0.82" G="0.41" B="0.12" />
                   <models>
                           <model file="sphere.3d" texture="../../texture/mars.jpg"  />
                   </models>
@@ -176,7 +170,6 @@
                   </translate>
                   <rotate time="10" X="0" Y="1" Z="0" />
                   <scale X="0.7" Y="0.7" Z="0.7" />
-                  <colour R="0.82" G="0.71" B="0.55" />
                   <models>
 		      <model file="sphere.3d" texture="../../texture/jupiter.jpg" />
                   </models>
@@ -184,7 +177,6 @@
                         <!-- Ganimedes -->
                         <scale X="0.35" Y="0.35" Z="0.35" />
                         <translate X="11" Y="12" Z="13" />
-                        <colour R="0.66" G="0.66" B="0.66" />
                         <models>
                               <model file="sphere.3d" diffR="0.1" diffG="0.2" diffB="0.3" />
                         </models>
@@ -193,7 +185,6 @@
                         <!-- Calisto  -->
                         <scale X="0.2" Y="0.2" Z="0.2" />
                         <translate X="-15" Y="15" Z="15" />
-                        <colour R="0.5" G="0.5" B="0.5" />
                         <models>
                               <model file="sphere.3d"  diffR="0.4" diffG="0.5" diffB="0.6" />
                         </models>
@@ -202,7 +193,6 @@
                         <!-- Io  -->
                         <scale X="0.15" Y="0.15" Z="0.15" />
                         <translate X="-25" Y="24" Z="-35" />
-                        <colour R="0.96" G="0.77" B="0.19" />
                         <models>
                               <model file="sphere.3d" diffR="0.7" diffG="0.8" diffB="0.9" />
                         </models>
@@ -211,7 +201,6 @@
                         <!-- Europa  -->
                         <scale X="0.25" Y="0.25" Z="0.25" />
                         <translate X="-17" Y="20" Z="-35" />
-                        <colour R="0.74" G="0.72" B="0.42" />
                         <models>
                               <model file="sphere.3d" diffR="1" diffG="0.9" diffB="0.8" />
                         </models>
@@ -240,24 +229,21 @@
                   <rotate time="10" X="0" Y="1" Z="0" />
                   <rotate time="10" X="0" Y="1" Z="0" />
                   <scale X="1.4" Y="1.4" Z="1.4" />
-                  <!--  <colour R="0.8" G="0.6" B="0.6" /> -->
                   <models>
                           <model file="sphere.3d" texture="../../texture/saturn.jpg" />
                   </models>
                   <group>
                         <!-- Ring -->
                         <rotate angle="90" X="1" />
-                        <scale X="2" Z="0" Y="2" />
-                        <colour R="0.8" G="0.6" B="0.4" />
+                        <scale X="2" Z="0" Y="2" /> 
                         <models>
-                                <model file="torus.3d" texture="../..texture/saturn_ring.jpg" emiR="0.2" emiG="0.2" emiB="0.2" />
+                                <model file="torus.3d" texture="../..texture/saturn_ring.jpg" diffR="0.8" diffG="0.2" diffB="0.0" />
                         </models>
                   </group>
                   <group>
                         <!-- Dione  -->
                         <translate X="1" Y="5" Z="-2" />
                         <scale X="0.1" Y="0.1" Z="0.1" />
-                        <!--  <colour R="0.2" G="0.2" B="0.2" /> -->
                         <models>
                               <model file="sphere.3d" diffR="1" diffG="0.9" diffB="0.8"  />
                         </models>
@@ -285,7 +271,6 @@
                   </translate>
                   <rotate time="10" X="0" Y="1" Z="0" />
                   <scale X="0.9" Y="0.9" Z="0.9" />
-                  <colour R="0.69" G="0.88" B="0.9" />
                   <models>
                           <model file="sphere.3d" texture="../../texture/uranus.jpg" />
                   </models>
@@ -293,7 +278,6 @@
                         <!-- Ring -->
                         <rotate angle="55" X="1" Y="1" />
                         <scale X="2" Z="0" Y="2" />
-                        <!--  <colour R="0.69" G="0.88" B="0.9" /> -->
                         <models>
                                 <model file="torus.3d" texture="../../texture/uranus_ring.jpg" />
                         </models>
@@ -321,7 +305,6 @@
                   </translate>
                   <rotate time="10" X="0" Y="1" Z="0" />
                   <scale X="0.6" Y="0.6" Z="0.6" />
-                  <!--  <colour R="0.2" G="0.2" B="1.0" /> -->
                   <models>
                           <model file="sphere.3d" texture="../../texture/neptune.jpg" />
                   </models>
@@ -337,7 +320,6 @@
                         <point X="0.000000" Y="0.000000" Z="-250.000000" />
                   </translate>
                   <scale X="0.6" Y="0.6" Z="0.6" />
-                  <!--  <colour R="0.94" G="1.0" B="1.0" /> -->
                   <models>
                           <model file="teapot.3d" texture="../textures/mercury.jpg" />
                   </models>

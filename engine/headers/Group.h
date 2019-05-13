@@ -20,6 +20,7 @@ class Group {
         void addTransformation(Transformation* t);
         void addGroup(Group* g);
         void setShapes(vector<Shape*> pt);
+        vector<Light*> getLights();
         vector<Shape*> getShapes();
         vector<Group*> getGroups();
         void setLights(vector<Light*> l);

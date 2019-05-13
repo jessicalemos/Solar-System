@@ -111,11 +111,11 @@ vector<Point> cone(float radius, float height, int slices, int layers, vector<Po
 
 		//texture
 		(*texture).push_back(0.25f);
-		(*texture).push_back(0.25f + cos(tetaNext) / 0.4f);
-		(*texture).push_back(0.25f + cos(teta) / 0.4f);
 		(*texture).push_back(0.5f);
-		(*texture).push_back(0.5f + sin(tetaNext) / 0.2f);
-		(*texture).push_back(0.5f + sin(teta) / 0.2f);
+		(*texture).push_back(0.25f + cos(tetaNext) / 4.0f);
+		(*texture).push_back(0.5f + sin(tetaNext) / 2.0f);
+		(*texture).push_back(0.25f + cos(teta) / 4.0f);
+		(*texture).push_back(0.5f + sin(teta) / 2.0f);
 	}
 
 	float angle = atan(radius / height);
@@ -249,17 +249,17 @@ void divide(float length, float width, float height, int divisions, vector<Point
 				newP3.y += h;
 				if (tipo == -1){
 					(*textureList).push_back(0.5f - i     * 0.25f     / divisions);
-					(*textureList).push_back(2.0/3.0f  - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(2.0f/3.0f  - j     * 1.0f/3.0f / divisions);
 					(*textureList).push_back(0.5f - (i+1) * 0.25f     / divisions);
-					(*textureList).push_back(2.0/3.0f  - j     * 1.0f/3.0f / divisions);
+					(*textureList).push_back(2.0f/3.0f  - j     * 1.0f/3.0f / divisions);
 					(*textureList).push_back(0.5f - (i+1) * 0.25f     / divisions);
-					(*textureList).push_back(2.0/3.0f  - (j+1) * 1.0f/3.0f / divisions);
+					(*textureList).push_back(2.0f/3.0f  - (j+1) * 1.0f/3.0f / divisions);
 				} else {
 					(*textureList).push_back(0.25f + i * 0.25f / divisions);
 					(*textureList).push_back(1.0f/3.0f + j * 1.0f/3.0f / divisions);
 					(*textureList).push_back(0.25f + (i + 1) * 0.25f / divisions);
 					(*textureList).push_back(1.0f/3.0f + j * 1.0f/3.0f / divisions);
-					(*textureList).push_back(01.5f + (i + 1) * 0.25f / divisions);
+					(*textureList).push_back(0.25f + (i + 1) * 0.25f / divisions);
 					(*textureList).push_back(1.0f/3.0f + (j + 1) * 1.0f / 3.0f / divisions);
 				}
 			}
@@ -542,12 +542,12 @@ vector<Point> cylinder(float radius, float height, int slices, int layers, vecto
 		(*normal).push_back(p3);
 
 		//texture
-		(*texture).push_back(0.25f);
-		(*texture).push_back(0.25f + cos(tetaNext) / 0.4f);
-		(*texture).push_back(0.25f + cos(teta) / 0.4f);
-		(*texture).push_back(0.5f);
-		(*texture).push_back(0.5f + sin(tetaNext) / 0.2f);
-		(*texture).push_back(0.5f + sin(teta) / 0.2f);
+        (*texture).push_back(0.8125f);
+        (*texture).push_back(0.1875f);
+        (*texture).push_back(0.8125f + 0.1875f * sin(teta + alpha));
+        (*texture).push_back(0.1875f + 0.1875f * cos(teta + alpha));
+        (*texture).push_back(0.8125f + 0.1875f * sin(teta));
+        (*texture).push_back(0.1875f + 0.1875f * cos(teta));
 	}
 
 	for (int i = 0; i < layers; i++) {
@@ -573,6 +573,52 @@ vector<Point> cylinder(float radius, float height, int slices, int layers, vecto
 			points.push_back(p2);
 			points.push_back(p3);
 
+            Point p4;
+            p4.x = sin(teta);
+            p4.y = 0;
+            p4.z = cos(teta);
+            Point p5;
+            p5.x = sin(tetaNext);
+            p5.y = 0;
+            p5.z = cos(teta);
+            Point p6;
+            p6.x = sin(tetaNext);
+            p6.y = 0;
+            p6.z = cos(tetaNext);
+
+            (*normal).push_back(p4);
+            (*normal).push_back(p5);
+            (*normal).push_back(p4);
+            (*normal).push_back(p6);
+            (*normal).push_back(p6);
+            (*normal).push_back(p6);
+
+            (*texture).push_back((1.0f/slices) * (j + 1));
+            (*texture).push_back(i*0.625f/layers + 0.375f);
+            (*texture).push_back((1.0f/slices) * (j + 1));
+            (*texture).push_back(i*0.625f/layers + 0.375f);
+            (*texture).push_back((1.0f/slices) * (j + 1));
+            (*texture).push_back((i+1)*0.625f/layers + 0.375f);
+            (*texture).push_back((1.0f/slices) * (j + 1));
+            (*texture).push_back(i*0.625f/layers + 0.375f);
+            (*texture).push_back((1.0f/slices) * (j + 1));
+            (*texture).push_back((i+1)*0.625f/layers + 0.375f);
+            (*texture).push_back((1.0f/slices) * j);
+            (*texture).push_back((i+1)*0.625f/layers + 0.375f);
+
+            //texture
+      /*    (*texture).push_back((float) (j+1)/slices);
+            (*texture).push_back(((i+1) * 0.625f/layers) + 0.375f);
+            (*texture).push_back((float) j/slices);
+            (*texture).push_back(((i+1) * 0.625f/layers) + 0.375f);
+            (*texture).push_back((float) j/slices);
+            (*texture).push_back((i * 0.625f/layers) + 0.375f);
+            (*texture).push_back((float) j/slices);
+            (*texture).push_back((i * 0.625f/layers) + 0.375f);
+            (*texture).push_back((float) (j+1)/slices);
+            (*texture).push_back((i * 0.625f/layers) + 0.375f);
+            (*texture).push_back((float) (j+1)/slices);
+            (*texture).push_back(((i+1) * 0.625f/layers) + 0.375f); */
 		}
 	}
 	
@@ -600,6 +646,12 @@ vector<Point> cylinder(float radius, float height, int slices, int layers, vecto
 		(*normal).push_back(p3);
 
         //texture
+        (*texture).push_back(0.4375f);
+        (*texture).push_back(0.1875f);
+        (*texture).push_back(0.4375f + 0.1875f * sin(teta));
+        (*texture).push_back(0.1875f + 0.1875f * cos(teta));
+        (*texture).push_back(0.4375f + 0.1875f * sin(tetaNext));
+        (*texture).push_back(0.1875f + 0.1875f * cos(tetaNext));
 
     }
 	return points;

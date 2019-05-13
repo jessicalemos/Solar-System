@@ -20,6 +20,10 @@ void Group::setLights(vector<Light*> l){
 }
 
 
+vector<Light*> Group::getLights(){
+    return lights;
+}
+
 vector<Shape*> Group::getShapes() {
     return shapes;
 }
