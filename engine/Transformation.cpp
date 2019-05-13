@@ -18,6 +18,13 @@ Transformation::Transformation(float ti, vector<Point*> cP, bool de, string t){
 	deriv = de;
 	type = t;
 }
+
+Transformation::Transformation(float r, float g, float b) {
+    x = r;
+    y = g;
+    z = b;
+}
+
 float* Transformation::getVetor(){
     return vetor;
 }
@@ -50,6 +57,17 @@ float Transformation::getTime(){
     return time;
 }
 
+void Transformation::setX(float x){
+    this->x = x;
+}
+
+void Transformation::setY(float y){
+    this->y = y;
+}
+
+void Transformation::setZ(float z){
+    this->z = z;
+}
 vector<Point*> Transformation::getPointsCurve(){
 	return pointsCurve;
 }

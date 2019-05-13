@@ -55,11 +55,9 @@ int readPointsFile(string filename, vector<Point*> *points, vector<Point*> *norm
             j = 0;
 
             while(j < 2 && getline(ss,token,',')) {
-                tokens.push_back(stof(token));
                 j++;
+                textureList->push_back(stof(token));
             }
-            textureList->push_back(token[index++]);
-            textureList->push_back(token[index++]);
         }
 
         file.close();
@@ -190,7 +188,7 @@ void parseScale (Group *group, XMLElement *element){
     group->addTransformation(t);
 }
 
-void parseColour (Group *group, XMLElement *element){
+/*void parseColour (Group *group, XMLElement *element){
     float x=1, y=1, z=1;
     string type = "colour";
     Transformation *t;
@@ -207,7 +205,7 @@ void parseColour (Group *group, XMLElement *element){
 
     t = new Transformation(type,0,x,y,z);
     group->addTransformation(t);
-}
+}*/
 
 void parseModels (Group *group, XMLElement *element) {
     string file;
@@ -264,11 +262,11 @@ void parseLights (Group *group, XMLElement *element)
             else ponto = false;
             
             if(element->Attribute("x"))
-                x = atof(element->Attribute("x"));
+                x = stof(element->Attribute("x"));
             if(element->Attribute("y"))
-                y = atof(element->Attribute("y"));
+                y = stof(element->Attribute("y"));
             if(element->Attribute("z"))
-                z = atof(element->Attribute("z"));
+                z = stof(element->Attribute("z"));
             
             Point* p = new Point(x,y,z);
             light = new Light(ponto, p);
@@ -297,8 +295,8 @@ void parseGroup (Group *group, XMLElement *gElement)
         else if (strcmp(element->Name(),"models") == 0)
             parseModels(group, element);
 
-	else if (strcmp(element->Name(),"colour") == 0)
-            parseColour(group, element);
+	/*else if (strcmp(element->Name(),"colour") == 0)
+            parseColour(group, element);*/
 
         else if (strcmp(element->Name(),"group") == 0)
         {
@@ -311,44 +309,50 @@ void parseGroup (Group *group, XMLElement *gElement)
     }
 }
 void parseMaterial(Shape* shape, XMLElement* element) {
-    Point* diffuse = new Point(0.0, 0.0, 0.0);
-    Point* ambient = new Point(0.0, 0.0, 0.0);
-    Point* specular = new Point(0.0, 0.0, 0.0);
-    Point* emission = new Point(0.0, 0.0, 0.0);
+    Transformation* diffuse = NULL;
+    Transformation* ambient = NULL;
+    Transformation* specular = new Transformation(0, 0, 0);
+    Transformation* emission = new Transformation(0, 0, 0);
     
 
     // Diffuse
-    if(element->Attribute("diffR"))
-            diffuse->setX(atof(element->Attribute("diffR")));
-    if(element->Attribute("diffG"))
-            diffuse->setY(atof(element->Attribute("diffG")));
-    if(element->Attribute("diffB"))
-            diffuse->setZ(atof(element->Attribute("diffB")));
+    if(element->Attribute("diffR") || element->Attribute("diffG") || element->Attribute("diffB")) {
+        diffuse = new Transformation(0.8f, 0.8f, 0.8f);
+        if (element->Attribute("diffR"))
+            diffuse->setX(stof(element->Attribute("diffR")));
+        if (element->Attribute("diffG"))
+            diffuse->setY(stof(element->Attribute("diffG")));
+        if (element->Attribute("diffB"))
+            diffuse->setZ(stof(element->Attribute("diffB")));
+    }
 
     // Ambient
-    if(element->Attribute("ambR"))
-            ambient->setX(atof(element->Attribute("ambR")));
-    if(element->Attribute("ambG"))
-            ambient->setY(atof(element->Attribute("ambG")));
-    if(element->Attribute("ambB"))
-            ambient->setZ(atof(element->Attribute("ambB")));
+    if(element->Attribute("ambR") || element->Attribute("ambG") || element->Attribute("ambB")) {
+        ambient = new Transformation(0.2f, 0.2f, 0.2f);
+        if (element->Attribute("ambR"))
+            ambient->setX(stof(element->Attribute("ambR")));
+        if (element->Attribute("ambG"))
+            ambient->setY(stof(element->Attribute("ambG")));
+        if (element->Attribute("ambB"))
+            ambient->setZ(stof(element->Attribute("ambB")));
+    }
 
 
     // Specular
     if(element->Attribute("specR"))
-        specular->setX(atof(element->Attribute("specR")));
+        specular->setX(stof(element->Attribute("specR")));
     if(element->Attribute("specG"))
-        specular->setY(atof(element->Attribute("specG")));
+        specular->setY(stof(element->Attribute("specG")));
     if(element->Attribute("specB"))
-        specular->setZ(atof(element->Attribute("specB")));
+        specular->setZ(stof(element->Attribute("specB")));
 
     // Emission
     if(element->Attribute("emiR"))
-        emission->setX(atof(element->Attribute("emiR")));
+        emission->setX(stof(element->Attribute("emiR")));
     if(element->Attribute("emiG"))
-        emission->setY(atof(element->Attribute("emiG")));
+        emission->setY(stof(element->Attribute("emiG")));
     if(element->Attribute("emiB"))
-        emission->setZ(atof(element->Attribute("emiB")));
+        emission->setZ(stof(element->Attribute("emiB")));
 
    
     Material* m = new Material(diffuse, ambient, specular, emission);

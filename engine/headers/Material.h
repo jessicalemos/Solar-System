@@ -2,6 +2,7 @@
 #define __MATERIAL_H__
 
 #include "Point.h"
+#include "Transformation.h"
 
 using namespace std;
 
@@ -14,7 +15,7 @@ class Material{
     
 public:
     Material();
-    Material(Point* d, Point* a, Point* s, Point* e);
+    Material(Transformation* d, Transformation* a, Transformation* s, Transformation* e);
     void draw();
     float* getDiffuse();
     float* getAmbient();

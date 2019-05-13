@@ -16,7 +16,7 @@ void drawOrbits(Transformation *t)
 
     glPushAttrib(GL_LIGHTING_BIT);
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, cor);
-    glBegin(GL_LINE_LOOP);
+    glBegin(GL_POINTS);
     for(Point *p : curvePoints){
         float normal[3] = { -p->getX(),
             -p->getY(),
@@ -88,6 +88,10 @@ void drawSystem(Group *system)
         applyTransformation(t);
     }
 
+    vector<Light*> lights = system->getLights();
+    for(vector<Light*>::iterator light_it = lights.begin(); light_it != lights.end(); ++light_it)
+        (*light_it)->draw();
+
     vector<Shape*> shapeList = system->getShapes();
     for(vector<Shape*>::iterator shape_it = shapeList.begin(); shape_it != shapeList.end(); ++shape_it)
         (*shape_it)->draw();
@@ -145,19 +149,12 @@ void processMenu(int option)
         case 3:
             stop = 1;
             break;
-        case -1:
-            glEnable(GL_LIGHTING);
-            break;
-        case -2:
-            glDisable(GL_LIGHTING);
-            break;
     }
     glutPostRedisplay();
 }
 
 void showMenu()
 {
-    glutAddMenuEntry("Sun",1);
     int moves = glutCreateMenu(processMenu);
     glutAddMenuEntry("On",2);
     glutAddMenuEntry("Off",3);
@@ -271,8 +268,9 @@ void init()
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
 
-    //glEnable(GL_NORMALIZE);
+    glEnable(GL_NORMALIZE);
     glEnable(GL_RESCALE_NORMAL);
 }
 
@@ -292,6 +290,9 @@ int main(int argc, char **argv)
     }
     #endif
 
+    init();
+
+
     if (argc < 2) {
         cout << "Invalid input. Use -h if you need some help." << endl;
         return 0;
@@ -300,8 +301,6 @@ int main(int argc, char **argv)
         MenuAjuda();
         return 0;
     }
-
-    init();
 
     scene = loadXMLfile(argv[1]);
     camera = new Camera();

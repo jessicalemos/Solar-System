@@ -7,7 +7,7 @@
             <scale X="20" Y="20" Z="20" />
             <models>
 
-                  <model file="cone.3d" texture="../../texture/cone.jpg" emiR="0.2" emiG="0.2" emiB="0.2" />
+                  <model file="cone.3d" texture="../../texture/cone.png" emiR="0.2" emiG="0.2" emiB="0.2" />
             </models>
       </group>
 </scene>
