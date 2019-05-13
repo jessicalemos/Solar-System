@@ -13,7 +13,7 @@
 
 using namespace std;
 
-int line = GL_FILL;
+int line = GL_LINE;
 Group *scene;
 Camera *camera;
 float eTime = 0.0f, cTime = 0.0f;

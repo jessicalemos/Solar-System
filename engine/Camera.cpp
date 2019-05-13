@@ -7,6 +7,10 @@
 #include <math.h>
 #include "headers/Camera.h"
 
+#define GLUT_WHEEL_UP 3
+#define GLUT_WHEEL_DOWN 4
+
+
 Camera::Camera()
 {
     posInitialCamera();
@@ -15,74 +19,88 @@ Camera::Camera()
 float Camera::getXPosition() { return positionX; }
 float Camera::getYPosition() { return positionY; }
 float Camera::getZPosition() { return positionZ; }
-float Camera::getXLook() { return lookX; }
-float Camera::getYLook() { return lookY; }
-float Camera::getZLook() { return lookZ; }
+float Camera::getOrX() { return positionX + lookX; }
+float Camera::getOrY() { return positionY + lookY; }
+float Camera::getOrZ() { return positionZ + lookZ; }
+
 
 void Camera::posInitialCamera()
 {
-    radius = 120.0f, speed = 0.5f;
-    alpha = 4.3f, teta = 0.3f;
+    
+    alpha = 0.0f, teta = -M_PI / 6.0f;
 
-    lookX = 0; lookY = 0; lookZ = 0;
-    positionX = lookX + radius*sin(alpha)*cos(teta);
-    positionY = lookY + radius*sin(teta);
-    positionZ = lookZ + radius*cos(alpha)*cos(teta);
+    positionX = -100.0f; positionY = 60.0f; positionZ = 0.0f;
+    lookX = float(cos(teta)*cos(alpha)) ;
+    lookY = float(sin(teta));
+    lookZ = float(cos(teta)*sin(alpha));
 
     mouseLeftIsPressed = false;
 }
 
-void Camera::changePositionLook(float x, float y, float z)
-{
-    posInitialCamera();
-    lookX = x;
-    lookY = y;
-    lookZ = z;
-
-    positionX += x;
-    positionY += y;
-    positionZ += z;
+void cross(float* a, float* b, float* res){
+    res[0] = a[1] * b[2] -a[2] * b[1];
+    res[1] = a[2] * b[0] -a[0] * b[2];
+    res[2] = a[0] * b[1] -a[1] * b[0];
 }
+        void Camera::specialKeyCamera(int key)
+        {
+            switch (key)
+            {
+                case GLUT_KEY_F6:
+                {
+                    positionX += lookX * 1.7f;
+                    positionY += lookY * 1.7f;
+                    positionZ += lookZ * 1.7f;
+                    break;
+                }
+                case GLUT_KEY_F7:
+                {
+                   positionX -= lookX * 1.7f;
+                    positionY -= lookY * 1.7f;
+                    positionZ -= lookZ * 1.7f;
+                    break;
+                }
+                case GLUT_KEY_F8:
+                {
+                    float up[3], dir[3];
+                    up[0] = up[2] = 0;
+                    up[1] = 1;
+                    dir[0] = lookX ;
+                    dir[1] = lookY ;
+                    dir[2] = lookZ;
+                    float res[3];
 
-void Camera::specialKeyCamera(int key)
-{
-    switch (key)
-    {
-        case GLUT_KEY_UP:
-            if (teta < (M_PI / 2 - speed))
-                teta += speed;
-            break;
+                    cross(dir,up,res);
 
-        case GLUT_KEY_DOWN:
-            if (teta > -(M_PI / 2 - speed))
-                teta -= speed;
-            break;
+                    positionX -=  res[0] * 1.7f;
+                    positionY -= res[1] * 1.7f;
+                    positionZ -= res[2] * 1.7f;
+                    break;
+                }
+                case GLUT_KEY_F9:
+                {
+                    float up[3], dir[3];
+                    up[0] = up[2] = 0;
+                    up[1] = 1;
+                    dir[0] = lookX ;
+                    dir[1] = lookY ;
+                    dir[2] = lookZ;
+                    float res[3];
 
-        case GLUT_KEY_LEFT:
-            alpha -= speed;
-            break;
+                    cross(dir,up,res);
 
-        case GLUT_KEY_RIGHT:
-            alpha += speed;
-            break;
+                    positionX +=  res[0] * 1.7f;
+                    positionY += res[1] * 1.7f;
+                    positionZ += res[2] * 1.7f;
+                    break;
+                }
+                case GLUT_KEY_F10:
+                    posInitialCamera();
+                default:
+                    break;
+            }
+        }
 
-        case GLUT_KEY_F1:
-            radius -= speed * 2;
-            break;
-
-        case GLUT_KEY_F2:
-            radius += speed * 2;
-            break;
-        case GLUT_KEY_F6:
-            posInitialCamera();
-            break;
-        default:
-            break;
-    }
-    positionX = lookX + radius*sin(alpha)*cos(teta);
-    positionY = lookY + radius*sin(teta);
-    positionZ = lookZ + radius*cos(alpha)*cos(teta);
-}
 
 void Camera::mousePress(int button, int state, int x, int y)
 {
@@ -90,18 +108,26 @@ void Camera::mousePress(int button, int state, int x, int y)
     {
         if (state == GLUT_UP)
         {
+            glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
             alpha += (x - mousePositionX) *  0.001f;
             teta += (y - mousePositionY) *  0.001f;
             mouseLeftIsPressed = false;
         }
  	else if (state == GLUT_DOWN)
         {
+            glutSetCursor(GLUT_CURSOR_NONE);
             mousePositionX = x;
             mousePositionY = y;
             mouseLeftIsPressed = true;
         }
     }
+    else if(button == GLUT_WHEEL_DOWN && state == GLUT_DOWN)
+        positionY -= 0.5 * 1.7f;
+    else if(button == GLUT_WHEEL_UP && state == GLUT_DOWN)
+        positionY +=0.5 * 1.7f;
+
 }
+
 
 void Camera::mouseMotion(int x, int y)
 {
@@ -115,8 +141,8 @@ void Camera::mouseMotion(int x, int y)
         if (newTeta > M_PI/2 - 0.05f) newTeta = M_PI/2 - 0.05f;
         else if (newTeta < -M_PI/2 + 0.05f) newTeta = -M_PI/2 + 0.05f;
 
-        positionX = lookX + radius * sin(newAlpha) * cos(newTeta);
-        positionY = lookY + radius * sin(newTeta);
-        positionZ = lookZ + radius * cos(newAlpha) * cos(newTeta);
+        lookX = float(cos(newTeta)*cos(newAlpha));
+        lookY = float(sin(newTeta));
+        lookZ = float(cos(newTeta)*sin(newAlpha));
     }
 }
