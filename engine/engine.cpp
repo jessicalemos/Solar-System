@@ -87,11 +87,11 @@ void drawSystem(Group *system)
     for (Transformation *t: system->getTransformations()){
         applyTransformation(t);
     }
-
+    
     vector<Light*> lights = system->getLights();
     for(vector<Light*>::iterator light_it = lights.begin(); light_it != lights.end(); ++light_it)
         (*light_it)->draw();
-
+    
     vector<Shape*> shapeList = system->getShapes();
     for(vector<Shape*>::iterator shape_it = shapeList.begin(); shape_it != shapeList.end(); ++shape_it)
         (*shape_it)->draw();
@@ -149,12 +149,19 @@ void processMenu(int option)
         case 3:
             stop = 1;
             break;
+        case -1:
+            glEnable(GL_LIGHTING);
+            break;
+        case -2:
+            glDisable(GL_LIGHTING);
+            break;
     }
     glutPostRedisplay();
 }
 
 void showMenu()
 {
+    //glutAddMenuEntry("Sun",1);
     int moves = glutCreateMenu(processMenu);
     glutAddMenuEntry("On",2);
     glutAddMenuEntry("Off",3);
@@ -218,7 +225,7 @@ void renderScene(void)
     glLoadIdentity();
     gluLookAt (
             camera->getXPosition(), camera->getYPosition(), camera->getZPosition(),
-            camera->getXLook(), camera->getYLook(), camera->getZLook(),
+            camera->getOrX(), camera->getOrY(), camera->getOrZ(),
             0.0f, 1.0f, 0.0f);
     glPolygonMode(GL_FRONT_AND_BACK, line);
     fps();
@@ -290,9 +297,6 @@ int main(int argc, char **argv)
     }
     #endif
 
-    init();
-
-
     if (argc < 2) {
         cout << "Invalid input. Use -h if you need some help." << endl;
         return 0;
@@ -301,6 +305,8 @@ int main(int argc, char **argv)
         MenuAjuda();
         return 0;
     }
+
+    init();
 
     scene = loadXMLfile(argv[1]);
     camera = new Camera();
@@ -323,3 +329,4 @@ int main(int argc, char **argv)
 
     return 1;
 }
+
