@@ -16,7 +16,7 @@ void drawOrbits(Transformation *t)
 
     glPushAttrib(GL_LIGHTING_BIT);
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, cor);
-    glBegin(GL_LINE_LOOP);
+    glBegin(GL_POINTS);
     for(Point *p : curvePoints){
         float normal[3] = { -p->getX(),
             -p->getY(),
@@ -87,7 +87,11 @@ void drawSystem(Group *system)
     for (Transformation *t: system->getTransformations()){
         applyTransformation(t);
     }
-
+    
+    vector<Light*> lights = system->getLights();
+    for(vector<Light*>::iterator light_it = lights.begin(); light_it != lights.end(); ++light_it)
+        (*light_it)->draw();
+    
     vector<Shape*> shapeList = system->getShapes();
     for(vector<Shape*>::iterator shape_it = shapeList.begin(); shape_it != shapeList.end(); ++shape_it)
         (*shape_it)->draw();
@@ -122,11 +126,11 @@ void MenuAjuda() {
     cout << "|   F6 : Reset zoom                                              |" << endl;
     cout << "|                                                                |" << endl;
 	cout << "|   FORMAT:                                                      |" << endl;
-	cout << "|   P: Change the figure format into points                     |" << endl;
+	cout << "|   F3: Change the figure format into points                     |" << endl;
 	cout << "|                                                                |" << endl;
-	cout << "|   L: Change the figure format into lines                      |" << endl;
+	cout << "|   F4: Change the figure format into lines                      |" << endl;
 	cout << "|                                                                |" << endl;
-	cout << "|   O: Fill up the figure                                       |" << endl;
+	cout << "|   F5: Fill up the figure                                       |" << endl;
 	cout << "#________________________________________________________________#" << endl;
 }
 
@@ -157,7 +161,7 @@ void processMenu(int option)
 
 void showMenu()
 {
-    glutAddMenuEntry("Sun",1);
+    //glutAddMenuEntry("Sun",1);
     int moves = glutCreateMenu(processMenu);
     glutAddMenuEntry("On",2);
     glutAddMenuEntry("Off",3);
@@ -271,8 +275,9 @@ void init()
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
 
-    //glEnable(GL_NORMALIZE);
+    glEnable(GL_NORMALIZE);
     glEnable(GL_RESCALE_NORMAL);
 }
 

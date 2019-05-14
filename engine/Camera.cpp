@@ -46,21 +46,21 @@ void cross(float* a, float* b, float* res){
         {
             switch (key)
             {
-                case GLUT_KEY_F6:
+                case GLUT_KEY_F7:
                 {
                     positionX += lookX * 1.7f;
                     positionY += lookY * 1.7f;
                     positionZ += lookZ * 1.7f;
                     break;
                 }
-                case GLUT_KEY_F7:
+                case GLUT_KEY_F8:
                 {
                    positionX -= lookX * 1.7f;
                     positionY -= lookY * 1.7f;
                     positionZ -= lookZ * 1.7f;
                     break;
                 }
-                case GLUT_KEY_F8:
+                case GLUT_KEY_F9:
                 {
                     float up[3], dir[3];
                     up[0] = up[2] = 0;
@@ -77,7 +77,7 @@ void cross(float* a, float* b, float* res){
                     positionZ -= res[2] * 1.7f;
                     break;
                 }
-                case GLUT_KEY_F9:
+                case GLUT_KEY_F10:
                 {
                     float up[3], dir[3];
                     up[0] = up[2] = 0;
@@ -94,7 +94,7 @@ void cross(float* a, float* b, float* res){
                     positionZ += res[2] * 1.7f;
                     break;
                 }
-                case GLUT_KEY_F10:
+                case GLUT_KEY_F6:
                     posInitialCamera();
                 default:
                     break;
