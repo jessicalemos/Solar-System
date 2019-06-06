@@ -593,32 +593,23 @@ vector<Point> cylinder(float radius, float height, int slices, int layers, vecto
             (*normal).push_back(p6);
             (*normal).push_back(p6);
 
-            (*texture).push_back((1.0f/slices) * (j + 1));
-            (*texture).push_back(i*0.625f/layers + 0.375f);
-            (*texture).push_back((1.0f/slices) * (j + 1));
-            (*texture).push_back(i*0.625f/layers + 0.375f);
-            (*texture).push_back((1.0f/slices) * (j + 1));
-            (*texture).push_back((i+1)*0.625f/layers + 0.375f);
-            (*texture).push_back((1.0f/slices) * (j + 1));
-            (*texture).push_back(i*0.625f/layers + 0.375f);
-            (*texture).push_back((1.0f/slices) * (j + 1));
-            (*texture).push_back((i+1)*0.625f/layers + 0.375f);
-            (*texture).push_back((1.0f/slices) * j);
-            (*texture).push_back((i+1)*0.625f/layers + 0.375f);
+			(*texture).push_back((1.0f/slices) * (j));
+			(*texture).push_back(i*0.625f/layers + 0.375f);
 
-            //texture
-      /*    (*texture).push_back((float) (j+1)/slices);
-            (*texture).push_back(((i+1) * 0.625f/layers) + 0.375f);
-            (*texture).push_back((float) j/slices);
-            (*texture).push_back(((i+1) * 0.625f/layers) + 0.375f);
-            (*texture).push_back((float) j/slices);
-            (*texture).push_back((i * 0.625f/layers) + 0.375f);
-            (*texture).push_back((float) j/slices);
-            (*texture).push_back((i * 0.625f/layers) + 0.375f);
-            (*texture).push_back((float) (j+1)/slices);
-            (*texture).push_back((i * 0.625f/layers) + 0.375f);
-            (*texture).push_back((float) (j+1)/slices);
-            (*texture).push_back(((i+1) * 0.625f/layers) + 0.375f); */
+			(*texture).push_back((1.0f/slices) * (j + 1));
+			(*texture).push_back(i*0.625f/layers + 0.375f);
+
+			(*texture).push_back((1.0f/slices) * (j + 1));
+			(*texture).push_back((i+1)*0.625f/layers + 0.375f);
+
+			(*texture).push_back((1.0f/slices) * (j));
+			(*texture).push_back(i*0.625f/layers + 0.375f);
+
+			(*texture).push_back((1.0f/slices) * (j + 1));
+			(*texture).push_back((i+1)*0.625f/layers + 0.375f);
+
+			(*texture).push_back((1.0f/slices) * j);
+			(*texture).push_back((i+1)*0.625f/layers + 0.375f);
 		}
 	}
 	

@@ -1,35 +1,36 @@
+#include <vector>
+#include "headers/Point.h"
 #include "headers/Light.h"
 
 Light::Light(){}
 
-Light::Light(bool isPoint, Point* point){
-    isPoint = isPoint;
-    point = point;
+Light::Light(float *inf, vector<int> atrb)
+{
+    info = inf;
+    attributes = atrb;
 }
 
-bool Light::getIsPoint(){
-    return isPoint;
-}
+void Light::apply(GLenum number)
+{
+        // LIGHT POSITION
+        glLightfv(GL_LIGHT0+number, GL_POSITION, info);
 
-Point* Light::getPoint(){
-    return point;
-}
+        // LIGHT ATTRIBUTES
+        for (const int atrb : attributes)
+        {
+            switch(atrb)
+            {
+                case DIFFUSE:
+                    glLightfv(GL_LIGHT0+number, GL_DIFFUSE, info+4);
+                    break;
 
-void Light::setIsPoint(bool type){
-    isPoint = type;
-}
+                case AMBIENT:
+                    glLightfv(GL_LIGHT0+number, GL_AMBIENT, info+8);
+                    break;
 
-void Light::setPoint(Point* p){
-    point = p;
-}
-
-void Light::draw() {
-
-    GLfloat pos[4] = {point->getX(), point->getY(), point->getZ(), (float) isPoint};
-    GLfloat amb[4] = {0.1, 0.1, 0.1, 1};
-    GLfloat diff[4] = {1, 1, 1, 0};
-
-    glLightfv(GL_LIGHT0, GL_POSITION, pos);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, amb);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, diff);
-}
+                case SPECULAR:
+                    glLightfv(GL_LIGHT0+number, GL_SPECULAR, info+12);
+                    break;
+            }
+        }
+    }

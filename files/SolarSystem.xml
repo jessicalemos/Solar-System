@@ -227,7 +227,6 @@
                         <point X="120.104340" Y="0.000000" Z="-49.748848" />
                   </translate>
                   <rotate time="10" X="0" Y="1" Z="0" />
-                  <rotate time="10" X="0" Y="1" Z="0" />
                   <scale X="1.4" Y="1.4" Z="1.4" />
                   <models>
                           <model file="sphere.3d" texture="../../texture/saturn.jpg" />
@@ -237,7 +236,7 @@
                         <rotate angle="90" X="1" />
                         <scale X="2" Z="0" Y="2" /> 
                         <models>
-                                <model file="torus.3d" texture="../..texture/saturn_ring.jpg" diffR="0.8" diffG="0.2" diffB="0.0" />
+                                <model file="torus.3d" texture="../..texture/saturn_ring.jpg" emiR="0.2" emiG="0.2" emiB="0.2" />
                         </models>
                   </group>
                   <group>
@@ -313,11 +312,11 @@
                   <!-- Comet -->
                   <rotate angle="45" X="1" />
                   <translate time="500" derivative="1" >
-                        <point X="250.000000" Y="0.000000" Z="0.000000" />
-                        <point X="0.000000" Y="0.000000" Z="250.000000" />
-                        <point X="-250.000000" Y="0.000000" Z="0.000000" />
-                        <point X="-100.000000" Y="0.000000" Z="-100.000000" />
-                        <point X="0.000000" Y="0.000000" Z="-250.000000" />
+                        <point X="150.000000" Y="0.000000" Z="0.000000" />
+                        <point X="0.000000" Y="0.000000" Z="150.000000" />
+                        <point X="-150.000000" Y="0.000000" Z="0.000000" />
+                        <point X="-50.000000" Y="0.000000" Z="-50.000000" />
+                        <point X="0.000000" Y="0.000000" Z="-150.000000" />
                   </translate>
                   <scale X="0.6" Y="0.6" Z="0.6" />
                   <models>

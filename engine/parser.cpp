@@ -1,6 +1,15 @@
 #include "headers/parser.h"
 #include "headers/Point.h"
 #include "headers/Material.h"
+#include "headers/Scene.h"
+
+#define POINT 1
+#define DIRECTIONAL 2
+
+#define DIFFUSE 3
+#define AMBIENT 4
+#define SPECULAR 5
+#define EMISSION 6
 
 
 int readPointsFile(string filename, vector<Point*> *points, vector<Point*> *normalList, vector<float> *textureList){
@@ -66,8 +75,8 @@ int readPointsFile(string filename, vector<Point*> *points, vector<Point*> *norm
 }
 
 
-Group* loadXMLfile(string filename) {
-    Group* group = nullptr;
+Scene* loadXMLfile(string filename) {
+    Scene *scene = nullptr;
     XMLDocument xmlDoc;
     XMLNode *pRoot;
     XMLElement *pElement;
@@ -76,25 +85,27 @@ Group* loadXMLfile(string filename) {
     
     if (eResult == XML_SUCCESS)
     {
+        Group *group = new Group();
+        scene = new Scene(group);
+
         pRoot = xmlDoc.FirstChild();
         if (pRoot != nullptr)
         {
-            group = new Group();
             pElement = pRoot->FirstChildElement("lights");
             if (pElement)
             {
                 pElement->FirstChildElement();
-                parseLights(group, pElement);
+                parseLights(scene, pElement);
             }
             pElement = pRoot->FirstChildElement("group");
-            parseGroup(group,pElement);
+            parseGroup(scene, group, pElement);
         }
     }
     else
     {
         cout << "Unable to open file: " << filename << "." << endl;
     }
-    return group;
+    return scene;
 }
 
 void parseRotate (Group* group, XMLElement* element) {
@@ -234,6 +245,7 @@ void parseModels (Group *group, XMLElement *element) {
                     shape  = new Shape(element->Attribute("texture"),points, normal, texture);
                 else
                     shape = new Shape(points, normal, texture);
+
                 parseMaterial(shape, element);
                 shapes.push_back(shape);
             }
@@ -245,39 +257,97 @@ void parseModels (Group *group, XMLElement *element) {
         group->setShapes(shapes);
 }
 
-void parseLights (Group *group, XMLElement *element)
+void parseLights (Scene *scene, XMLElement *pElement)
 {
-    vector<Light*> lights;
-    bool ponto;
-    Light* light;
-    float x=0;
-    float y=0;
-    float z=0;
-    
-    element = element->FirstChildElement();
-    for(;element; element=element->NextSiblingElement())
-        if(!strcmp(element->Name(),"light")){
-            if(element->Attribute("type") && !strcmp(element->Attribute("type"),"POINT"))
-                ponto = true;
-            else ponto = false;
-            
-            if(element->Attribute("x"))
-                x = stof(element->Attribute("x"));
-            if(element->Attribute("y"))
-                y = stof(element->Attribute("y"));
-            if(element->Attribute("z"))
-                z = stof(element->Attribute("z"));
-            
-            Point* p = new Point(x,y,z);
-            light = new Light(ponto, p);
-            lights.push_back(light);
+        if ((pElement = pElement->FirstChildElement("light")) == nullptr)
+        {
+            cout << "XML error: No lights available!" << endl;
+            return;
         }
-    
-    group->setLights(lights);
+
+        while (pElement != nullptr)
+        {
+            if (pElement->Attribute("type"))
+            {
+                int type = -1;
+                float *info = (float *) calloc (16, sizeof(float));
+                vector<int> attributes;
+
+                if (strcmp(pElement->Attribute("type"), "POINT") == 0)
+                {
+                    type = POINT;
+                    info[3] = 1.0f;
+                }
+                else if (strcmp(pElement->Attribute("type"), "DIRECTIONAL") == 0)
+                {
+                    type = DIRECTIONAL;
+                    info[3] = 0.0f;
+                }
+
+                // LIGHT POSITION
+                if (pElement->Attribute("posX")) {
+                    info[0] = stof(pElement->Attribute("posX"));
+                }
+                if (pElement->Attribute("posY")) {
+                    info[1] = stof(pElement->Attribute("posY"));
+                }
+                if (pElement->Attribute("posZ")) {
+                    info[2] = stof(pElement->Attribute("posZ"));
+                }
+
+                // DIFFUSE LIGHT
+                if (pElement->Attribute("diffR") || pElement->Attribute("diffG") || pElement->Attribute("diffB"))
+                {
+                    attributes.push_back(DIFFUSE);
+                    if (pElement->Attribute("diffR"))
+                        info[4] = stof(pElement->Attribute("diffR"));
+                    if (pElement->Attribute("diffG"))
+                        info[5] = stof(pElement->Attribute("diffG"));
+                    if (pElement->Attribute("diffB"))
+                        info[6] = stof(pElement->Attribute("diffB"));
+                    info[7] = 1.0f;
+                }
+
+                // AMBIENT LIGHT
+                if (pElement->Attribute("ambR") || pElement->Attribute("ambG") || pElement->Attribute("ambB"))
+                {
+                    attributes.push_back(AMBIENT);
+                    if (pElement->Attribute("ambR"))
+                        info[8] = stof(pElement->Attribute("ambR"));
+                    if (pElement->Attribute("ambG"))
+                        info[9] = stof(pElement->Attribute("ambG"));
+                    if (pElement->Attribute("ambB"))
+                        info[10] = stof(pElement->Attribute("ambB"));
+                    info[11] = 1.0f;
+                }
+
+                // SPECULAR LIGHT
+                if (pElement->Attribute("specR") || pElement->Attribute("specG") || pElement->Attribute("specB"))
+                {
+                    attributes.push_back(SPECULAR);
+                    if (pElement->Attribute("specR"))
+                        info[12] = stof(pElement->Attribute("specR"));
+                    if (pElement->Attribute("specG"))
+                        info[13] = stof(pElement->Attribute("specG"));
+                    if (pElement->Attribute("specB"))
+                        info[14] = stof(pElement->Attribute("specB"));
+                    info[15] = 1.0f;
+                }
+
+                if (type != -1)
+                {
+                    Light *light = new Light(info,attributes);
+                    scene->addLight(light);
+                }
+                else
+                    free(info);
+            }
+            pElement = pElement->NextSiblingElement("light");
+        }
 }
 
 
-void parseGroup (Group *group, XMLElement *gElement)
+void parseGroup (Scene *scene, Group *group, XMLElement *gElement)
 {
     XMLElement *element = gElement->FirstChildElement();
 
@@ -295,25 +365,23 @@ void parseGroup (Group *group, XMLElement *gElement)
         else if (strcmp(element->Name(),"models") == 0)
             parseModels(group, element);
 
-	/*else if (strcmp(element->Name(),"colour") == 0)
-            parseColour(group, element);*/
-
         else if (strcmp(element->Name(),"group") == 0)
         {
             Group *child = new Group();
             group->addGroup(child);
-            parseGroup(child,element);
+            parseGroup(scene,child,element);
         }
 
         element = element->NextSiblingElement();
     }
 }
+
 void parseMaterial(Shape* shape, XMLElement* element) {
     Transformation* diffuse = NULL;
     Transformation* ambient = NULL;
     Transformation* specular = new Transformation(0, 0, 0);
     Transformation* emission = new Transformation(0, 0, 0);
-    
+
 
     // Diffuse
     if(element->Attribute("diffR") || element->Attribute("diffG") || element->Attribute("diffB")) {
@@ -354,9 +422,10 @@ void parseMaterial(Shape* shape, XMLElement* element) {
     if(element->Attribute("emiB"))
         emission->setZ(stof(element->Attribute("emiB")));
 
-   
+
     Material* m = new Material(diffuse, ambient, specular, emission);
     shape->setParseMat(m);
 
-    
+
 }
+

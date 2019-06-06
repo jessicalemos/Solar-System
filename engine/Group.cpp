@@ -14,16 +14,6 @@ void Group::setShapes(vector<Shape*> pt){
     shapes = pt;
 }
 
-
-void Group::setLights(vector<Light*> l){
-    lights = l;
-}
-
-
-vector<Light*> Group::getLights(){
-    return lights;
-}
-
 vector<Shape*> Group::getShapes() {
     return shapes;
 }

@@ -41,7 +41,7 @@ set(CMAKE_BUILD_TYPE Release)
 
 # Flags to compile
 add_compile_options(-Wall -Wextra -Wpedantic -std=c++11 -O2)
-add_executable(${PROJECT_NAME} engine.cpp headers/engine.h tinyxml2.cpp headers/tinyxml2.h parser.cpp headers/parser.h Point.cpp headers/Point.h Transformation.cpp headers/Transformation.h Group.cpp headers/Group.h Camera.cpp headers/Camera.h Shape.cpp headers/Shape.h Light.cpp headers/Light.h Material.cpp headers/Material.h)
+add_executable(${PROJECT_NAME} engine.cpp headers/engine.h tinyxml2.cpp headers/tinyxml2.h parser.cpp headers/parser.h Point.cpp headers/Point.h Transformation.cpp headers/Transformation.h Group.cpp headers/Group.h Camera.cpp headers/Camera.h Shape.cpp headers/Shape.h Light.cpp headers/Light.h Material.cpp headers/Material.h Scene.cpp headers/Scene.h)
 
 if (WIN32)
     target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} glut32 glew32 DevIL)
