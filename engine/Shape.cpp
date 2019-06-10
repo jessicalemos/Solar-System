@@ -19,7 +19,7 @@ Shape::Shape(string textureFile, vector<Point*> vertex, vector<Point*> normal, v
 }
 
 void Shape::setParseMat(Material* c){
-	m = c;
+    m = c;
 }
 
 void Shape::prepareBuffer(vector<Point*> vertex, vector<Point*> normal, vector<float> texture){
@@ -117,9 +117,9 @@ void Shape::draw(){
         glBindTexture(GL_TEXTURE_2D, text);
     }
 
-    glEnable(GL_LIGHTING);
+   // glEnable(GL_LIGHTING);
     glDrawArrays(GL_TRIANGLES, 0, (numVertex[0]) * 3);
-    glDisable(GL_LIGHTING);
+   // glDisable(GL_LIGHTING);
     glBindTexture(GL_TEXTURE_2D, 0);
 
     //   glDeleteBuffers(1, bufferVertex);

@@ -11,14 +11,16 @@
 #include "Point.h"
 #include "Group.h"
 #include "Shape.h"
+#include "Light.h"
+#include "Scene.h"
 #include <vector>
 
 using namespace std;
 using namespace tinyxml2;
 
-Group* loadXMLfile(string filename);
-void parseGroup (Group *group, XMLElement *gElement);
-void parseLights (Group *group, XMLElement *gElement);
+Scene* loadXMLfile(string filename);
+void parseGroup (Scene *scene, Group *group, XMLElement *gElement);
+void parseLights (Scene *scene, XMLElement *pElement);
 void parseMaterial(Shape* shape, XMLElement* element);
 
 #endif

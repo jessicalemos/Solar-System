@@ -11,12 +11,11 @@ using namespace tinyxml2;
 void drawOrbits(Transformation *t)
 {
     vector<Point*> curvePoints = t->getPointsCurve();
-    glColor3f(1.0f, 1.0f, 0.94f);
     float cor[4]={0.2f,0.2f,0.2f,1.0f};
 
     glPushAttrib(GL_LIGHTING_BIT);
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, cor);
-    glBegin(GL_POINTS);
+    glBegin(GL_LINE_LOOP);
     for(Point *p : curvePoints){
         float normal[3] = { -p->getX(),
             -p->getY(),
@@ -44,9 +43,6 @@ void applyTransformation(Transformation *t){
     float z = t->getZ();
     float angle = t->getAngle();
     float time = t->getTime();
-    if(!strcmp(type,"colour")){
-	    glColor3f(x,y,z);
-    }
     if(!strcmp(type,"translate")){
         glTranslatef(x,y,z);
     }
@@ -64,6 +60,12 @@ void applyTransformation(Transformation *t){
         float p[4], deriv[4];
         float dTime = eTime *time;
         t->getGlobalCatmullRomPoint(dTime,p,deriv);
+        Transformation* diffuse = NULL;
+        Transformation* ambient = NULL;
+        Transformation* specular = new Transformation(0, 0, 0);
+        Transformation* emission = new Transformation(0, 0, 0);
+        Material *m = new Material(diffuse,ambient,specular,emission);
+        m->draw();
         drawOrbits(t);
         glTranslatef(p[0],p[1],p[2]);
         if(t->getDeriv()){
@@ -81,57 +83,54 @@ void applyTransformation(Transformation *t){
     }
 }
 
-void drawSystem(Group *system)
+void drawSystem(Scene *scene, Group *system)
 {
     glPushMatrix();
+
     for (Transformation *t: system->getTransformations()){
         applyTransformation(t);
     }
-    
-    vector<Light*> lights = system->getLights();
-    for(vector<Light*>::iterator light_it = lights.begin(); light_it != lights.end(); ++light_it)
-        (*light_it)->draw();
-    
+
     vector<Shape*> shapeList = system->getShapes();
     for(vector<Shape*>::iterator shape_it = shapeList.begin(); shape_it != shapeList.end(); ++shape_it)
         (*shape_it)->draw();
 
     for (Group *g : system->getGroups())
-        drawSystem(g);
+        drawSystem(scene,g);
 
     glPopMatrix();
 }
 
 
 void MenuAjuda() {
-	cout << "#_____________________________ HELP _____________________________#" << endl;
-	cout << "| Usage: ./engine {XML FILE}                                     |" << endl;
-	cout << "|                 [-h]                                           |" << endl;
-	cout << "|   FILE:                                                        |" << endl;
-	cout << "| Specify a path to an XML file in which the information about   |" << endl;
-	cout << "| the models you wish to create are specified                    |" << endl;
-	cout << "|                                                                |" << endl;
-	cout << "|   ↑ : Rotate your view up                                      |" << endl;
-	cout << "|                                                                |" << endl;
-	cout << "|   ↓ : Rotate your view down                                    |" << endl;
-	cout << "|                                                                |" << endl;
-	cout << "|   ← : Rotate your view to the left                             |" << endl;
-	cout << "|                                                                |" << endl;
-	cout << "|   → : Rotate your view to the right                            |" << endl;
-	cout << "|                                                                |" << endl;
-	cout << "|   F1 : Increase image                                          |" << endl;
-	cout << "|                                                                |" << endl;
-	cout << "|   F2 : Decrease image                                          |" << endl;
-	cout << "|                                                                |" << endl;
+    cout << "#_____________________________ HELP _____________________________#" << endl;
+    cout << "| Usage: ./engine {XML FILE}                                     |" << endl;
+    cout << "|                 [-h]                                           |" << endl;
+    cout << "|   FILE:                                                        |" << endl;
+    cout << "| Specify a path to an XML file in which the information about   |" << endl;
+    cout << "| the models you wish to create are specified                    |" << endl;
+    cout << "|                                                                |" << endl;
+    cout << "|   F7 : Rotate your view up                                     |" << endl;
+    cout << "|                                                                |" << endl;
+    cout << "|   F8 : Rotate your view down                                   |" << endl;
+    cout << "|                                                                |" << endl;
+    cout << "|   F9 : Rotate your view to the left                            |" << endl;
+    cout << "|                                                                |" << endl;
+    cout << "|   F10 : Rotate your view to the right                          |" << endl;
+    cout << "|                                                                |" << endl;
+    cout << "|   F1 : Increase image                                          |" << endl;
+    cout << "|                                                                |" << endl;
+    cout << "|   F2 : Decrease image                                          |" << endl;
+    cout << "|                                                                |" << endl;
     cout << "|   F6 : Reset zoom                                              |" << endl;
     cout << "|                                                                |" << endl;
-	cout << "|   FORMAT:                                                      |" << endl;
-	cout << "|   F3: Change the figure format into points                     |" << endl;
-	cout << "|                                                                |" << endl;
-	cout << "|   F4: Change the figure format into lines                      |" << endl;
-	cout << "|                                                                |" << endl;
-	cout << "|   F5: Fill up the figure                                       |" << endl;
-	cout << "#________________________________________________________________#" << endl;
+    cout << "|   FORMAT:                                                      |" << endl;
+    cout << "|   F3: Change the figure format into points                     |" << endl;
+    cout << "|                                                                |" << endl;
+    cout << "|   F4: Change the figure format into lines                      |" << endl;
+    cout << "|                                                                |" << endl;
+    cout << "|   F5: Fill up the figure                                       |" << endl;
+    cout << "#________________________________________________________________#" << endl;
 }
 
 void processMenu(int option)
@@ -161,7 +160,6 @@ void processMenu(int option)
 
 void showMenu()
 {
-    //glutAddMenuEntry("Sun",1);
     int moves = glutCreateMenu(processMenu);
     glutAddMenuEntry("On",2);
     glutAddMenuEntry("Off",3);
@@ -217,7 +215,6 @@ void fps() {
 
 void renderScene(void)
 {
-
     // clear buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -228,8 +225,11 @@ void renderScene(void)
             camera->getOrX(), camera->getOrY(), camera->getOrZ(),
             0.0f, 1.0f, 0.0f);
     glPolygonMode(GL_FRONT_AND_BACK, line);
+
+    scene->applyLights();
+
     fps();
-    drawSystem(scene);
+    drawSystem(scene, scene->getMainGroup());
 
     // End of frame
     glutSwapBuffers();
@@ -275,9 +275,8 @@ void init()
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
 
-    glEnable(GL_NORMALIZE);
+    //glEnable(GL_NORMALIZE);
     glEnable(GL_RESCALE_NORMAL);
 }
 

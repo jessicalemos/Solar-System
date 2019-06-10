@@ -13,7 +13,6 @@ class Group {
         vector<Group*> groups;
         vector<Transformation*> transformations;
         vector<Shape*> shapes;
-        vector<Light*> lights;
 
     public:
         Group();

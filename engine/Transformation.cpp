@@ -12,11 +12,11 @@ Transformation::Transformation(string typeT, float a, float xx, float yy, float 
 }
 
 Transformation::Transformation(float ti, vector<Point*> cP, bool de, string t){
-	time = ti;
-	controlPoints = cP;
+    time = ti;
+    controlPoints = cP;
     setCatmullPoints();
-	deriv = de;
-	type = t;
+    deriv = de;
+    type = t;
 }
 
 Transformation::Transformation(float r, float g, float b) {
@@ -69,7 +69,7 @@ void Transformation::setZ(float z){
     this->z = z;
 }
 vector<Point*> Transformation::getPointsCurve(){
-	return pointsCurve;
+    return pointsCurve;
 }
 void Transformation::rotMatrix(float *r, float *x, float *y, float *z){
     r[0] = x[0]; r[1] = x[1]; r[2] = x[2]; r[3] = 0;
