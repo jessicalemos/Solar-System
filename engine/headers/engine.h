@@ -10,11 +10,12 @@
 #include "Point.h"
 #include "Group.h"
 #include "Camera.h"
+#include "Scene.h"
 
 using namespace std;
 
 int line = GL_FILL;
-Group *scene;
+Scene *scene;
 Camera *camera;
 float eTime = 0.0f, cTime = 0.0f;
 int frame = 0, timebase = 0;

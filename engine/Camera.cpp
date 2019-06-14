@@ -113,7 +113,7 @@ void Camera::mousePress(int button, int state, int x, int y)
             teta += (y - mousePositionY) *  0.001f;
             mouseLeftIsPressed = false;
         }
- 	else if (state == GLUT_DOWN)
+    else if (state == GLUT_DOWN)
         {
             glutSetCursor(GLUT_CURSOR_NONE);
             mousePositionX = x;
